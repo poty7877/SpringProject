@@ -1,5 +1,7 @@
 package com.happytable.service;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +52,12 @@ public class RestaurantServiceImpl implements RestaurantService{
 	public RestaurantVO login(String resID, String resPW) {
 		log.info("RestaurantServiceImpl.login() 서비스 실행.....");
 		return mappr.login(resID, resPW);
+	}
+
+	@Override
+	public List<RestaurantVO> getList() {
+		log.info("RestaurantServiceImpl.getList() 서비스 실행.....");
+		return mappr.resList();
 	}
 
 }

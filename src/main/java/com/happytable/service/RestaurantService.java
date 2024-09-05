@@ -1,5 +1,7 @@
 package com.happytable.service;
 
+import java.util.List;
+
 import com.happytable.domain.RestaurantVO;
 
 public interface RestaurantService {
@@ -14,6 +16,9 @@ public interface RestaurantService {
 	
 	//d: 기업정보 삭제(회원탈퇴)
 	public boolean remove(String resNum);
+	
+	//R_all : 모든 레스토랑 리스트 
+	public List<RestaurantVO> getList();
 	
 	//중복확인 : 아이디 개수 확인
 	public int idcheck(String resID);
