@@ -1,13 +1,14 @@
 package com.happytable.controller;
 
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.happytable.domain.Criteria;
+import com.happytable.domain.RestaurantVO;
 import com.happytable.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -57,10 +58,26 @@ public class RestaurantPageController { //jsp 페이지를 불러오는 경로�
 		log.info("RestaurantController.mymenu() 실행-------");
 	}
 	
-	@GetMapping("/list") 
-	public void list(Model model) {
-		model.addAttribute("list", serviceRest.getList());
-		log.info("list: " + model);
+	/*
+	 * @GetMapping("/list") public void list(Model model) {
+	 * model.addAttribute("list", serviceRest.getList()); log.info("list: " +
+	 * model); }
+	 */
+	
+	//회원가입
+	@PostMapping("/register")
+	public String regiRest(RestaurantVO rest, RedirectAttributes rttr) {
+		String result = "";
+		int cnt = serviceRest.register(rest);
+		if(cnt == 1) { //등록성공
+			result = "redirect:/restaurant/myrestaurant" ;
+			rttr.addFlashAttribute("result", rest.getResNum());
+		}else {
+			result = "redirect:/restaurant/register";
+			rttr.addFlashAttribute("error", "가입오류. 관리자에게 문의하세요.");
+		}
+
+		return result;
 	}
 
 
