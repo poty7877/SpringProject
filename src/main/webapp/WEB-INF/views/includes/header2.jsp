@@ -11,34 +11,35 @@
 <title>Happy Table</title>
 
 <!-- Bootstrap Core CSS -->
-<link href="/resources/vendor/bootstrap/css/bootstrap.min.css"
+<link href="/resources/sbadmin/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 
 <!-- MetisMenu CSS -->
-<link href="/resources/vendor/metisMenu/metisMenu.min.css"
+<link href="/resources/sbadmin/vendor/metisMenu/metisMenu.min.css"
 	rel="stylesheet">
 
 <!-- DataTables CSS -->
 <link
-	href="/resources/vendor/datatables-plugins/dataTables.bootstrap.css"
+	href="/resources/sbadmin/vendor/datatables-plugins/dataTables.bootstrap.css"
 	rel="stylesheet">
 
 <!-- DataTables Responsive CSS -->
 <link
-	href="/resources/vendor/datatables-responsive/dataTables.responsive.css"
+	href="/resources/sbadmin/vendor/datatables-responsive/dataTables.responsive.css"
 	rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="/resources/dist/css/sb-admin-2.css" rel="stylesheet">
+<link href="/resources/sbadmin/dist/css/sb-admin-2.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="/resources/vendor/font-awesome/css/font-awesome.min.css"
+<link href="/resources/sbadmin/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 <!-- Navigation -->
+	<div id="wrapper">
 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
 		style="margin-bottom: 0">
 		<div class="navbar-header">
@@ -230,8 +231,9 @@
 		<!-- /.navbar-top-links -->
 
 	</nav>
-	<div id="wrapper">
+
 		<div id="page-wrapper">
 
 			<script
 				src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+				

@@ -28,6 +28,7 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 <script src="/resources/js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/resources/js/jquery.nav.js"></script>
 <script src="/resources/js/jquery.sticky.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
@@ -85,6 +86,7 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 										</ul></li>
 									<li id="login"><a href="/member/login">login</a></li>
 									<li id="logout"><a href="/member/logout">logout</a></li>
+									<li><a href="/restaurant/login">admin</a></li>
 								</ul>
 							</div>
 							<!-- /.navbar-collapse -->

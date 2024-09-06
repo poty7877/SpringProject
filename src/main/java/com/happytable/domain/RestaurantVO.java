@@ -16,4 +16,5 @@ public class RestaurantVO {
 	private String summary; //홍보문구	
 	private Date regDate; //가입일
 	private String resPhone; //전화번호
+
 }

@@ -185,3 +185,44 @@ select sequence from happy;
 SELECT *
   FROM all_sequences;
 
+  
+  select  * from all_all_tables;
+select * from tb_reply;
+drop table tbl_reply;
+
+create table tb_reply (
+	rno number(10,0),  -- 댓글 번호
+	resNum varchar2(20),  -- fk(게시물번호)
+ 	reply varchar2(1000) not null, -- 댓글
+ 	replyer varchar2(50) not null, -- 댓글 작성자
+	replyDate date default sysdate,
+	updateDate date default sysdate );
+
+	
+create sequence seq_reply; -- 댓글용 자동번호객체 추가
+drop sequence seq_reply;
+alter table tb_reply add constraint pk_reply primary key (rno); 
+-- pk를 rno로 지정(롤이름 : pk_reply)
+
+alter table tb_reply add constraint fk_reply_board foreign key (resNum) references tb_restaurant (resNum); 
+-- tbl_reply의 bno(자)와 tbl_board의 bno(부)를 연결 (부모가 있어야 자식이 있다) 
+
+-- tbl_board 초기화 -> 더미데이터 입력 -> 댓글 더미데이터 입력
+
+delete from tbl_reply; -- 더미데이터 삭제
+
+drop sequence seq_reply; -- 시퀀스 삭제
+
+insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글11', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글10', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글9', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글8', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글7', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
+
