@@ -2,21 +2,27 @@ package com.happytable.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.happytable.domain.MyResturantDTO;
 import com.happytable.domain.RestaurantVO;
+import com.happytable.mapper.MenuMapper;
+import com.happytable.mapper.OperationsMapper;
 import com.happytable.mapper.RestaurantMapper;
+import com.happytable.mapper.SalesMapper;
 
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@AllArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService{
-	@Setter(onMethod_ = @Autowired)
+
 	private RestaurantMapper mappr;
+	private OperationsMapper mappOper;
+	private SalesMapper mappSales;
+	private MenuMapper mappMenu;
 
 	@Override
 	public int register(RestaurantVO rest) {
@@ -58,6 +64,19 @@ public class RestaurantServiceImpl implements RestaurantService{
 	public List<RestaurantVO> getList() {
 		log.info("RestaurantServiceImpl.getList() 서비스 실행.....");
 		return mappr.resList();
+	}
+
+	@Override
+	public MyResturantDTO getAllInfo(String resNum) {
+		// 마이페이지-전체 정보 불러오기
+		MyResturantDTO myRest = new MyResturantDTO();
+		myRest.setOper(mappOper.read(resNum));
+		myRest.setSalList(mappSales.readList(resNum));
+		myRest.setMenu(mappMenu.menuListByResNum(resNum));
+		myRest.setMenuCnt(mappMenu.countMenu(resNum));
+		myRest.setTableCnt(mappSales.countTable(resNum));
+		
+		return myRest;
 	}
 
 }

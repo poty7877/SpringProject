@@ -2,6 +2,7 @@ package com.happytable.service;
 
 import java.util.List;
 
+import com.happytable.domain.MyResturantDTO;
 import com.happytable.domain.RestaurantVO;
 
 public interface RestaurantService {
@@ -25,5 +26,9 @@ public interface RestaurantService {
 	
 	//로그인
 	public RestaurantVO login(String resID, String resPW);
+	
+	//마이페이지 불러오기
+	public MyResturantDTO getAllInfo(String resNum);
+	
 
 }
