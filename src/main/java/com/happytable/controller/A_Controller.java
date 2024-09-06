@@ -32,6 +32,9 @@ public class A_Controller {
 		
 	}
 	
+	@GetMapping("/insert")
+	public void insert() {} 
+	
 	@GetMapping({"/read", "/update", "/list"}) //예약번호로 정보 읽어오기
 	public void get(A_VO appoint, Model model) {
 		log.info("예약번호 : " + appoint.getA_No());
@@ -39,11 +42,13 @@ public class A_Controller {
 		log.info("가게번호 : " + appoint.getResNum());
 		log.info("예약시간 : " + appoint.getA_Date());
 		
+		log.info("appoint : " + appoint);
 		model.addAttribute("appoint", a_service.read(appoint));
 	}
 	
 	@PostMapping("/update")
 	public String update(A_VO appoint, RedirectAttributes rttr) {
+		log.info("update 내용 : " + appoint.toString());
 		if(a_service.update(appoint)){
 			rttr.addFlashAttribute("result", "success");
 		}

@@ -26,11 +26,10 @@
 	<update id="update">
 	<![CDATA[
 		update tb_appointment set
-		A_Date=#{a_Date, jdbcType=VARCHAR},
 		A_NOP=#{a_NOP, jdbcType=VARCHAR},
 		A_Status=#{a_Status, jdbcType=VARCHAR},
 		A_note=#{a_Note, jdbcType=VARCHAR}
-		where A_No=#{a_No, jdbcType=VARCHAR}
+		where A_No=#{a_No}
 	]]>
 	</update>
 

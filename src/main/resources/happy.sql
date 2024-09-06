@@ -10,6 +10,8 @@ create table tb_member(
 	pw			varchar2(50) not null
 );
 
+select * from tb_member;
+
 delete from tb_member;
 alter table tb_member modify birth number(6);
 
@@ -75,7 +77,7 @@ FROM USER_ERRORS
 WHERE NAME = 'TRG_MEMUNO_INSERT_TB_MEMBER';
 
 
-
+select * from tb_restaurant;
 insert into tb_oper (resNum, openTime, endTime, adPay, adPayCond, dayoff_cate, dayoff_weekCnt, 
 dayoff_Day, breakTime, breakTime_start, breakTime_end) values ('10000003tes', TO_DATE('2024-01-01 10:00', 'yyyy-MM-dd HH24:MI'),  TO_DATE('2024-01-01 18:00', 'yyyy-MM-dd HH24:MI'),100000, 10, 'M' , '1, 3', '일' , 0, 
 '-', '-'); 
@@ -155,3 +157,31 @@ FROM v$nls_parameters
 WHERE parameter = 'NLS_DATE_FORMAT';
 select * from tb_oper;
 desc tb_oper;
+
+
+
+
+
+
+
+
+
+
+
+select * from tb_restaurant;
+select * from tb_oper;
+select * from tb_sales;
+select * from tb_menu;
+
+insert into tb_restaurant (resId, resPw, resName, resAddr, co_num, certify, summary, resphone) 
+values ('test1', 'test1', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
+
+insert into  tb_sales values ('10000002tes',3,'4인용',3);
+
+insert into tb_menu values (seq_menu.nextVal, '10000002tes', 'test1', 'test1', 'test1', 4, 50000, 'test1');
+select * from tb_menu where resNum = '10000002tes';
+select sequence from happy;
+
+SELECT *
+  FROM all_sequences;
+
