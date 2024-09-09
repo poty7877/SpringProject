@@ -60,15 +60,30 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO checkEm(String email) {
+	public boolean checkEm(String email) {
 		log.info("MemberServiceImpl.checkEm()메서드 실행");
-		return mapper.checkEm(email);
+		MemberVO member = mapper.checkEm(email);
+		return member != null;
+
 	}
 
 	@Override
-	public MemberVO checkNn(String nickName) {
+	public boolean checkNn(String nickName) {
 		log.info("MemberServiceImpl.checkNn()메서드 실행");
-		return mapper.checkNn(nickName);
+		MemberVO member = mapper.checkNn(nickName);
+		return member != null;
+	}
+
+	@Override
+	public MemberVO findID(MemberVO memberVO) {
+		log.info("MemberServiceImpl.findID()메서드 실행");
+		return mapper.findID(memberVO);
+	}
+
+	@Override
+	public MemberVO findPW(MemberVO memberVO) {
+		log.info("MemberServiceImpl.findPW()메서드 실행");
+		return mapper.findPW(memberVO);
 	}
 
 }

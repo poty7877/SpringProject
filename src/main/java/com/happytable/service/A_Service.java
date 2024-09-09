@@ -6,7 +6,7 @@ import com.happytable.domain.A_VO;
 
 public interface A_Service {
 
-	public void insert(A_VO appoint);
+	public int insert(A_VO appoint);
 	//예약 생성
 	public List<A_VO> read(A_VO appoint);
 	//예약 확인

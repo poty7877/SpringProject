@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
-
 	private String memUno; // 멤버 고유 번호(8자리 랜덤, 예약 관리용)
 	private Long mno; // 회원 번호 (회원 관리용)
 	private String name; // 회원 이름

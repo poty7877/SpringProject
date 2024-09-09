@@ -25,8 +25,15 @@ public interface MemberService {
 	public MemberVO get(Long mno);
 	
 	//아이디 중복 처리용
-	public MemberVO checkEm(String email);
+	public boolean checkEm(String email);
 		
-		//닉네임 중복 처리용
-	public MemberVO checkNn(String nickName);
+	//닉네임 중복 처리용
+	public boolean checkNn(String nickName);
+	
+	//id찾기
+	public MemberVO findID(MemberVO memberVO);
+	
+	//pw찾기
+	public MemberVO findPW(MemberVO memberVO);
+	
 }

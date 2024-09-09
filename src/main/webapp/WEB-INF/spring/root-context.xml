@@ -14,7 +14,7 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
 		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@jhj1395.synology.me:21521"></property>
+			value="jdbc:log4jdbc:oracle:thin:@jhj1395.synology.me:21521:xe"></property>
 		<property name="username" value="happy"></property>
 		<property name="password" value="7979"></property>
 

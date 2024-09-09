@@ -22,9 +22,10 @@ public class A_ServiceImpl implements A_Service{
 	private A_Mapper mapper;
 
 	@Override
-	public void insert(A_VO appoint) {
+	public int insert(A_VO appoint) {
 		log.info("insert......." + appoint.toString());
-		mapper.insert(appoint);
+		int result = mapper.insert(appoint);
+		return result;
 	}
 
 	@Override

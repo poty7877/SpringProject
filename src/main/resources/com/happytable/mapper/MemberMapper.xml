@@ -26,7 +26,7 @@
 
 	<update id="update">
 	<![CDATA[
-		update tb_member set birth = #{birth} phone = #{phone}, email = #{email}, nickName = #{nickName}, pw = #{pw} where mno = #{mno}
+		update tb_member set birth = #{birth}, phone = #{phone}, email = #{email}, nickName = #{nickName}, pw = #{pw} where mno = #{mno}
 	]]>
 	</update>
 
@@ -51,5 +51,15 @@
 	<select id="checkNn" resultType="com.happytable.domain.MemberVO">
 		select * from tb_member where nickName = #{nickName}
 	</select>
+	
+	<select id="findID" resultType="com.happytable.domain.MemberVO">
+		select * from tb_member where name = #{name} and phone = #{phone}
+	</select>
+	
+	<select id="findPW" resultType="com.happytable.domain.MemberVO">
+		select * from tb_member where email = #{email} and name = #{name} and phone = #{phone}
+	</select>
+	
+
 
 </mapper>

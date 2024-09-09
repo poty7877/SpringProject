@@ -39,27 +39,33 @@
 							</div>
 
 							<div class="form-group">
-								<label for="phone">핸드폰 번호</label> <input type="text" id="phone"
-									class="form-control" name="phone"
-									value="${ loginMember.getPhone() }" required>
+								<label for="phone">핸드폰 번호[10자리 or 11자리 (-제외 입력)]</label> <input
+									type="text" id="phone" class="form-control" name="phone"
+									value="${ loginMember.getPhone() }" required maxlength="11">
 							</div>
 
 							<div class="form-group">
 								<label for="pw">비밀번호</label> <input type="password" id="pw"
 									class="form-control" name="pw" value="${ loginMember.getPw() }"
-									required>
+									required maxlength="16">
+							</div>
+
+							<div class="form-group">
+								<label for="pw">비밀번호확인</label> <input type="password" id="cpw"
+									class="form-control" name="cpw"
+									value="${ loginMember.getPw() }" required>
 							</div>
 
 							<div class="form-group">
 								<label for="birth">생년월일(6자리)</label> <input type="text"
 									id="birth" class="form-control" name="birth"
-									value="${ loginMember.getBirth() }" required>
+									value="${ loginMember.getBirth() }" required maxlength="6">
 							</div>
 
 							<div class="form-group">
-								<label for="nickName">닉네임</label> <input type="text"
+								<label for="nickName">닉네임(2~10글자)</label> <input type="text"
 									id="nickName" class="form-control" name="nickName"
-									value="${ loginMember.getNickName() }" required>
+									value="${ loginMember.getNickName() }" required maxlength="10">
 							</div>
 
 							<div class="form-group">
@@ -112,41 +118,13 @@
 		<!-- .container close -->
 	</section>
 	<!-- #contact-us close -->
+
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("button").on("click", function(e) {
-				e.preventDefault(); // 기본 버튼 동작 방지
-				var form = $(this).closest("form");
-				var btnId = $(this).attr("id");
-				// form 요소 찾기
-
-				if (btnId === "remove") {
-
-					window.location.href = "/member/remove";
-
-				} else if (btnId === "home") {
-
-					window.location.href = "/";
-				} else {
-					form.submit();
-				}
-			});
-
-			var loggedIn =
+		var loggedIn =
 	<%=loggedInStr%>
 		;
-
-			console.log(loggedIn);
-			if (!loggedIn) {
-				$("#myModal").modal("show");
-				$("#myModal").on("hidden.bs.modal", function() {
-					window.location.href = "/";
-				});
-			}
-
-		});
 	</script>
-
+	<script src="/resources/js/modify.js"></script>
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

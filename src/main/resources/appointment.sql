@@ -1,7 +1,7 @@
 create table tb_appointment (
   resNum varchar2(20) not null,
   memUno varchar2(200) not null,
-  A_Date date unique not null,
+  A_Date varchar2(20) unique not null,
   A_NOP int not null,
   A_Status varchar2(20) not null,
   A_No varchar2(20) primary key,
@@ -81,3 +81,8 @@ select * from tb_appointment where resNum = NULL or memUno = '2' or A_No = Null;
 insert into tb_oper
 (resNum, openTime, endTime, adPay, adPayCond, dayoff_cate, dayoff_weekCnt, dayoff_Day, breakTime, breakTime_start, breakTime_end)
 values ('10000002test', to_date('1000','HH24:MI')+1, to_date('1800', 'HH24:MI')+1,100000, 10, 'M' , '1 , 3', '일' , 0, '-', '-'); 
+
+select*from tb_restaurant;
+
+update tb_OPER set opentime='10:00', endtime='22:00' where resnum='10000002tes';
+select * from tb_Sales;

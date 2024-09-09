@@ -34,12 +34,12 @@
 										<th width='20%'>기타</th>
 									</tr>
 								</thead>
-
+								
 								<c:forEach items="${appoint}" var="reservation">
 									<tr>
 										<td><c:out value="${reservation.a_Date}" /></td>
 
-										<td><c:out value="${reservation.resNum}" /></td>
+										<td><c:out value="${reservation.resName}" /></td>
 
 										<td><c:out value="${reservation.a_NOP}" /></td>
 

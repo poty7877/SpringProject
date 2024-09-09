@@ -24,10 +24,16 @@ public interface MemberMapper {
 	// 정보 조회용
 	public MemberVO read(Long mno);
 	
-	//아이디 중복 처리용
+	//아이디 중복 처리용(미구현)
 	public MemberVO checkEm(String email);
 	
-	//닉네임 중복 처리용
+	//닉네임 중복 처리용(미구현) 
 	public MemberVO checkNn(String nickName);
 	
+	//id찾기
+	public MemberVO findID(MemberVO memberVO);
+	
+	//pw찾기
+	public MemberVO findPW(MemberVO memberVO);
+
 }

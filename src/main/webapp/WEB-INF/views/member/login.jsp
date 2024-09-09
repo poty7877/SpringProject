@@ -27,7 +27,8 @@
 							data-wow-delay="300ms">
 							로그인 <span>${ loginError }</span>
 						</h3>
-						<form role="form" action="/member/login" method="post" id="loginForm">
+						<form role="form" action="/member/login" method="post"
+							id="loginForm">
 							<div class="form-group wow fadeInDown" data-wow-duration="500ms"
 								data-wow-delay="600ms">
 								<div class="input-group mb-3"
@@ -42,15 +43,14 @@
 										value="${ loginMember.getMno() }" />
 								</div>
 								<div class="input-group mb-3"
-									style="display: flex; justify-content: center; align-items: center; margin-left: 600px;">
+									style="display: flex; justify-content: center; align-items: center; margin-left: 420px;">
 									<label
 										style="margin-right: 20px; display: flex; align-items: center;">
-										<input type="radio" name="userType" id="user" value="option1"
-										checked> 일반회원
+										<input type="radio" name="userType" id="user" checked>
+										일반회원
 									</label> <label
 										style="margin-right: 20px; display: flex; align-items: center;">
-										<input type="radio" name="userType" id="admin" value="option2">
-										관리자
+										<input type="radio" name="userType" id="admin"> 관리자
 									</label>
 									<button type="submit" id="submit"
 										class="btn btn-primary wow bounceIn" data-wow-duration="500ms"
@@ -62,6 +62,17 @@
 									<button type="button" onclick="location.href='/'"
 										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
 										data-wow-delay="1300ms">home</button>
+								</div>
+								<div class="input-group mb-3"
+									style="display: flex; justify-content: center; align-items: center; margin-left: 600px;">
+									<button type="button" onclick="location.href='/member/findID'"
+										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
+										data-wow-delay="1300ms" style="margin-right: 10px;">
+										이메일 찾기</button>
+									<button type="button" onclick="location.href='/member/findPW'"
+										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
+										data-wow-delay="1300ms" style="margin-right: 10px;">
+										비밀번호 찾기</button>
 								</div>
 
 							</div>
@@ -79,12 +90,12 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var form = $("#loginForm");
-			var radioId = $(this).attr("id");
 
 			$("#submit").on("click", function(e) {
+				var radioId = $('input[name="userType"]:checked').attr("id");
 				if (radioId === "user") {
-					form.submit();
-				} else {
+					form.attr("action", "/member/login").submit();
+				} else if (radioId === "admin") {
 					form.attr("action", "/restaurant/login").submit();
 				}
 			});

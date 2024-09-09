@@ -1,6 +1,7 @@
 package com.happytable.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,10 +28,23 @@ import oracle.jdbc.proxy.annotation.Post;
 @RequestMapping("/member/*")
 public class MemberController {
 
+	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:',.<>?/";
+	private static final int LENGTH = 10;
+	private static Random random = new Random();
+
+	public static String generateRandomString() {
+		StringBuilder sb = new StringBuilder(LENGTH);
+		for (int i = 0; i < LENGTH; i++) {
+			int index = random.nextInt(CHARACTERS.length());
+			sb.append(CHARACTERS.charAt(index));
+		}
+		return sb.toString();
+	}
+
 	private MemberService service;
 
-	@GetMapping({ "/join", "/login", "/modify", "/remove" })
-	public void join() {
+	@GetMapping({ "/join", "/login", "/modify", "/remove", "/findID", "/findPW" })
+	public void show() {
 
 	}
 
@@ -70,11 +84,26 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	@PostMapping("/remove")
-	public String remove(@RequestParam("mno") Long mno, RedirectAttributes rttr, HttpSession session) {
-		service.remove(mno);
-		rttr.addFlashAttribute("result4", "success");
-		session.invalidate();
+	@PostMapping("/findID")
+	public String findID(MemberVO memberVO, RedirectAttributes rttr) {
+		MemberVO findEmail = service.findID(memberVO);
+		if (findEmail == null) {
+			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
+			return "redirect:/member/findID";
+		} else {
+			rttr.addFlashAttribute("email", findEmail.getEmail());
+			return "redirect:/";
+		}
+
+	}
+
+	@PostMapping("/findPW")
+	public String findPW(MemberVO memberVO, RedirectAttributes rttr) {
+		MemberVO findPw = service.findPW(memberVO);
+		String randomString = generateRandomString();
+		findPw.setPw(randomString);
+		service.modify(findPw);
+		rttr.addFlashAttribute("randomPW", randomString);
 		return "redirect:/";
 	}
 
@@ -87,6 +116,25 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+
+
+	@PostMapping("/remove")
+	public String remove(@RequestParam("mno") Long mno, @RequestParam("email") String email,
+			@RequestParam("pw") String pw, RedirectAttributes rttr, HttpSession session) {
+		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
+		String checkEm = vo.getEmail();
+		String checkPw = vo.getPw();
+		if (email.equals(checkEm) && pw.equals(checkPw)) {
+			service.remove(mno);
+			rttr.addFlashAttribute("result4", "success");
+			session.invalidate();
+			return "redirect:/";
+		} else {
+			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
+			return "redirect:/member/remove";
+		}
+
 	}
 
 }
