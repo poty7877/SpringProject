@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.happytable.mapper.A_Menu_Mapper">
+<!-- C -->
+	<insert id="insert">
+	<![CDATA[
+		insert into tb_A_Menu (A_No, menuName, MenuQuantity)
+		values (#{no}, #{name}, #{quantity})
+	
+	]]>	
+	</insert>
+
+<!-- R -->
+	<select id="read" resultType="com.happytable.domain.A_MenuVO">
+	<![CDATA[
+	select * from tb_A_Menu where A_No = #{no}	
+	]]>	
+	</select>
+
+<!-- U -->
+	<update id="update">
+	<![CDATA[
+		update tb_A_Menu set
+		MenuQuantity=#{quantity} where A_No=#{no} and MenuName=#{name}
+	]]>
+	</update>
+
+<!-- D -->
+	<delete id="delete">
+	<![CDATA[
+ 		delete from tb_A_Menu where A_No=#{no} and MenuName=#{name}
+	]]>
+	</delete>
+
+</mapper>

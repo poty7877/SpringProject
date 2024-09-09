@@ -1,0 +1,88 @@
+@charset "EUC-KR";
+
+button,
+button:active,
+button:focus,
+button:active {
+  text-decoration: none !important;
+  font-size: 15px;
+}
+.right {
+	text-align: right;
+}
+.center {
+	text-align: center;
+}
+
+.left{
+	text-align: left;
+}
+
+#jsmade {
+  padding: 70px 0px;
+}
+
+#jsmade .title {
+  padding: 20px 0;
+}
+
+#jsmade form {
+  padding-bottom: 20px;
+}
+
+#jsmade form label {
+	
+  font-size: 16px;
+  text-align: right;
+  padding-top: 20px;
+}
+
+
+#jsmade form input {
+  height: 48px;
+  border-radius: 0px;
+  box-shadow: none;
+  -webkit-transition: .3s all;
+  -o-transition: .3s all;
+  transition: .3s all;
+}
+#jsmade form input:focus {
+  border: 1px solid #7EC3BB;
+}
+#jsmade form textarea {
+  height: 140px;
+  width: 100%;
+  border-radius: 0px;
+  box-shadow: none;
+  -webkit-transition: .3s all;
+  -o-transition: .3s all;
+  transition: .3s all; 
+}
+#jsmade form textarea:focus {
+  border: 1px solid #7EC3BB;
+}
+
+#jsmade .btn {
+  background: #FF4F02;
+  float:center;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 0px;
+  border: 0px;
+  -webkit-transition: .3s all;
+  -o-transition: .3s all;
+  transition: .3s all;
+}
+
+#jsmade .btn btn-lg{
+  width: 600px;
+  height: 50px;
+  padding-top: 15px;
+}
+
+#jsmade .btn btn-sm{
+  width: 100px;
+  height: 50px;
+}
+
