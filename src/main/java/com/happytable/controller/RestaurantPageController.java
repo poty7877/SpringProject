@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.happytable.domain.MyResturantDTO;
 import com.happytable.domain.RestaurantVO;
+import com.happytable.service.MenuService;
+import com.happytable.service.OperationsService;
 import com.happytable.service.RestaurantService;
+import com.happytable.service.SalesService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +25,9 @@ import lombok.extern.log4j.Log4j2;
 public class RestaurantPageController { // jsp 페이지를 불러오는 경로만 정의
 
 	private RestaurantService serviceRest;
+	private OperationsService serviceOper;
+	private SalesService serviceSal;
+	private MenuService serviceMenu;
 
 	@GetMapping("/register") // http://localhost/restaurant/register
 	public void register() {
@@ -35,25 +42,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		log.info("RestaurantController.reginfo() 실행-------");
 	}
 
-	@GetMapping("regmenu") // http://localhost/restaurant/regmenu
-	public void regmenu() {
-		log.info("RestaurantController.regmenu() 실행-------");
-	}
-
-	@GetMapping("/myinfo") // http://localhost/restaurant/myinfo
-	public void myinfo() {
-		log.info("RestaurantController.myinfo() 실행-------");
-	}
-
-	@GetMapping("/myoper") // http://localhost/restaurant/myoper
-	public void myoper() {
-		log.info("RestaurantController.myoper() 실행-------");
-	}
-
-	@GetMapping("/mymenu") // http://localhost/restaurant/myoper
-	public void mymenu() {
-		log.info("RestaurantController.mymenu() 실행-------");
-	}
+	
 
 	/*
 	 * @GetMapping("/list") public void list(Model model) {
@@ -79,43 +68,80 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 
 	@PostMapping("/login") //member 페이지 로그인용
 	public String login(RestaurantVO rest, RedirectAttributes rttr, Model model) {
-		log.info("test : 로그인 계정:" + rest.getResID() + "/" + rest.getResPW());
-		RestaurantVO loginRest = serviceRest.login(rest.getResID(), rest.getResPW());
-
-		if (loginRest.getResNum() != null) {
-			rttr.addFlashAttribute("result2", loginRest.getResName());
-			model.addAttribute("loginMember", loginRest);
+		String id = rest.getResID();
+		String pw = rest.getResPW();
+		log.info("test : 로그인 계정:" + id + "/" + pw);
+		int check = serviceRest.loginChech(id, pw);
+		
+		if(check == 1) { //계정있으면
+			String resNum = serviceRest.login(id, pw);
+			RestaurantVO restVO = serviceRest.get(resNum);
+			rttr.addFlashAttribute("result2", restVO.getResName());
+			model.addAttribute("loginMember", restVO);
 			model.addAttribute("loggedIn", true);
-			return "redirect:/restaurant/myrestaurant";
-		} else {
+			return "redirect:/";
+		}else {
 			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
 			return "redirect:/member/login";
 		}
+		
 	}
 	
-	@PostMapping("/restlogin") //restaurant 페이지 로그인용
-	public String restLogin(RestaurantVO rest, RedirectAttributes rttr, Model model) {
-		log.info("test : 로그인 계정:" + rest.getResID() + "/" + rest.getResPW());
-		RestaurantVO loginRest = serviceRest.login(rest.getResID(), rest.getResPW());
 
-		if (loginRest.getResNum() != null) {
-			rttr.addFlashAttribute("result2", loginRest.getResName());
-			model.addAttribute("loginMember", loginRest);
-			model.addAttribute("loggedIn", true);
-			return "redirect:/restaurant/myrestaurant";
-		} else {
-			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
-			return "redirect:/restaurant/restlogin";
+
+	// 마이페이지(멤버페이지->로그인)
+//	@GetMapping("/myrestaurant")
+//	public void getAllInfo(@ModelAttribute("loginMember") RestaurantVO rest, Model model) {
+//		log.info("test : 보여줄 식당명:" + rest.getResNum() + "/" + rest.getResName());
+//		String resnum = rest.getResNum();
+//		MyResturantDTO allRest = new MyResturantDTO();
+//		allRest.setOperCnt(serviceOper.countOper(resnum));
+//		allRest.setMenuCnt(serviceMenu.countMenu(resnum));
+//		allRest.setTableCnt(serviceSal.countTable(resnum));
+//		allRest.setRest(serviceRest.get(resnum));
+//		
+//		if(allRest.getOperCnt()!=0) {
+//			allRest.setOper(serviceOper.get(resnum));
+//		}
+//		if(allRest.getMenuCnt()!=0) {
+//			allRest.setMenu(serviceMenu.getList(resnum));
+//		}
+//		if(allRest.getTableCnt()!=0) {
+//			allRest.setSalList(serviceSal.getList(resnum));
+//		}
+//		
+//		model.addAttribute("myrest", allRest);
+//	}
+	
+	//레스토랑 로그인->마이페이지
+	@PostMapping("/myrestaurant")
+	public String getPostAllInfo(@ModelAttribute("resNum") String resNum, Model model) {
+		log.info("test : 받은 resnum:" + resNum);
+		MyResturantDTO allRest = new MyResturantDTO();
+		allRest.setOperCnt(serviceOper.countOper(resNum));
+		allRest.setMenuCnt(serviceMenu.countMenu(resNum));
+		allRest.setTableCnt(serviceSal.countTable(resNum));
+		allRest.setRest(serviceRest.get(resNum));
+		
+		if(allRest.getOperCnt()!=0) {
+			allRest.setOper(serviceOper.get(resNum));
 		}
+		if(allRest.getMenuCnt()!=0) {
+			allRest.setMenu(serviceMenu.getList(resNum));
+		}
+		if(allRest.getTableCnt()!=0) {
+			allRest.setSalList(serviceSal.getList(resNum));
+		}
+		
+		model.addAttribute("myrest", allRest);
+		
+		return "redirect:/restaurant/myrestaurant";
 	}
-
-	// 마이페이지
-	@GetMapping("/myrestaurant")
-	public void getAllInfo(@ModelAttribute("loginMember") RestaurantVO rest, Model model) {
-		log.info("test : 보여줄 식당명:" + rest.getResNum() + "/" + rest.getResName());
-		String resnum = rest.getResNum();
-		serviceRest.getAllInfo(resnum);
-		model.addAttribute("myrest", resnum);
+	
+	
+	@GetMapping("/myrestaurant") //페이지만 띄우기용
+	public void getAllInfo() {
+		
 	}
 
 }

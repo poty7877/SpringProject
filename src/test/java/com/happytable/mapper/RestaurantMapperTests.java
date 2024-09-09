@@ -71,9 +71,14 @@ public class RestaurantMapperTests {
 	
 	@Test
 	public void testlogin() {
-		RestaurantVO vo= mapper.login("test", "test");
-		log.info("로그인 매장 : " + vo.getResName());//로그인 매장 : 테스트식당 수정
+		 String resNum = mapper.login("test", "test");
+		log.info("로그인 매장 : " + resNum);//로그인 매장 : 10000002tes
 	}
 	
+	@Test //계정존재유무
+	public void testLoginCheck() {
+		int rst = mapper.loginChech("kkk", "kkk");
+		log.info("계정개수 : "+rst); //계정개수 : 1
+	}
 
 }

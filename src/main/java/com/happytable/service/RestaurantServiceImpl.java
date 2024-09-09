@@ -54,8 +54,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 		return mappr.dupleCheck(resID);
 	}
 
-	@Override
-	public RestaurantVO login(String resID, String resPW) {
+	@Override //로그인 : id+pw ->resNum(**09/07 수정)
+	public String login(String resID, String resPW) {
 		log.info("RestaurantServiceImpl.login() 서비스 실행.....");
 		return mappr.login(resID, resPW);
 	}
@@ -66,17 +66,25 @@ public class RestaurantServiceImpl implements RestaurantService{
 		return mappr.resList();
 	}
 
-	@Override
-	public MyResturantDTO getAllInfo(String resNum) {
-		// 마이페이지-전체 정보 불러오기
-		MyResturantDTO myRest = new MyResturantDTO();
-		myRest.setOper(mappOper.read(resNum));
-		myRest.setSalList(mappSales.readList(resNum));
-		myRest.setMenu(mappMenu.menuListByResNum(resNum));
-		myRest.setMenuCnt(mappMenu.countMenu(resNum));
-		myRest.setTableCnt(mappSales.countTable(resNum));
-		
-		return myRest;
+//	@Override
+//	public MyResturantDTO getAllInfo(String resNum) {
+//		// 마이페이지-전체 정보 불러오기 ->컨트롤러에서 제어
+//		MyResturantDTO myRest = new MyResturantDTO();
+//		myRest.setRest(mappr.readByResnum(resNum));
+//		myRest.setOper(mappOper.read(resNum));
+//		myRest.setSalList(mappSales.readList(resNum));
+//		myRest.setMenu(mappMenu.menuListByResNum(resNum));
+//		myRest.setMenuCnt(mappMenu.countMenu(resNum));
+//		myRest.setTableCnt(mappSales.countTable(resNum));
+//		myRest.setOperCnt(mappOper.checkOper(resNum));
+//		
+//		return myRest;
+//	}
+
+	@Override //로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가)
+	public int loginChech(String resID, String resPW) {
+		log.info("loginChech()  계정확인 서비스 실행.....");
+		return mappr.loginChech(resID, resPW);
 	}
 
 }

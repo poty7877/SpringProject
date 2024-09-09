@@ -26,7 +26,10 @@ public interface RestaurantMapper { //레스토랑(기업) 회원가입용 CRUD
 	//중복확인 : 아이디 개수 확인
 	public int dupleCheck(String resID);
 	
-	//로그인 : id+pw ->객체
-	public RestaurantVO login(@Param("resID") String resID, @Param("resPW") String resPW);
+	//로그인 : id+pw ->resNum(**09/07 수정)
+	public String login(@Param("resID") String resID, @Param("resPW") String resPW);
+	
+	//로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가)
+	public int loginChech(@Param("resID") String resID, @Param("resPW") String resPW);
 
 }

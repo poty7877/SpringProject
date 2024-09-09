@@ -27,4 +27,12 @@ update tb_oper set openTime = #{openTime}, endTime = #{endTime}, adPay = #{adPay
 delete from tb_oper where resNum = #{resNum}
 ]]>
 </delete>
+
+<!-- 등록여부 확인 -->
+<select id="checkOper" resultType="int">
+<![CDATA[
+select count(resNum) from tb_oper where resNum = #{resNum}
+]]>
+</select>
+
 </mapper>

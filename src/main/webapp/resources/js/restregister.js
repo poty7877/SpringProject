@@ -68,14 +68,6 @@ function valForm(form) {
 $(document).ready(function() {
 	let cloneObj = $("#idDiv").clone(); //초기화용 복사객체
 
-	let userID = $("#resID").val();
-	let userPW = $("#resPW").val();
-	let restName = $("#resName").val();
-	let adress = $("#resAddr").val();
-	let summ = $("#summary").val();
-
-	let registerBtn = $("#regBtn");
-
 	$("#resID").on("blur", function() {
 		var resID = $("#resID").val();
 		var voData = { "resID": resID };

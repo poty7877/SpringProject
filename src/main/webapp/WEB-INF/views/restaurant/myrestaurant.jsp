@@ -77,4 +77,12 @@
 <!-- .row -->
 
 
+<script type="text/javascript">
+$(document).ready(function(){
+	 console.log(myrest);
+});
+
+</script>
+
+
 <%@ include file="../includes/footer2.jsp"%>
