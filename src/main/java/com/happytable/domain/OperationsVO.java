@@ -20,5 +20,6 @@ public class OperationsVO {
 	private int adPayCond; //(단체예약시) 예약선불금 입금 최소 인원(예 : 5명 이상은 선불금 지급 필수)
 	
 	private boolean reg; //등록여부
+	private int regCnt; //등록개수
 
 }

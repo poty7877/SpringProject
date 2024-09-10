@@ -15,5 +15,6 @@ public class MenuVO {
 	private int menuNum; //단일 메뉴 번호
 	
 	private boolean reg; //등록여부
+	private int regCnt; //등록개수
 
 }

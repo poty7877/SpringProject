@@ -46,6 +46,5 @@
 <form role="form" name="resNumForm" id="resNumForm" action="/restaurant/myrestaurant" method="post">
 <input type="hidden" id="resNum" name= "resNum" />
 </form>
-
 <script type="text/javascript" src="/resources/js/restlogin.js"></script>
 <%@ include file="../includes/footer2.jsp"%>

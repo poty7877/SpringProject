@@ -1,5 +1,7 @@
 package com.happytable.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.happytable.domain.MyResturantDTO;
+import com.happytable.domain.MenuVO;
+import com.happytable.domain.OperationsVO;
 import com.happytable.domain.RestaurantVO;
+import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
 import com.happytable.service.RestaurantService;
@@ -41,6 +45,12 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	public void reginfo() {
 		log.info("RestaurantController.reginfo() 실행-------");
 	}
+	
+	@GetMapping("/myrestaurant") // http://localhost/restaurant/myrestaurant
+	public void myrestaurant() {
+		log.info("RestaurantController.myrestaurant() 실행-------");
+	}
+
 
 	
 
@@ -87,61 +97,41 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		
 	}
 	
-
-
-	// 마이페이지(멤버페이지->로그인)
-//	@GetMapping("/myrestaurant")
-//	public void getAllInfo(@ModelAttribute("loginMember") RestaurantVO rest, Model model) {
-//		log.info("test : 보여줄 식당명:" + rest.getResNum() + "/" + rest.getResName());
-//		String resnum = rest.getResNum();
-//		MyResturantDTO allRest = new MyResturantDTO();
-//		allRest.setOperCnt(serviceOper.countOper(resnum));
-//		allRest.setMenuCnt(serviceMenu.countMenu(resnum));
-//		allRest.setTableCnt(serviceSal.countTable(resnum));
-//		allRest.setRest(serviceRest.get(resnum));
-//		
-//		if(allRest.getOperCnt()!=0) {
-//			allRest.setOper(serviceOper.get(resnum));
-//		}
-//		if(allRest.getMenuCnt()!=0) {
-//			allRest.setMenu(serviceMenu.getList(resnum));
-//		}
-//		if(allRest.getTableCnt()!=0) {
-//			allRest.setSalList(serviceSal.getList(resnum));
-//		}
-//		
-//		model.addAttribute("myrest", allRest);
-//	}
 	
 	//레스토랑 로그인->마이페이지
 	@PostMapping("/myrestaurant")
-	public String getPostAllInfo(@ModelAttribute("resNum") String resNum, Model model) {
-		log.info("test : 받은 resnum:" + resNum);
-		MyResturantDTO allRest = new MyResturantDTO();
-		allRest.setOperCnt(serviceOper.countOper(resNum));
-		allRest.setMenuCnt(serviceMenu.countMenu(resNum));
-		allRest.setTableCnt(serviceSal.countTable(resNum));
-		allRest.setRest(serviceRest.get(resNum));
+	public String getPostAllInfo(@ModelAttribute RestaurantVO rest, Model model) {
+		String resNum = rest.getResNum();
+		rest = serviceRest.get(resNum);
+		int opercnt = serviceOper.countOper(resNum);
+		int salCnt = serviceSal.countTable(resNum);
+		int menuCnt = serviceMenu.countMenu(resNum);
+		OperationsVO oper = null;
+		List<MenuVO> menus = null;
+		List<SalesVO> tables = null;
 		
-		if(allRest.getOperCnt()!=0) {
-			allRest.setOper(serviceOper.get(resNum));
+		log.info("test : 받은 resnum:" + resNum);		
+		
+		if(opercnt !=0) {
+			oper = serviceOper.get(resNum);
+			oper.setRegCnt(opercnt);
 		}
-		if(allRest.getMenuCnt()!=0) {
-			allRest.setMenu(serviceMenu.getList(resNum));
+		if(menuCnt !=0) {
+			menus = serviceMenu.getList(resNum);
 		}
-		if(allRest.getTableCnt()!=0) {
-			allRest.setSalList(serviceSal.getList(resNum));
+		if(salCnt !=0) {
+			tables = serviceSal.getList(resNum);
 		}
 		
-		model.addAttribute("myrest", allRest);
+		model.addAttribute("myrest", rest);
+		model.addAttribute("oper", oper);
+		model.addAttribute("sales", tables);
+		model.addAttribute("menus", menus);
 		
 		return "redirect:/restaurant/myrestaurant";
 	}
 	
 	
-	@GetMapping("/myrestaurant") //페이지만 띄우기용
-	public void getAllInfo() {
-		
-	}
+	
 
 }

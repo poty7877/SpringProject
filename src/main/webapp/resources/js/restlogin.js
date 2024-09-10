@@ -90,9 +90,11 @@ function ajaxLogin(loginData, error) {
 }//--login()
 
 
-function resNumsubmit(repResNum) {
+function resNumsubmit(resNum) {
 	var resNumForm = $("#resNumForm");
-	console.log(repResNum);
-	$("#resNum").val(repResNum);
+	resNumForm.attr("action", "/restaurant/myrestaurant");
+	resNumForm.attr("method", "POST");
+	//console.log(repResNum);
+	$("#resNum").val(resNum);
 	resNumForm.submit();
 }
