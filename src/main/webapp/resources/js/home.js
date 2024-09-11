@@ -76,16 +76,12 @@ $(document).ready(
 			}
 			$("#myModal").modal("show");
 		}
-		
 		A_Modal(a_result);
 		console.log(a_result);
 		function A_Modal(a_result) {
-			if (a_result > 0) {
-				$(".modal-body").html(
-					"예약에 성공하였습니다.");				
-			} else {
-				return;
-			}
+			$(".modal-body").html(a_result);
+			
 			$("#myModal").modal("show");
 		}
+		
 	});

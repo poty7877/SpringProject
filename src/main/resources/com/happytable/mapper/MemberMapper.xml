@@ -36,35 +36,42 @@
 	]]>
 	</delete>
 
-	<select id="allSelect" resultType="com.happytable.domain.MemberVO">
+	<select id="allSelect"
+		resultType="com.happytable.domain.MemberVO">
 		select * from tb_member where mno > 0
 	</select>
 
 	<select id="read" resultType="com.happytable.domain.MemberVO">
-		select * from tb_member where mno = #{mno}
+		select * from tb_member where mno =
+		#{mno}
 	</select>
-	
+
 	<!-- 멤버 고유번호로 검색 쿼리문 2024/09/10 조용재 삽입 -->
-	<select id="readMem" resultType="com.happytable.domain.MemberVO"> 
+	<select id="readMem" resultType="com.happytable.domain.MemberVO">
 		select * from tb_member where MEMUNO = #{memUno}
 	</select>
-	
+
+
 	<select id="checkEm" resultType="com.happytable.domain.MemberVO">
-		select * from tb_member where email = #{email}
+		select * from tb_member where
+		email = #{email}
 	</select>
-	
+
 	<select id="checkNn" resultType="com.happytable.domain.MemberVO">
-		select * from tb_member where nickName = #{nickName}
+		select * from tb_member where
+		nickName = #{nickName}
 	</select>
-	
+
 	<select id="findID" resultType="com.happytable.domain.MemberVO">
-		select * from tb_member where name = #{name} and phone = #{phone}
+		select * from tb_member where
+		name = #{name} and phone = #{phone}
 	</select>
-	
+
 	<select id="findPW" resultType="com.happytable.domain.MemberVO">
-		select * from tb_member where email = #{email} and name = #{name} and phone = #{phone}
+		select * from tb_member where
+		email = #{email} and name = #{name} and phone = #{phone}
 	</select>
-	
+
 
 
 </mapper>

@@ -5,10 +5,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <%@ include file="../includes/header.jsp"%>
+
 <head>
 <meta charset="UTF-8">
 <title>HappyTable-예약생성</title>
@@ -30,48 +31,64 @@
 								type='hidden' name='memUno'
 								value='<c:out value="${loginMember.getMemUno()}"/>' /> <input
 								type='hidden' name='headCount'
-								value='<c:out value="${resVO.salList[0].headCount}"/>' />
-								<input type='hidden' name='a_Status' value='예약 중' />
+								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
+								type='hidden' name='a_Status' value='예약 중' />
 
 
 							<table width='100%'>
-									<tr>
-										<th>예약일</th>
-										<th><input type="date" class="form-control"	name="date"></th>
-										<th>예약시간</th>
-										<th><select class="form-control" name="time">
-												<c:forEach var="i" begin="${open}" end="${close}">
-													<option value="${i}:00">
-														<c:out value="${i}:00" />
-													</option>
-												</c:forEach>
-										</select></th>
-										<th>예약인수</th>
-										<th><select class="form-control" name="a_NOP">
-												<c:forEach var="j" begin="1"
-													end="${resVO.salList[0].headCount}">
-													<option value="${j}">
-														<c:out value="${j}명" />
-													</option>
-												</c:forEach>
-										</select></th>
-									</tr>
-									<tr>
-									<th>문의사항</th>									
-									<th colspan = '5'>
-									<textarea class="form-control" rows="3" name='a_Note'></textarea>
-									</th>
-									</tr>
-									<tr>
-									<th></th>
-									<th colspan = '5'>
-									<button class="form-control" type="submit" data-oper='appoint'>예약</button>
-									</th>
-									</tr>
+								<tr>
+									<th>예약일</th>
+									<th><input type="date" class="form-control" name="date"
+										required="required"
+										min="${s_Date}" max="${e_Date}"></th>
+									<th>예약시간</th>
+									<th><select class="form-control" name="time">
+											<c:forEach var="i" begin="${open}" end="${close}">
+												<option value="${i}:00">
+													<c:out value="${i}:00" />
+												</option>
+											</c:forEach>
+									</select></th>
+								</tr>
+								<tr>
+									<th>예약인수</th>
+									<th><select class="form-control" name="a_NOP">
+											<c:forEach var="j" begin="1"
+												end="${p_Cnt}">
+												<option value="${j}">
+													<c:out value="${j}명" />
+												</option>
+											</c:forEach>
+									</select></th>
 									
+									<th>요청테이블</th>
+									<th>
+									<c:forEach var="i" begin="0" end="${fn:length(resVO.salList)-1}">
+									<input type="checkbox" id="${resVO.salList[i].tableType}" name="table"/>
+									<label for="${resVO.salList[i].tableType}">
+									<c:out value="${resVO.salList[i].tableType}"/>
+									</label>
+									</c:forEach>
+									</th>					
+									
+
+
+								</tr>
+								<tr>
+									<th>문의사항</th>
+									<th colspan='5'><textarea class="form-control" rows="3"
+											name='a_Note'></textarea></th>
+								</tr>
+								<tr>
+									<th></th>
+									<th colspan='5'>
+										<button class="form-control" type="submit" data-oper='appoint'>예약</button>
+									</th>
+								</tr>
+
 							</table>
 
-							
+
 
 						</form>
 					</div>

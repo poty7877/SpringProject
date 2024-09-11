@@ -86,3 +86,15 @@ select*from tb_restaurant;
 
 update tb_OPER set opentime='10:00', endtime='22:00' where resnum='10000002tes';
 select * from tb_Sales;
+
+select * from tb_sales;
+insert into tb_sales (resnum, tablenum, tabletype, headcount)
+		values ( '10000002tes', '3', '4인용', '12');
+
+insert into tb_sales (resnum, tablenum, tabletype, headcount)
+		values ( '10000002tes', '6', '2인용', '12');
+		
+insert into tb_sales (resnum, tablenum, tabletype, headcount)
+		values ( '10000002tes', '2', '룸(10인)', '10');		
+
+delete from tb_sales where headcount=3;

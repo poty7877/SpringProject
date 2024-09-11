@@ -86,7 +86,6 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.findPW(memberVO);
 	}
 
-	
 	@Override
 	public MemberVO getMem(String memUno) {
 		// 조용재 삽입

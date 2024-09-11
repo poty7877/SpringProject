@@ -52,14 +52,19 @@
   	]]>
 	</select>
 
-	<!-- 로그인 -->
-	<select id="login"
-		resultType="com.happytable.domain.RestaurantVO">
+	<!-- 로그인 : id+pw ->resNum(**09/07 수정) -->
+	<select id="login" resultType="string">
   	<![CDATA[
-  	select * from tb_restaurant where resID = #{resID} and resPW = #{resPW}
+  	select resNum from tb_restaurant where resID = #{resID} and resPW = #{resPW}
   	]]>
 	</select>
 
+	<!-- 로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가) -->
+	<select id="loginChech" resultType="int">
+  	<![CDATA[
+  	select count(resNum) from tb_restaurant where resID = #{resID} and resPW = #{resPW}
+  	]]>
+	</select>
 	<!-- 2024/09/05 용상엽 추가(페이징) -->
 	<select id="getTotalCount" resultType="int">
 		select count(*) from tb_restaurant
@@ -125,4 +130,5 @@
   where rn > (#{pageNum} -1) * #{amount}   
   ]]>
 	</select>
+
 </mapper>

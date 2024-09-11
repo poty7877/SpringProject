@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.RestaurantVO;
 import com.happytable.service.MenuService;
@@ -47,13 +46,29 @@ public class RestaurantController {
 		//0개보다 많이 검색되면 false 값을 result로 보낸다.
 	}
 	
-/*	//회원가입
-	@PostMapping(value = "/register", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> reister(@RequestBody RestaurantVO rest){
-		log.info("등록레스토랑 : "+ rest);
-		int cnt = serviceRest.register(rest);
-		return (cnt == 1)? new ResponseEntity<>("success", HttpStatus.OK):
-			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	} */
+	
+	//로그인(restlogin)
+	@PostMapping(value = "/restlogin", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> restAjaxLogin(@RequestBody RestaurantVO rest){
+		String id = rest.getResID();
+		String pw = rest.getResPW();
+		log.info("test : 로그인 계정:" + id + "/" + pw);
+		int check = serviceRest.loginChech(id, pw);
+		
+		if(check == 1) {
+			String resNum = serviceRest.login(rest.getResID(), rest.getResPW());
+			log.info("resNum" + resNum);
+			return new ResponseEntity<>(resNum, HttpStatus.OK);
+		}else {
+			String resNum = "NotFoundAccount";
+			log.info("resNumTest" + resNum);
+			return new ResponseEntity<>(resNum, HttpStatus.OK); //204(콘텐츠 없음)
+		}
+		
+	}
+	
+
+	
+	
 
 }

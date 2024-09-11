@@ -24,8 +24,8 @@ public class A_ServiceImpl implements A_Service{
 	@Override
 	public int insert(A_VO appoint) {
 		log.info("insert......." + appoint.toString());
-		int result = mapper.insert(appoint);
-		return result;
+		
+		return mapper.insert(appoint);
 	}
 
 	@Override

@@ -12,5 +12,8 @@ public interface OperationsMapper { //tb_oper 레스토랑 운영정보
 	public int update(OperationsVO oper);
 	//d
 	public int delete(String resNum);
+	
+	//등록여부 확인 
+	public int checkOper(String resNum);
 
 }

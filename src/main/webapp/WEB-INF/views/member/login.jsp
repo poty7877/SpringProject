@@ -96,12 +96,12 @@
 				if (radioId === "user") {
 					form.attr("action", "/member/login").submit();
 				} else if (radioId === "admin") {
-					form.attr("action", "/restaurant/login")
-						.attr("method", "get").submit();
+					form.attr("action", "/restaurant/login").submit();
 				}
 			});
 		});
 	</script>
+	
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

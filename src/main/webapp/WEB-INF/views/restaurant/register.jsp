@@ -72,7 +72,7 @@
 						<div class="form-group">
 							<label>식당 소개</label>
 							<textarea class="form-control" rows="2" id="summary"
-								name="summary" placeholder="소개문구(100자 이내)" /></textarea>
+								name="summary" placeholder="소개문구(100자 이내)" ></textarea>
 						</div>
 						<!-- .form-group close -->
 					</div>

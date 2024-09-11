@@ -21,22 +21,22 @@ public interface MemberService {
 	// 전체 회원 정보확인 (관리자 사용)
 	public List<MemberVO> allRead();
 
-	// 회원 정보 확인용
-	public MemberVO get(Long mno);
-	
 	// 회원 정보 확인용(조용재)
 	public MemberVO getMem(String memUno);
-	
-	//아이디 중복 처리용
+
+	// 회원 정보 확인용
+	public MemberVO get(Long mno);
+
+	// 아이디 중복 처리용
 	public boolean checkEm(String email);
-		
-	//닉네임 중복 처리용
+
+	// 닉네임 중복 처리용
 	public boolean checkNn(String nickName);
-	
-	//id찾기
+
+	// id찾기
 	public MemberVO findID(MemberVO memberVO);
-	
-	//pw찾기
+
+	// pw찾기
 	public MemberVO findPW(MemberVO memberVO);
-	
+
 }

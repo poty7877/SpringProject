@@ -31,14 +31,13 @@ public class RestaurantMapperTests {
 	@Test
 	public void testInsert() {
 		RestaurantVO vo = new RestaurantVO();
-		vo.setResID("test3");
-		vo.setResPW("test3");
-		vo.setResName("test3");
-		vo.setResAddr("test3");
-		vo.setCo_Num("test3");
-		vo.setSummary("test3");
-		vo.setResPhone("test3");
-		vo.setCertify("test3");
+		vo.setResID("test2");
+		vo.setResPW("test2");
+		vo.setResName("테스트식당2");
+		vo.setResAddr("서울 금천구 가산동");
+		vo.setCo_Num("111-11-11111");
+		vo.setSummary("테스트용식당, 맛은 보장 못하는데요.");
+		vo.setCertify("");
 		
 		int result = mapper.insert(vo);
 		log.info("등록결과 : "+result); //등록결과 : 1
@@ -72,9 +71,14 @@ public class RestaurantMapperTests {
 	
 	@Test
 	public void testlogin() {
-		RestaurantVO vo= mapper.login("test", "test");
-		log.info("로그인 매장 : " + vo.getResName());//로그인 매장 : 테스트식당 수정
+		 String resNum = mapper.login("test", "test");
+		log.info("로그인 매장 : " + resNum);//로그인 매장 : 10000002tes
 	}
 	
+	@Test //계정존재유무
+	public void testLoginCheck() {
+		int rst = mapper.loginChech("kkk", "kkk");
+		log.info("계정개수 : "+rst); //계정개수 : 1
+	}
 
 }
