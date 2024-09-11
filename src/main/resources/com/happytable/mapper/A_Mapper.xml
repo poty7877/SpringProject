@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.happytable.mapper.A_Mapper">
+<!-- C -->
+	<insert id="insert">
+	<![CDATA[
+		insert into tb_appointment (resNum, memUno, A_Date, A_NOP, A_Status, A_note, A_adPay)
+		values (#{resNum, jdbcType=VARCHAR}, #{memUno, jdbcType=VARCHAR}, #{a_Date, jdbcType=VARCHAR}, #{a_NOP, jdbcType=VARCHAR}, #{a_Status, jdbcType=VARCHAR}, #{a_Note, jdbcType=VARCHAR}, #{a_AdPay, jdbcType=VARCHAR})
+	
+	]]>	
+	</insert>
+
+<!-- R -->
+	<select id="read" resultType="com.happytable.domain.A_VO">
+	<![CDATA[
+	select * from tb_appointment where resNum = #{resNum, jdbcType=VARCHAR}
+	 								or memUno = #{memUno, jdbcType=VARCHAR}
+	 								or A_No = #{a_No, jdbcType=VARCHAR}
+	 								or A_Date = #{a_Date, jdbcType=VARCHAR}	
+	]]>	
+	</select>
+
+<!-- U -->
+	<update id="update">
+	<![CDATA[
+		update tb_appointment set
+		A_NOP=#{a_NOP, jdbcType=VARCHAR},
+		A_Status=#{a_Status, jdbcType=VARCHAR},
+		A_note=#{a_Note, jdbcType=VARCHAR}
+		where A_No=#{a_No}
+	]]>
+	</update>
+
+<!-- D -->
+	<delete id="delete">
+	<![CDATA[
+ 		delete from tb_appointment where A_No=#{a_No}
+	]]>
+	</delete>
+
+</mapper>
