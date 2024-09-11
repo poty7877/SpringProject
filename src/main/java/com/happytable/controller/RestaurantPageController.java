@@ -38,22 +38,13 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		log.info("RestaurantController.register() 실행-------");
 	}
 
-	@GetMapping("/restlogin") // http://localhost/restaurant/login public void
+	@GetMapping("/restlogin") // http://localhost/restaurant/login 
 	public void login() { log.info("RestaurantController.restlogin() 실행-------"); }
 
-	@GetMapping("/reginfo") // http://localhost/restaurant/reginfo
-	public void reginfo() {
-		log.info("RestaurantController.reginfo() 실행-------");
-	}
 	
-	@GetMapping("/myrestaurant") // http://localhost/restaurant/myrestaurant
-	public void myrestaurant() {
-		log.info("RestaurantController.myrestaurant() 실행-------");
-	}
-
-
 	
-
+	
+	
 	/*
 	 * @GetMapping("/list") public void list(Model model) {
 	 * model.addAttribute("list", serviceRest.getList()); log.info("list: " +
@@ -99,18 +90,17 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	
 	
 	//레스토랑 로그인->마이페이지
-	@PostMapping("/myrestaurant")
-	public String getPostAllInfo(@ModelAttribute RestaurantVO rest, Model model) {
-		String resNum = rest.getResNum();
-		rest = serviceRest.get(resNum);
+	@GetMapping("/myrestaurant")
+	public void getPostAllInfo(@ModelAttribute RestaurantVO rest, Model model, RedirectAttributes rttr) {
+		String resNum = rest.getResNum();	
+		log.info("test : 받은 resnum:" + resNum);
 		int opercnt = serviceOper.countOper(resNum);
 		int salCnt = serviceSal.countTable(resNum);
 		int menuCnt = serviceMenu.countMenu(resNum);
 		OperationsVO oper = null;
 		List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
-		
-		log.info("test : 받은 resnum:" + resNum);		
+		RestaurantVO myrest = serviceRest.get(resNum);		
 		
 		if(opercnt !=0) {
 			oper = serviceOper.get(resNum);
@@ -123,15 +113,44 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			tables = serviceSal.getList(resNum);
 		}
 		
-		model.addAttribute("myrest", rest);
+		model.addAttribute("myrest", myrest);
 		model.addAttribute("oper", oper);
 		model.addAttribute("sales", tables);
 		model.addAttribute("menus", menus);
+		rttr.addAttribute("resNum", resNum);
 		
-		return "redirect:/restaurant/myrestaurant";
 	}
 	
+	//reginfo-영업정보 페이지
+	@GetMapping("/reginfo") // http://localhost/restaurant/reginfo
+	public void reginfo() {
+		log.info("영업정보등록 get() 실행-------");
+	}
 	
+	@PostMapping("/reginfo")
+	public String regPostInfo(OperationsVO oper, RedirectAttributes rttr) {
+		log.info("영업정보등록 post() 실행-------");
+		log.info("받은 영업정보 test: "+oper);
+		int result = serviceOper.register(oper);
+		if(result==1) {
+			oper.setReg(true);
+			return "redirect:/restaurant/myrestaurant";
+		}else {
+			oper.setReg(false);
+			rttr.addFlashAttribute("error", "가입오류. 관리자에게 문의하세요.");
+			return "redirect:/restaurant/reginfo";
+		}
+	}
 	
+	//테이블 정보 등록 페이지
+	@GetMapping("/regtable") // http://localhost/restaurant/reginfo
+	public void regtable(@ModelAttribute("resNum") String resNum) {
+		log.info("테이블정보등록 get() 실행-------");
+	}
+	//메뉴등록 페이지
+	@GetMapping("/regmenu") // http://localhost/restaurant/reginfo
+	public void regmenu(@ModelAttribute("resNum") String resNum) {
+		log.info("메뉴등록 get() 실행-------");
+	}
 
 }

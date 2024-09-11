@@ -43,7 +43,7 @@
 	</div>
 </div>
 <!-- hidden form : resNum -->
-<form role="form" name="resNumForm" id="resNumForm" action="/restaurant/myrestaurant" method="post">
+<form role="form" name="resNumForm" id="resNumForm" action="/restaurant/myrestaurant" method="get">
 <input type="hidden" id="resNum" name= "resNum" />
 </form>
 <script type="text/javascript" src="/resources/js/restlogin.js"></script>
