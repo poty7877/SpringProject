@@ -204,7 +204,7 @@ drop sequence seq_reply;
 alter table tb_reply add constraint pk_reply primary key (rno); 
 -- pk를 rno로 지정(롤이름 : pk_reply)
 
-alter table tb_reply add constraint fk_reply_board foreign key (resNum) references tb_restaurant (resNum); 
+
 -- tbl_reply의 bno(자)와 tbl_board의 bno(부)를 연결 (부모가 있어야 자식이 있다) 
 
 -- tbl_board 초기화 -> 더미데이터 입력 -> 댓글 더미데이터 입력
@@ -225,4 +225,14 @@ insert into tb_reply (rno, resNum, reply, replyer)
 		values (seq_reply.nextval,  '10000002tes', '댓글7', 'kkw');
 		insert into tb_reply (rno, resNum, reply, replyer)
 		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
+		
+
+create table tb_like(
+	resNum varchar2(20),
+	likeCount number
+);
+
+alter table tb_like add constraint fk_tb_like foreign key (resNum) references tb_restaurant (resNum); 
+
+select * from tb_like;
 

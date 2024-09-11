@@ -34,10 +34,10 @@
 								<div class="input-group mb-3"
 									style="display: flex; justify-content: center; margin: 20px;">
 									<input type="text" class="form-control" placeholder="이메일"
-										aria-label="이메일" name="email"
+										aria-label="이메일" name="email" id="email"
 										style="display: inline-block; width: 400px; margin-right: 10px;"
 										required> <input type="password" class="form-control"
-										placeholder="비밀번호" aria-label="비밀번호" name="pw"
+										placeholder="비밀번호" aria-label="비밀번호" name="pw" id="pw"
 										style="display: inline-block; width: 400px;" required>
 									<input type="hidden" name="mno"
 										value="${ loginMember.getMno() }" />
@@ -55,10 +55,6 @@
 									<button type="submit" id="submit"
 										class="btn btn-primary wow bounceIn" data-wow-duration="500ms"
 										data-wow-delay="1300ms" style="margin-right: 10px;">로그인</button>
-									<button type="button" onclick="location.href='/member/join'"
-										class="btn btn-info wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">
-										회원가입</button>
 									<button type="button" onclick="location.href='/'"
 										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
 										data-wow-delay="1300ms">home</button>
@@ -90,18 +86,22 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var form = $("#loginForm");
-
 			$("#submit").on("click", function(e) {
 				var radioId = $('input[name="userType"]:checked').attr("id");
 				if (radioId === "user") {
+
 					form.attr("action", "/member/login").submit();
+
 				} else if (radioId === "admin") {
+
+					$("#email").attr("name", "resID");
+					$("#pw").attr("name", "resPW");
 					form.attr("action", "/restaurant/login").submit();
 				}
 			});
 		});
 	</script>
-	
+
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

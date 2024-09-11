@@ -49,7 +49,7 @@
 											href='/order/read?a_No=<c:out value="${reservation.a_No}"/>'>
 												<c:out value="${reservation.a_No}" />
 										</a></td>
-										<td><c:out value="${reservation.a_Note}"/></td>									</td>
+										<td><c:out value="${reservation.a_Note}"/></td>									
 										
 									</tr>
 								</c:forEach>

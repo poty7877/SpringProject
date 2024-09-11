@@ -1,5 +1,9 @@
 
 $(document).ready(function() {
+	var $subBtn = $("#subBtn");
+	var emailValid = false;
+	var nickNameValid = false;
+	$subBtn.prop("disabled", true);
 	$("#email").on("blur", function() {
 		var email = $(this).val();
 		$.ajax({
@@ -10,12 +14,20 @@ $(document).ready(function() {
 			success: function(response) {
 				if (response.status === "error") {
 					alert(response.message);
+
+					emailValid = false; // 이메일 검증 실패
+
+
 				} else if (response.status === "success") {
 					console.log(response.message);
+					emailValid = true; // 이메일 검증 성공
 				}
+				updateSubmitButtonState(); // 버튼 상태 업데이트
 			},
 			error: function(xhr, status, error) {
 				console.error("AJAX Error: ", status, error);
+				emailValid = false; // 이메일 검증 실패
+				updateSubmitButtonState(); // 버튼 상태 업데이트
 			}
 		});
 
@@ -31,17 +43,28 @@ $(document).ready(function() {
 			success: function(response) {
 				if (response.status === "error") {
 					alert(response.message);
+					nickNameValid = false; // 닉네임 검증 실패
 				} else if (response.status === "success") {
 					console.log(response.message);
+					nickNameValid = true; // 닉네임 검증 성공
 				}
+				updateSubmitButtonState(); // 버튼 상태 업데이트
 			},
 			error: function(xhr, status, error) {
 				console.error("AJAX Error: ", status, error);
+				nickNameValid = false; // 닉네임 검증 실패
+				updateSubmitButtonState(); // 버튼 상태 업데이트
 			}
 		});
 
 	});
-
+	function updateSubmitButtonState() {
+		if (emailValid && nickNameValid) {
+			$subBtn.prop("disabled", false); // 둘 다 성공했으면 버튼 활성화
+		} else {
+			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
+		}
+	}
 	$("#myForm").on("submit", function(e) {
 		var emailMessage = $("#emailMessage").text();
 		var pw = $("#pw").val();

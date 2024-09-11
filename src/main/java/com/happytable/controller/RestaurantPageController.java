@@ -2,6 +2,8 @@ package com.happytable.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +69,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	}
 
 	@PostMapping("/login") // member 페이지 로그인용
-	public String login(RestaurantVO rest, RedirectAttributes rttr, Model model) {
+	public String login(RestaurantVO rest, RedirectAttributes rttr, Model model, HttpSession session) {
 		String id = rest.getResID();
 		String pw = rest.getResPW();
 		log.info("test : 로그인 계정:" + id + "/" + pw);
@@ -77,8 +79,8 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			String resNum = serviceRest.login(id, pw);
 			RestaurantVO restVO = serviceRest.get(resNum);
 			rttr.addFlashAttribute("result2", restVO.getResName());
-			model.addAttribute("loginMember", restVO);
-			model.addAttribute("loggedIn", true);
+			session.setAttribute("loginMember2", restVO);
+			session.setAttribute("loggedIn2", true);
 			return "redirect:/";
 		} else {
 			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
