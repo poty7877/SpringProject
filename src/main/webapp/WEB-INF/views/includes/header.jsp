@@ -4,6 +4,7 @@
 Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
 String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 %>
+<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,6 +28,7 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 <script src="/resources/js/vendor/modernizr-2.6.2.min.js"></script>
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/resources/js/jquery.nav.js"></script>
 <script src="/resources/js/jquery.sticky.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script>
@@ -34,8 +36,15 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 <script src="/resources/js/wow.min.js"></script>
 <script src="/resources/js/main.js"></script>
 </head>
-
-
+<!--
+	header-img start 
+	============================== -->
+<!-- <section id="hero-area">
+	<img class="img-responsive" src="/resources/images/header.jpg" alt="">
+</section> -->
+<!--
+    Header start 
+	============================== -->
 <nav id="navigation">
 	<div class="container">
 		<div class="row">
@@ -62,13 +71,22 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 							<div class="collapse navbar-collapse"
 								id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav navbar-right" id="top-nav">
-									<li><a href="/">홈</a></li>
-									<li><a href="#about-us">메뉴</a></li>
-									<li><a href="#blog">예약</a></li>
-									<li><a href="#price">리뷰</a></li>
-									<li><a href="/member/modify">내정보</a></li>
-									<li id="login"><a href="/member/login">로그인</a></li>
-									<li id="logout"><a href="/member/logout">로그아웃</a></li>
+									<li><a href="/">home</a></li>
+									<li><a href="/order/list">예약조회</a></li>
+
+									<li class="nav-item dropdown"><a
+										class="nav-link dropdown-toggle" href="#" role="button"
+										data-toggle="dropdown">info</a>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="/member/modify">my
+													info</a></li>
+											<li><a class="dropdown-item" href="#">reservation
+													info</a></li>
+											<li><a class="dropdown-item" href="#">review info</a></li>
+										</ul></li>
+									<li id="login"><a href="/member/login">login</a></li>
+									<li id="logout"><a href="/member/logout">logout</a></li>
+									<li><a href="/restaurant/login">admin</a></li>
 								</ul>
 							</div>
 							<!-- /.navbar-collapse -->
@@ -87,7 +105,9 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 <script type="text/javascript">
 	$(document).ready(function() {
 		// 로그인 상태를 확인하는 함수 (쿠키를 사용하는 예)
-		var loggedIn = <%=loggedInStr%> ;
+		var loggedIn =
+<%=loggedInStr%>
+	;
 		console.log(loggedIn);
 		if (loggedIn) {
 			$('#login').hide(); // 로그인 상태에서는 로그인 버튼 숨기기

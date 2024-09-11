@@ -11,5 +11,7 @@ public interface OperationsService {
 	public boolean modify(OperationsVO oper);
 	
 	public boolean remove(String resNum);
+	
+	public int countOper(String resNum);
 
 }

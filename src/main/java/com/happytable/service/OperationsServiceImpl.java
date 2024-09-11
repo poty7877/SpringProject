@@ -38,6 +38,12 @@ public class OperationsServiceImpl implements OperationsService{
 		log.info("OperationsServiceImpl.remove() 서비스 실행.....");
 		return mappop.delete(resNum)==1;
 	}
+
+	@Override
+	public int countOper(String resNum) {
+		log.info("operation 등록여부 확인.....");
+		return mappop.checkOper(resNum);
+	}
 	
 	
 

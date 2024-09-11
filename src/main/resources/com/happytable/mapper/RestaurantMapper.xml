@@ -2,59 +2,133 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.happytable.mapper.RestaurantMapper">
-  <!-- //C : 레스토랑 정보등록 -->
-  <insert id="insert">
-  	<selectKey keyProperty="resNum" order="BEFORE" resultType="string">
+
+<mapper namespace="com.happytable.mapper.RestaurantMapper">
+	<!-- //C : 레스토랑 정보등록 -->
+	<insert id="insert">
+		<selectKey keyProperty="resNum" order="BEFORE"
+			resultType="string">
   	<![CDATA[
   	select res_seq.nextval || substr(#{resID}, 1, 3) from dual
   	]]>
-  	</selectKey>
+		</selectKey>
   	<![CDATA[
   	insert into tb_restaurant (resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, resPhone) values (#{resID}, #{resPW}, #{resNum}, #{resName}, #{resAddr}, #{co_Num}, #{certify}, #{summary}, #{resPhone})
   	]]>
-  </insert>
-  <!-- R : 레스토랑 정보 확인 read -->
-  <select id="readByResnum" resultType="com.happytable.domain.RestaurantVO">
+	</insert>
+	<!-- R : 레스토랑 정보 확인 read -->
+	<select id="readByResnum"
+		resultType="com.happytable.domain.RestaurantVO">
   	<![CDATA[
   	select * from tb_restaurant where resNum = #{resNum}
   	]]>
-  </select>
-  
-  <!-- U : 레스토랑 정보 변경 update -->
-  <update id="update">
+	</select>
+
+	<!-- U : 레스토랑 정보 변경 update -->
+	<update id="update">
   	<![CDATA[
   	update tb_restaurant set resPW = #{resPW}, resName = #{resName}, resAddr = #{resAddr}, co_Num = #{co_Num}, certify = #{certify}, summary = #{summary} resPhone = #{resPhone} where resNum = #{resNum}
-  	]]>  
-  </update>
-  <!--D : 레스토랑 탈퇴 delete  -->
-  <delete id="delete">
+  	]]>
+	</update>
+	<!--D : 레스토랑 탈퇴 delete -->
+	<delete id="delete">
   	<![CDATA[
   	delete from tb_restaurant where resNum = #{resNum}
-  	]]>  
-  </delete>
-  
-  <!-- R_all : 모든 레스토랑 리스트  -->
- <select id="resList" resultType="com.happytable.domain.RestaurantVO">
+  	]]>
+	</delete>
+
+	<!-- R_all : 모든 레스토랑 리스트 -->
+	<select id="resList"
+		resultType="com.happytable.domain.RestaurantVO">
   	<![CDATA[
   	select * from tb_restaurant order by resNum desc
   	]]>
-  </select> 
-  
-    <!--아이디 중복확인  -->
- <select id="dupleCheck" resultType="int">
+	</select>
+
+	<!--아이디 중복확인 -->
+	<select id="dupleCheck" resultType="int">
   	<![CDATA[
   	select count(*) from tb_restaurant where resID = #{resID}
   	]]>
-  </select> 
-  
-  <!-- 로그인 -->
-  <select id="login" resultType="com.happytable.domain.RestaurantVO">
+	</select>
+
+	<!-- 로그인 : id+pw ->resNum(**09/07 수정) -->
+	<select id="login" resultType="string">
   	<![CDATA[
-  	select * from tb_restaurant where resID = #{resID} and resPW = #{resPW}
+  	select resNum from tb_restaurant where resID = #{resID} and resPW = #{resPW}
   	]]>
-  </select>  
-  
-  
-  </mapper>
+	</select>
+
+	<!-- 로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가) -->
+	<select id="loginChech" resultType="int">
+  	<![CDATA[
+  	select count(resNum) from tb_restaurant where resID = #{resID} and resPW = #{resPW}
+  	]]>
+	</select>
+	<!-- 2024/09/05 용상엽 추가(페이징) -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tb_restaurant
+
+		<include refid="criteria"></include>
+	</select>
+
+	<sql id="criteria">
+		<trim prefix="where " suffix="" prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							resName like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							resAddr like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							resPhone like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<select id="getListWithPaging"
+		resultType="com.happytable.domain.RestaurantVO">
+  <![CDATA[
+  select 
+    resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate, resPhone
+  from 
+      (
+      select /*+INDEX_DESC(tb_restaurant pk_restaurant) */
+        rownum rn, resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate, resPhone
+      from 
+        tb_restaurant
+      where 
+  ]]>
+
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							resName like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							resAddr like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							resPhone like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+     
+  <![CDATA[    
+      rownum <= #{pageNum} * #{amount}
+      )
+  where rn > (#{pageNum} -1) * #{amount}   
+  ]]>
+	</select>
+
+</mapper>

@@ -1,33 +1,114 @@
----------------------------- tb_restaurant : 레스토랑 테이블
-create table tb_restaurant(
-resID varchar2(10) constraint res_id_uq unique,
-resPW varchar2(20) not null,
-resNum varchar2(20) constraint res_num_pk primary key,
-resName varchar2(50) not null,
-resAddr varchar2(200) not null,
-co_Num varchar2(20) not null,
-certify varchar2(20),
-summary varchar2(200) not null,
-regDate Date default sysdate,
-resPhone varchar2(20)
+create table tb_member(
+	memUno 		varchar2(50),
+	mno			number(10, 0) unique not null,
+	name		varchar2(50) not null,
+	phone		varchar2(50) not null,
+	email		varchar2(50) unique not null,
+	regDate		Date	default sysdate,
+	birth		varchar2(50) not null,
+	nickName	varchar2(50) unique not null
+	pw			varchar2(50) not null
 );
 
-select * from tb_restaurant;
-alter table tb_restaurant add regDate Date default sysdate; --create 부분에 수정내용 반영해둠
-alter table tb_restaurant modify co_Num varchar2(20); --create 부분에 수정내용 반영해둠
-alter table tb_restaurant add resPhone varchar2(20);
+select * from tb_member;
 
---resNum sequence
-CREATE SEQUENCE res_seq
+delete from tb_member;
+alter table tb_member modify birth number(6);
+
+alter table tb_member add constraint pk_member
+primary key (memUno);
+
+create sequence seq_member;
+drop sequence tb_mno_sequence;
+
+
+insert into tb_member(mno, name, phone, email, birth, nickName, pw)
+values(seq_member.nextval, '1234', '1234', '1234@123', '1234', '1234', '1234');
+insert into tb_member(mno, name, phone, email, birth, nickName, pw)
+values(seq_member.nextval, 'ddd', 'dddddddd', 'ddd@1234', '777777', 'dadsddd', '1234');
+insert into tb_member(mno, name, phone, email, birth, nickName, pw)
+values(seq_member.nextval, 'ddd', 'gggggggg', 'ddd@543', '777777', 'ddddd', '1234');
+
+select * from tb_member;
+delete from tb_member;
+drop trigger trg_memUno_insert_tb_member;ㅋ
+drop sequence seq_member_Uno;
+
+alter table tb_member add pw varchar2(50) not null;
+
+
+
+
+
+
+CREATE SEQUENCE seq_member_Uno
 START WITH 10000000
 INCREMENT BY 1
 MINVALUE 10000000
 MAXVALUE 99999999
 CYCLE
 CACHE 20;
-drop sequence res_seq;
 
-----------------------------tb_oper : 레스토랑 운영정보 
+CREATE OR REPLACE TRIGGER trg_memUno_insert_tb_member
+BEFORE INSERT ON tb_member
+FOR EACH ROW
+DECLARE
+    v_random NUMBER;
+    v_count NUMBER;
+BEGIN
+    LOOP
+        v_random := TRUNC(DBMS_RANDOM.VALUE(10000000, 99999999));
+        SELECT COUNT(*)
+        INTO v_count
+        FROM tb_member
+        WHERE memUno = v_random;
+
+        EXIT WHEN v_count = 0;
+    END LOOP;
+
+    :NEW.memUno := v_random;
+END;
+
+ALTER SEQUENCE seq_member_Uno RESTART START WITH 10000000;
+SELECT * FROM user_sequences WHERE sequence_name = 'SEQ_MEMBER_UNO';
+
+SELECT * 
+FROM USER_ERRORS 
+WHERE NAME = 'TRG_MEMUNO_INSERT_TB_MEMBER';
+
+
+select * from tb_restaurant;
+insert into tb_oper (resNum, openTime, endTime, adPay, adPayCond, dayoff_cate, dayoff_weekCnt, 
+dayoff_Day, breakTime, breakTime_start, breakTime_end) values ('10000003tes', TO_DATE('2024-01-01 10:00', 'yyyy-MM-dd HH24:MI'),  TO_DATE('2024-01-01 18:00', 'yyyy-MM-dd HH24:MI'),100000, 10, 'M' , '1, 3', '일' , 0, 
+'-', '-'); 
+
+select * from tb_oper;
+INSERT INTO tb_oper (
+    resNum, 
+    openTime, 
+    endTime, 
+    adPay, 
+    adPayCond, 
+    dayoff_cate, 
+    dayoff_weekCnt, 
+    dayoff_Day, 
+    breakTime, 
+    breakTime_start, 
+    breakTime_end
+) VALUES (
+    '10000002tes', 
+    TO_DATE('2024-01-01 10:00', 'YYYY-MM-DD HH24:MI'), 
+    TO_DATE('2024-01-01 18:00', 'YYYY-MM-DD HH24:MI'), 
+    100000, 
+    10, 
+    'M', 
+    '1, 3', 
+    '일', 
+    0, 
+    '-', 
+    '-'
+);
+
 create table tb_oper(
 resNum varchar2(20) primary key,
 openTime varchar2(10) not null,
@@ -37,61 +118,111 @@ breakTime_start varchar2(10),
 breakTime_end varchar2(10),
 dayoff_cate varchar2(10),
 dayoff_weekCnt varchar2(10),
-dayoff_Day varchar2(10),
+dayoff_Day varchar2(4),
 adPay number(10),
 adPayCond number(3)
 );
 
+INSERT INTO tb_oper (
+    resNum, 
+    openTime, 
+    endTime, 
+    adPay, 
+    adPayCond, 
+    dayoff_cate, 
+    dayoff_weekCnt, 
+    dayoff_Day, 
+    breakTime, 
+    breakTime_start, 
+    breakTime_end
+) VALUES (
+    '10000002tes', 
+    TO_DATE('2024-01-01 10:00', 'YYYY-MM-DD HH24:MI'), 
+    TO_DATE('2024-01-01 18:00', 'YYYY-MM-DD HH24:MI'), 
+    100000, 
+    10, 
+    'M', 
+    '1, 3', 
+    '일', 
+    0, 
+    '-', 
+    '-'
+);
 select * from tb_oper;
-drop table tb_oper; 
-truncate table tb_oper;
--- fk 추가
-alter table tb_oper add constraint op_num_fk foreign key (resNum) references tb_restaurant (resNum);
-alter table tb_oper modify dayoff_weekCnt varchar2(10); --create 반영됨
+drop table tb_oper;
+ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY/MM/DD HH24:MI';
+SELECT TO_DATE('2024-01-01 10:00', 'YYYY-MM-DD HH24:MI') FROM dual;
+SELECT value
+FROM v$nls_parameters
+WHERE parameter = 'NLS_DATE_FORMAT';
+select * from tb_oper;
+desc tb_oper;
 
----------------------------- tb_sales : 레스토랑 테이블 정보
-create table tb_sales(
-resNum varchar2(20),
-tableNum number(10),
-tableType varchar2(10),
-headCount number(3)
-);
 
+
+
+
+
+
+
+
+
+
+select * from tb_restaurant;
+select * from tb_oper;
 select * from tb_sales;
-drop table tb_sales;
--- fk 추가
-alter table tb_sales add constraint sal_num_fk foreign key (resNum) references tb_restaurant (resNum);
-
---index 생성(pk가 없어 검색속도 향상위한 인덱스)
-create index sales_index on tb_sales (resNum);
-
-
----------------------------- tb_menu : 레스토랑 메뉴 정보
-create table tb_menu(
-menuNum number(10) primary key,
-resNum varchar2(20),
-menuName varchar2(20),
-menuAcoount varchar2(50), 
-mainIngredient varchar2(20),
-serving number(2),
-unitCost number(10),
-menuImg varchar2(50)
-);
-
 select * from tb_menu;
-drop table tb_menu;
--- fk 추가
-alter table tb_menu add constraint menu_num_fk foreign key (resNum) references tb_restaurant (resNum);
-create sequence seq_menu;
-alter table tb_menu modify menuAcoount varchar2(50);
 
+insert into tb_restaurant (resId, resPw, resName, resAddr, co_num, certify, summary, resphone) 
+values ('test1', 'test1', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
 
-------------------------------------------test용 영역
-SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')) FIRST, DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH')+14, NEXT_DAY(TRUNC(sysdate,'MONTH'),'토')+14) THIRD FROM dual;
---매월 1, 3주 토요일 휴무계산-가로 출력
+insert into  tb_sales values ('10000002tes',3,'4인용',3);
 
-select to_date('18:00', 'HH24:MI') from dual;
+insert into tb_menu values (seq_menu.nextVal, '10000002tes', 'test1', 'test1', 'test1', 4, 50000, 'test1');
+select * from tb_menu where resNum = '10000002tes';
+select sequence from happy;
 
+SELECT *
+  FROM all_sequences;
 
+  
+  select  * from all_all_tables;
+select * from tb_reply;
+drop table tbl_reply;
 
+create table tb_reply (
+	rno number(10,0),  -- 댓글 번호
+	resNum varchar2(20),  -- fk(게시물번호)
+ 	reply varchar2(1000) not null, -- 댓글
+ 	replyer varchar2(50) not null, -- 댓글 작성자
+	replyDate date default sysdate,
+	updateDate date default sysdate );
+
+	
+create sequence seq_reply; -- 댓글용 자동번호객체 추가
+drop sequence seq_reply;
+alter table tb_reply add constraint pk_reply primary key (rno); 
+-- pk를 rno로 지정(롤이름 : pk_reply)
+
+alter table tb_reply add constraint fk_reply_board foreign key (resNum) references tb_restaurant (resNum); 
+-- tbl_reply의 bno(자)와 tbl_board의 bno(부)를 연결 (부모가 있어야 자식이 있다) 
+
+-- tbl_board 초기화 -> 더미데이터 입력 -> 댓글 더미데이터 입력
+
+delete from tbl_reply; -- 더미데이터 삭제
+
+drop sequence seq_reply; -- 시퀀스 삭제
+
+insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글11', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글10', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글9', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글8', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글7', 'kkw');
+		insert into tb_reply (rno, resNum, reply, replyer)
+		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
 
