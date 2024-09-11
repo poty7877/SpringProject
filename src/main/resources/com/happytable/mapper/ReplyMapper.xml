@@ -51,6 +51,14 @@
 
 	</select>
 
+	 <select id="getRatingAverage" resultType="double">
+  	select avg(rating) from tb_reply where resNum = #{resNum}
+  </select>
+  
+  <update id="updateRating">
+  	update tb_reply set ratingAvg = #{ratingAvg} where resNum = #{resNum}
+  </update>
+	
 </mapper>
 
 
