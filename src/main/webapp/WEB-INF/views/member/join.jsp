@@ -6,6 +6,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.btn-primary {
+	background: #fff;
+	color: #ff503a;
+	border: 1px solid #ff503a;
+}
+
+.btn-primary:hover {
+	background: #ff530a;
+	color: #fff;
+}
+
+</style>
 <meta charset="UTF-8">
 <title>회원가입</title>
 </head>
@@ -43,9 +56,10 @@
 								</div>
 								<div class="input-group mb-3"
 									style="display: flex; justify-content: center; margin: 20px;">
-									<span id="emailMessage"></span> <input type="text"
-										class="form-control" placeholder="이메일 주소" aria-label="이메일 주소"
-										name="email" id="email" minlength="10" maxlength="100"
+									<span id="emailMessage"></span> <input type="email"
+										class="form-control" placeholder="abcde@example.com"
+										aria-label="abcde@example.com" name="email" id="email"
+										maxlength="100"
 										style="display: inline-block; width: 400px; margin-right: 10px;"
 										required> <input type="text" class="form-control"
 										placeholder="닉네임(2~10글자)" aria-label="닉네임" name="nickName"
@@ -73,18 +87,16 @@
 								</div>
 								<div class="input-group mb-3"
 									style="display: flex; justify-content: center; margin-left: 600px;">
-									<button type="submit" id="subBtn"
-										class="btn btn-primary btn-lg wow bounceIn"
+									<button type="submit" id="subBtn" class="btn btn-primary "
 										data-wow-duration="500ms" data-wow-delay="1300ms"
 										style="margin-right: 10px;">회원 가입</button>
-									<button type="reset"
-										class="btn btn-default btn-lg wow bounceIn"
+									<button type="reset" class="btn btn-default "
 										data-wow-duration="500ms" data-wow-delay="1300ms">리셋</button>
 								</div>
 							</div>
 						</form>
 					</div>
-ㄹ
+					ㄹ
 
 
 

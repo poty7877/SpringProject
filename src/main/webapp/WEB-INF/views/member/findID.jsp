@@ -24,8 +24,9 @@
 							<span>아이디, 비밀번호 찾기</span>
 						</h1>
 						<h3 class="title wow fadeInLeft" data-wow-duration="500ms"
-							data-wow-delay="300ms">회원가입시 입력했던 이름과 핸드폰번호를 입력해주세요.</h3>
-							<span>${ loginError }</span>
+							data-wow-delay="300ms">
+							회원가입시 입력했던 이름과 핸드폰번호를 입력해주세요.</br> <span>${ FindError }</span>
+						</h3>
 						<form role="form" action="/member/findID" method="post"
 							id="findForm">
 							<div class="form-group wow fadeInDown" data-wow-duration="500ms"

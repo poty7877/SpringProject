@@ -1,8 +1,12 @@
 package com.happytable.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +33,8 @@ public class ReplyController {
 	private ReplyService service;
 
 	@PostMapping(value = "/new", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
-
+	public ResponseEntity<String> create(@RequestBody ReplyVO vo, Model model) {
+		
 		log.info("ReplyVO 객체 json 입력 값 : " + vo);
 
 		int insertCount = service.register(vo);
@@ -52,11 +56,11 @@ public class ReplyController {
 
 	@RequestMapping(method = { RequestMethod.PUT,
 			RequestMethod.PATCH }, value = "/{rno}", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("resNum") String resNum) {
+	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") String rno) {
 
 		vo.setResNum("");
 
-		log.info("ReplyController.modify()메서드 실행/ 수정할 rno : " + resNum);
+		log.info("ReplyController.modify()메서드 실행/ 수정할 rno : " + rno);
 
 		log.info("수정할 객체 : " + vo);
 

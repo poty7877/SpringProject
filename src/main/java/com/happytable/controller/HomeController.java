@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.happytable.domain.Criteria;
 import com.happytable.domain.PageDTO;
+import com.happytable.service.ReplyService;
 import com.happytable.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ import lombok.extern.log4j.Log4j2;
 public class HomeController {
 
 	private RestaurantService serviceRest;
-
+	private ReplyService serviceReply;
 	@GetMapping()
 	public String list(Criteria cri, Model model) {
 		model.addAttribute("list", serviceRest.getList(cri));

@@ -6,8 +6,8 @@
 <mapper namespace="com.happytable.mapper.ReplyMapper">
 	<insert id="insert">
   	<![CDATA[
-  		insert into tb_reply (rno, resNum, reply, replyer)
-  			values(seq_reply.nextval, #{resNum}, #{reply}, #{replyer})
+  		insert into tb_reply (rno, resNum, reply, replyer, rating)
+  			values(seq_reply.nextval, #{resNum}, #{reply}, #{replyer}, #{rating})
   	]]>
 	</insert> <!-- insert = 성공 1 | 실패 0 -->
 
@@ -19,7 +19,7 @@
 
 	<update id="update">
   	<![CDATA[
-  		update tb_reply set reply = #{reply}, updateDate = sysdate where rno = #{rno}
+  		update tb_reply set rating = #{rating}, reply = #{reply}, updateDate = sysdate where rno = #{rno}
   	]]>
 	</update>
 
@@ -32,9 +32,9 @@
 	<select id="getListWithPaging"
 		resultType="com.happytable.domain.ReplyVO">
   	<![CDATA[
-  		select rno, resNum, reply, replyer, replydate, updatedate from(
+  		select rno, resNum, reply, replyer, replydate,rating, updatedate from(
   			select /* +INDEX(tb_reply idx_reply)*/
-  				rownum rn, rno, resNum, reply, replyer, replydate, updatedate from tb_reply
+  				rownum rn, rno, resNum, reply, replyer, replydate,rating, updatedate from tb_reply
   				where resNum = #{resNum}
   				and rno > 0
   				and rownum <=#{cri.pageNum} * #{cri.amount}
@@ -50,6 +50,16 @@
   	]]>
 
 	</select>
+
+	<select id="getRatingAverage" resultType="double">
+		select avg(rating) from
+		tb_reply where resNum = #{resNum}
+	</select>
+
+	<update id="updateRating">
+		update tb_reply set ratingAvg = #{ratingAvg} where
+		resNum = #{resNum}
+	</update>
 
 </mapper>
 

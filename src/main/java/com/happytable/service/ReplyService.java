@@ -20,4 +20,5 @@ public interface ReplyService {
 	// 게시글 번호로 모든 댓글을 리스트로 호출
 	
 	public ReplyPageDTO getListPage(Criteria cri, String resNum);
+	
 }

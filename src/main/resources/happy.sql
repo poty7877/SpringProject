@@ -227,6 +227,10 @@ insert into tb_reply (rno, resNum, reply, replyer)
 		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
 		
 
+		select * from tb_reply;
+		
+		alter table tb_reply add rating number(2) default 0;
+		
 create table tb_like(
 	resNum varchar2(20),
 	likeCount number
