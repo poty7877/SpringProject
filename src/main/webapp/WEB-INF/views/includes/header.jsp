@@ -36,6 +36,13 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 <script src="/resources/js/plugins.js"></script>
 <script src="/resources/js/wow.min.js"></script>
 <script src="/resources/js/main.js"></script>
+
+<!-- datepicker 는 jquery 1.7.1 이상 bootstrap 2.0.4 이상 버전이 필요함 -->
+	<!-- jQuery가 먼저 로드 된 후 datepicker가 로드 되어야함.-->
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" > -->
+	<link rel="stylesheet" href="/resources/css/bootstrap-datepicker.css">
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.js"></script> -->
+	<script src="/resources/js/bootstrap-datepicker.js"></script>
 </head>
 <!--
 	header-img start 
