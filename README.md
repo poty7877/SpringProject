@@ -36,24 +36,45 @@
 <details><summary>프로젝트 설계, 구현, PPT 눌러서 확인</summary>   
 <div align="center">   
 
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/76785628-3126-4603-9450-6b408cde6f0a)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/d7a53e9e-a9b9-4d2d-a33b-9791538ed104)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/ab3cfe48-0852-4bbd-b25b-1d8ffd62e24b)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/cd9e3623-d76b-48b9-9949-631bf31a9f8a)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/44d365fc-9b38-4e66-b857-2e09945f3bb2)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/6525cd4f-da79-4c21-9f40-58a97296f95f)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/b2b0f010-a77a-44e3-b75b-3896e41bd6d6)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/e2e93cb9-dfa9-4b40-8239-49d7ee0e0bca)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/99d7b22b-22b9-46f2-917e-3e3265385638)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/a4d57fa0-83ba-4374-9487-2990cdfd714c)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/19d65652-8c46-4e2e-8e1d-a36df8e59773)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/45f3cab4-69f2-4fb9-b550-2f5755361225)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/909e3106-aade-4aef-ac73-b3a3cd21a09f)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/53178a4b-b233-4ef9-b20f-400bb51d7546)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/e3e8eb5e-c00b-4bde-8a4e-12afe35aa040)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/f975b6fd-9f13-401b-b4aa-3fdc73b0bbb0)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/7bc875fd-3156-4207-949e-0608e81d84cf)
-![image](https://github.com/YoungQWER/LiveCommerce_boot/assets/157094828/52c0bc1e-e464-4699-89d5-b511a110bda3)
+![image](https://github.com/user-attachments/assets/83a867f2-3300-4a24-a799-dc80444bb606)
+![image](https://github.com/user-attachments/assets/bd08a1f6-96c8-480d-9d60-b600cf1cd990)
+![image](https://github.com/user-attachments/assets/1e00026b-f50b-4de1-a1cb-2093669dcc23)
+![image](https://github.com/user-attachments/assets/93b6e6d1-2f2f-46aa-b744-942c18f75be2)
+![image](https://github.com/user-attachments/assets/0d27e29f-83c2-4279-a7a9-39e13833a00c)
+![image](https://github.com/user-attachments/assets/b39ddf28-4687-4c03-a680-b87baf14ebf6)
+![image](https://github.com/user-attachments/assets/459f17bd-d4d7-4888-ada4-7aaeee346b6d)
+![image](https://github.com/user-attachments/assets/9f35a4d2-08ed-48eb-911b-c184225b41ac)
+![image](https://github.com/user-attachments/assets/13d30aa8-29bc-4896-9089-929746000c9e)
+![image](https://github.com/user-attachments/assets/db902e1c-1931-4f31-8f75-647bec0cd13f)
+![image](https://github.com/user-attachments/assets/462eedd7-ae63-4411-9a61-5645bbda1ec2)
+![image](https://github.com/user-attachments/assets/8f5d9ca3-d785-413d-9104-3e095f834918)
+![image](https://github.com/user-attachments/assets/0d4f25f8-943d-43ae-9855-9da72c123815)
+![image](https://github.com/user-attachments/assets/b9abf2ba-79e3-470d-87c8-0d3bee26c4c8)
+![image](https://github.com/user-attachments/assets/596b6c81-7288-4d23-9f3e-27e47baf1b7a)
+![image](https://github.com/user-attachments/assets/c92f5341-4c61-434f-b5ce-566ccd6590b7)
+![image](https://github.com/user-attachments/assets/009d9191-7dc7-4993-8568-6f89b70aed74)
+![image](https://github.com/user-attachments/assets/5c616f4f-d101-458d-9f74-44c08fbf1938)
+![image](https://github.com/user-attachments/assets/f765d875-b3f7-4689-9be2-619323908828)
+![image](https://github.com/user-attachments/assets/ed227248-15b6-4a09-8937-49bedcc77ff9)
+![image](https://github.com/user-attachments/assets/b0e718c3-e90e-4093-9929-af6878d5a591)
+![image](https://github.com/user-attachments/assets/18ac5308-a28d-460e-98d1-3718acb5fd13)
+![image](https://github.com/user-attachments/assets/be040404-4401-4a37-a21e-e3a84ca41312)
+![image](https://github.com/user-attachments/assets/448da77c-77fc-4c4e-b9bf-88bb60d0fa1d)
+![image](https://github.com/user-attachments/assets/1d2319e2-c7d6-47b4-9ea1-04e87395d8bd)
+![image](https://github.com/user-attachments/assets/e7cf0aab-d5b0-49a8-ac77-5f898463cca9)
+![image](https://github.com/user-attachments/assets/e7c741c9-b9a1-423c-a9a1-47797eaf1080)
+![image](https://github.com/user-attachments/assets/41fa782f-bd3b-4f5d-8d69-56f1d3ed8ab7)
+![image](https://github.com/user-attachments/assets/92dbfa94-16b7-47d4-b1fa-ed5a24b36f6d)
+![image](https://github.com/user-attachments/assets/d25dae2a-89fa-44da-a561-ac86d349b540)
+![image](https://github.com/user-attachments/assets/57a9bd6e-4fd9-4e18-9bb7-fafd0747a4bc)
+![image](https://github.com/user-attachments/assets/159c6881-fc01-4fc6-8575-7d0db5f98f50)
+![image](https://github.com/user-attachments/assets/2c6b6dd9-6a67-47da-8c29-ef4a144f393d)
+![image](https://github.com/user-attachments/assets/53e4ec9b-8ade-4923-b187-e92952cecbf1)
+
+
+
+
+
 
 
 
