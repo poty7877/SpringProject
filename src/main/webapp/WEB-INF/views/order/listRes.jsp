@@ -27,7 +27,7 @@
 								<thead>
 									<tr>
 										<th width='20%'>예약 날짜</th>
-										<th width='20%'>레스토랑 이름</th>
+										<th width='20%'>예약 회원 닉네임</th>
 										<th width='10%'>예약 인원</th>
 										<th width='15%'>예약 상태</th>
 										<th width='15%'>예약 번호</th>
@@ -39,14 +39,14 @@
 									<tr>
 										<td><c:out value="${reservation.a_Date}" /></td>
 
-										<td><c:out value="${reservation.resName}" /></td>
+										<td><c:out value="${reservation.userName}" /></td>
 
 										<td><c:out value="${reservation.a_NOP}" /></td>
 
 										<td><c:out value="${reservation.a_Status}" /></td>
 
 										<td><a
-											href='/order/read?a_No=<c:out value="${reservation.a_No}"/>'>
+											href='/order/readRes?a_No=<c:out value="${reservation.a_No}"/>'>
 												<c:out value="${reservation.a_No}" />
 										</a></td>
 										<td><c:out value="${reservation.a_Note}"/></td>									

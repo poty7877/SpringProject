@@ -8,6 +8,28 @@
 <html>
 
 <head>
+<style>
+.comment-content {
+	padding: 10px; /* 댓글의 패딩 조정 */
+	border-bottom: 1px solid #ddd; /* 각 댓글 구분을 위한 하단 경계선 */
+}
+
+.comment-replier {
+	font-weight: bold; /* 댓글 작성자 이름을 강조 */
+}
+
+.comment-date {
+	color: #888; /* 날짜의 색상 조정 */
+}
+
+.comment-text {
+	margin-top: 5px; /* 제목과 내용 간의 간격 조정 */
+}
+
+.left.clearfix {
+	margin-bottom: 20px; /* 댓글 간의 간격 조정 */
+}
+</style>
 <meta charset="UTF-8">
 <title>HappyTable</title>
 </head>
@@ -75,7 +97,7 @@
 									</li>
 								</c:forEach>
 							</ul>
-							<button class="btn btn-primary" onclick="location.href='/order/insert?resNum=${resVO.resNum}'">예약하기</button>
+							<button class="btn btn-primary">예약하기</button>
 						</div>
 
 					</div>
@@ -105,61 +127,96 @@
 }
 </style>
 	<!-- #price close -->
-	<section id="slider">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="block wow fadeInUp" data-wow-duration="500ms"
-						data-wow-delay="300ms">
-						<div class="title">
-							<h3>
-								Featured <span>Works</span>
-							</h3>
-						</div>
-						<div id="owl-example" class="owl-carousel">
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-1.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-2.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-3.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-4.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-1.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-2.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-3.jpg" alt="">
-							</div>
-							<div>
-								<img class="img-responsive"
-									src="/resources/images/slider/slider-img-4.jpg" alt="">
-							</div>
+	<div class='row'>
+		<div class="col-lg-12">
+			<!-- /.panel -->
+			<div class="panel panel-default">
+				<!-- 		<div class="panel-heading">
+				<i class="fa fa-comments fa-fw">Reply</i>
+			</div> -->
 
-						</div>
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw">Reply</i>
+					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New
+						Reply</button>
+				</div>
+
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+
+					<ul class="chat">
+						<!-- start reply -->
+						<li class="left clearfix" data-rno='12'>
+							<div class='header'>
+								<strong class="primary-font">user00</strong> <small
+									class="pull-right text-muted">2018-01-01 13:13</small> <small
+									class="pull-right text-muted">5</small>
+							</div>
+							<p>Good job!</p>
+						</li>
+
+					</ul>
+					<!-- ul end -->
+					<!-- 댓글 목록은<ul>태그내에 <li> 태그를 이용해서 처림. 각 <li>태그는 하나의
+				댓글을 의미하므로 수정이나 삭제 시 이를 클릭하게 됨. 수정이나 삭제시에는
+				반드시 댓글 번호(rno)가 필요하므로 'data-rno-속성을 이용해서 처리한다. -->
+				</div>
+				<!-- /.panel.chat-panel -->
+				<div class="panel-footer"></div>
+
+			</div>
+			<!-- class="panel panel-default" end -->
+		</div>
+	</div>
+	<!-- ./end row -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">REPLY MODAL</h4>
+				</div>
+				<!-- class="modal-header" end -->
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Reply</label> <input class="form-control" name='reply'
+							value="NewReply!!!!">
+					</div>
+					<div class="form-group">
+						<label>Replyer</label> <input class="form-control" name="replyer"
+							value='Replyer'>
+					</div>
+					<div class="form-group">
+						<label for="rating">평점(1~5)</label> <input class="form-control"
+							name="rating" id="rating" type="text" maxlength="1">
+
+					</div>
+					<div class="form-group">
+						<label>Reply Date</label> <input class="form-control"
+							name='replyDate' value='2018-01-01 13:13'>
 					</div>
 				</div>
-				<!-- .col-md-12 close -->
+				<!-- class="modal-body" end -->
+				<div class="modal-footer">
+					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+					<button id='modalRegisterBtn' type="button" class="btn btn-primary"
+						data-dismiss="modal">Register</button>
+					<button id='modalCloseBtn' type="button" class="btn btn-default"
+						data-dismiss="modal">Close</button>
+
+				</div>
+				<!-- class="modal-footer end -->
 			</div>
-			<!-- .row close -->
+			<!-- class="modal-content  end -->
 		</div>
-		<!-- .container close -->
-	</section>
-	<!-- slider close -->
+		<!-- class="modal-dialog end -->
+	</div>
+	<!-- modal end -->
 	<section id="footer">
 		<div class="container">
 			<div class="row">
@@ -251,7 +308,336 @@
 			<!-- .row close -->
 		</div>
 		<!-- .containe close -->
+
 	</section>
+	<script>
+		document.getElementById('rating').addEventListener('input',
+				function(e) {
+					var value = e.target.value;
+					// 숫자가 아닌 입력을 필터링
+					if (!/^[1-5]?$/.test(value)) {
+						e.target.value = value.slice(0, -1);
+					}
+				});
+	</script>
+	<script type="text/javascript" src="../resources/js/reply.js">
+		/* 외부파일
+		include용 */
+	</script>
+
+	<script>
+		$(document)
+				.ready(
+						function() {
+
+							var resNumValue = "${resVO.resNum}";
+							var replyUL = $(".chat");
+
+							showList(1);
+
+							var modal = $(".modal");
+							var modalInputRating = modal
+									.find("input[name='rating']");
+							var modalInputReply = modal
+									.find("input[name='reply']");
+							var modalInputReplyer = modal
+									.find("input[name='replyer']");
+							var modalInputReplyDate = modal
+									.find("input[name='replyDate']");
+
+							var modalModBtn = $("#modalModBtn");
+							var modalRemoveBtn = $("#modalRemoveBtn");
+							var modalRegisterBtn = $("#modalRegisterBtn");
+
+							$("#modalCloseBtn").on("click", function(e) {
+
+								modal.modal('hide');
+							});
+
+							$("#addReplyBtn").on(
+									"click",
+									function(e) {
+
+										modal.find("input").val("");
+										modalInputReplyDate.closest("div")
+												.hide();
+										modal.find(
+												"button[id !='modalCloseBtn']")
+												.hide();
+
+										modalRegisterBtn.show();
+
+										$(".modal").modal("show");
+
+									});
+
+							modalRegisterBtn.on("click", function(e) {
+
+								var reply = {
+									reply : modalInputReply.val(),
+									replyer : modalInputReplyer.val(),
+									rating : modalInputRating.val(),
+									resNum : resNumValue
+								};
+								replyService.add(reply, function(result) {
+
+									alert(result);
+
+									modal.find("input").val("");
+									modal.modal("hide");
+
+									//showList(1);
+									showList(-1);
+
+								});
+
+							});
+
+							//댓글 조회 클릭 이벤트 처리 
+							$(".chat")
+									.on(
+											"click",
+											"li",
+											function(e) {
+
+												var rno = $(this).data("rno");
+
+												replyService
+														.get(
+																rno,
+																function(reply) {
+
+																	modalInputReply
+																			.val(reply.reply);
+																	modalInputReplyer
+																			.val(reply.replyer);
+																	modalInputRating
+																			.val(reply.rating);
+																	modalInputReplyDate
+																			.val(
+																					replyService
+																							.displayTime(reply.replyDate))
+																			.attr(
+																					"readonly",
+																					"readonly");
+																	modal
+																			.data(
+																					"rno",
+																					reply.rno);
+
+																	modal
+																			.find(
+																					"button[id !='modalCloseBtn']")
+																			.hide();
+																	modalModBtn
+																			.show();
+																	modalRemoveBtn
+																			.show();
+
+																	$(".modal")
+																			.modal(
+																					"show");
+
+																});
+											});
+
+							/*     modalModBtn.on("click", function(e){
+							
+							 var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+							
+							 replyService.update(reply, function(result){
+							
+							 alert(result);
+							 modal.modal("hide");
+							 showList(1);
+							
+							 });
+							
+							 });
+
+							 modalRemoveBtn.on("click", function (e){
+							
+							 var rno = modal.data("rno");
+							
+							 replyService.remove(rno, function(result){
+							
+							 alert(result);
+							 modal.modal("hide");
+							 showList(1);
+							
+							 });
+							
+							 }); */
+
+							modalModBtn.on("click", function(e) {
+
+								var reply = {
+									rno : modal.data("rno"),
+									reply : modalInputReply.val(),
+									rating : modalInputRating.val()
+								};
+
+								replyService.update(reply, function(result) {
+
+									alert(result);
+									modal.modal("hide");
+									showList(pageNum);
+
+								});
+
+							});
+
+							modalRemoveBtn.on("click", function(e) {
+
+								var rno = modal.data("rno");
+
+								replyService.remove(rno, function(result) {
+
+									alert(result);
+									modal.modal("hide");
+									showList(pageNum);
+
+								});
+
+							});
+
+							function showList(page) {
+
+								console.log("show list " + page);
+
+								replyService
+										.getList(
+												{
+													resNum : resNumValue,
+													page : page || 1
+												},
+												function(replyCnt, list) {
+
+													console.log("replyCnt: "
+															+ replyCnt);
+													console
+															.log("list: "
+																	+ list);
+													console.log(list);
+
+													if (page == -1) {
+														pageNum = Math
+																.ceil(replyCnt / 10.0);
+														showList(pageNum);
+														return;
+													}
+
+													var str = "";
+
+													if (list == null
+															|| list.length == 0) {
+														return;
+													}
+
+													for (var i = 0, len = list.length || 0; i < len; i++) {
+														str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
+														str += "<div class='comment-content'>";
+														str += "<div class='header'><strong class='primary-font comment-replier'>"
+																+ list[i].replyer
+																+ "</strong>";
+														str += "<small class='pull-right text-muted comment-date'>"
+																+ replyService
+																		.displayTime(list[i].replyDate)
+																+ "</small></br>";
+														str += "<small class='pull-right'>"
+																+ list[i].rating
+																+ "점"
+																+ "</small></div>";
+														str += "<p class='comment-text'>"
+																+ list[i].reply
+																+ "</p></div></li>";
+													}
+
+													replyUL.html(str);
+
+													showReplyPage(replyCnt);
+
+												});//end function
+
+							}//end showList
+
+							var pageNum = 1;
+							var replyPageFooter = $(".panel-footer");
+
+							function showReplyPage(replyCnt) {
+								var endNum = Math.ceil(pageNum / 10.0) * 10;
+								var startNum = endNum - 9;
+
+								var prev = startNum != 1;
+								var next = false;
+
+								if (endNum * 10 >= replyCnt) {
+									endNum = Math.ceil(replyCnt / 10.0);
+								}
+
+								if (endNum * 10 < replyCnt) {
+									next = true;
+								}
+
+								var str = "<div><ul class='pagination pull-right'>";
+								if (prev) {
+									str += "<li class='page-item'><a class='page-link' href='"
+											+ (startNum - 1)
+											+ "'>previous</a></li>";
+								}
+								for (var i = startNum; i <= endNum; i++) {
+									var active = pageNum == i ? "active" : "";
+
+									str += "<li class='page-item "+ active +" '><a class='page-link' href='"+ i +"'>"
+											+ i + "</a></li>";
+								}
+								if (next) {
+									str += "<li class='page-item'><a class='page-link'href='"
+											+ (endNum + 1) + "'>Next</a></li>";
+								}
+								str += "</ul></div>";
+								console.log(str);
+								replyPageFooter.html(str);
+
+							}
+							replyPageFooter.on("click", "li a", function(e) {
+								e.preventDefault();
+								console.log("page click");
+
+								var targetPageNum = $(this).attr("href");
+								console.log("targetPageNum: " + targetPageNum);
+								pageNum = targetPageNum;
+								showList(pageNum);
+							});
+
+							/*     function showList(page){
+							
+							 replyService.getList({bno:bnoValue,page: page|| 1 }, function(list) {
+							
+							 var str="";
+							 if(list == null || list.length == 0){
+							
+							 replyUL.html("");
+							
+							 return;
+							 }
+							 for (var i = 0, len = list.length || 0; i < len; i++) {
+							 str +="<li class='left clearfix' data-rno='"+list[i].rno+"'>";
+							 str +="  <div><div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>"; 
+							 str +="    <small class='pull-right text-muted'>"+replyService.displayTime(list[i].replyDate)+"</small></div>";
+							 str +="    <p>"+list[i].reply+"</p></div></li>";
+							 }
+
+
+							 replyUL.html(str);
+
+							 });//end function
+							
+							 }//end showList */
+
+						});
+	</script>
+
 	<%@ include file="../includes/getFooter.jsp"%>
 </body>
 

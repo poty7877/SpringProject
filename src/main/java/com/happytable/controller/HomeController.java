@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.happytable.domain.Criteria;
 import com.happytable.domain.PageDTO;
+import com.happytable.service.ReplyService;
 import com.happytable.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -24,18 +25,24 @@ import lombok.extern.log4j.Log4j2;
  */
 @Log4j2
 @AllArgsConstructor
+@RequestMapping("/")
 @Controller
 public class HomeController {
 
 	private RestaurantService serviceRest;
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	private ReplyService serviceReply;
+	@GetMapping()
 	public String list(Criteria cri, Model model) {
 		model.addAttribute("list", serviceRest.getList(cri));
 		int total = serviceRest.getTotal(cri);
 		log.info("list: " + model);
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		return "home";
+	}
+
+	@GetMapping("/joinType")
+	public void joinType() {
+
 	}
 
 }

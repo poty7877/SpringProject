@@ -8,6 +8,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.btn-primary {
+	background: #fff;
+	color: #ff503a;
+	border: 1px solid #ff503a;
+}
+
+.btn-primary:hover {
+	background: #ff530a;
+	color: #fff;
+}
+</style>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
 </head>

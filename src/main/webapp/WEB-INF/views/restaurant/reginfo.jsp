@@ -17,9 +17,10 @@
 	<form id="reginfoForm" method="post" action="/restaurant/reginfo" onsubmit="return valForm(this)">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-info">
-				<div class="panel-heading">영업정보 등록</div>
+				<div class="panel-heading">영업정보</div>
 				<div class="panel-body">
 					<!-- 영업시간 입력란 -->
+					<input type="hidden" id="oper_resNum" name="resNum" value="${resNum}">
 					<div class="row">
 						<div class="col-md-4 form-group">
 							<label>OPEN</label> <input type="time" class="form-control"
@@ -152,7 +153,6 @@
 						<!-- col-md-4 -->
 					</div>
 					<!-- .row close -->
-					<input type="hidden" name="resNum" value="${resNum.resNum}">
 				</div>
 				<!-- panel-body -->
 				<div class="panel-footer">

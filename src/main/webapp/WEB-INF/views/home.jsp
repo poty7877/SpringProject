@@ -8,6 +8,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+.table-bordered {
+	border: 1px solid #FF4F02;
+}
+
+.table-striped {
+	border: 1px solid #FF4F02;
+}
+
+.table-hover {
+	border: 1px solid #FF4F02;
+}
+
+.customA {
+	background: #ff530a;
+}
+</style>
 <meta charset="UTF-8">
 <title>식당 리스트</title>
 </head>
@@ -34,6 +51,7 @@
 										<th>전화번호</th>
 										<th>홍보문</th>
 										<th>홈페이지</th>
+
 									</tr>
 								</thead>
 
@@ -115,7 +133,7 @@
 					<c:forEach var="num" begin="${pageMaker.startPage}"
 						end="${pageMaker.endPage}">
 						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
-							<a href="${num}">${num}</a>
+							<a class="customA" href="${num}">${num}</a>
 						</li>
 					</c:forEach>
 

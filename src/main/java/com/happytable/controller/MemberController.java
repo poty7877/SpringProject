@@ -88,7 +88,7 @@ public class MemberController {
 	public String findID(MemberVO memberVO, RedirectAttributes rttr) {
 		MemberVO findEmail = service.findID(memberVO);
 		if (findEmail == null) {
-			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
+			rttr.addFlashAttribute("FindError", "아이디와 핸드폰번호를 확인하세요");
 			return "redirect:/member/findID";
 		} else {
 			rttr.addFlashAttribute("email", findEmail.getEmail());
@@ -101,10 +101,16 @@ public class MemberController {
 	public String findPW(MemberVO memberVO, RedirectAttributes rttr) {
 		MemberVO findPw = service.findPW(memberVO);
 		String randomString = generateRandomString();
-		findPw.setPw(randomString);
-		service.modify(findPw);
-		rttr.addFlashAttribute("randomPW", randomString);
-		return "redirect:/";
+		if (findPw == null) {
+			rttr.addFlashAttribute("FindError", "아이디와 핸드폰번호를 확인하세요");
+			return "redirect:/member/findPW";
+		} else {
+			findPw.setPw(randomString);
+			service.modify(findPw);
+			rttr.addFlashAttribute("randomPW", randomString);
+			return "redirect:/";
+		}
+		
 	}
 
 	@GetMapping("/all")
@@ -117,7 +123,6 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
-
 
 	@PostMapping("/remove")
 	public String remove(@RequestParam("mno") Long mno, @RequestParam("email") String email,

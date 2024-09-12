@@ -111,7 +111,7 @@ public class A_Controller {
 
 	}
 
-	@GetMapping({ "/read", "/update", "/list", "readRes" }) // 예약번호로 정보 읽어오기
+	@GetMapping({ "/read", "/update", "/list", "/readRes", "/listRes" }) // 예약번호로 정보 읽어오기
 	public void get(A_VO appoint, Model model) {
 		log.info("예약번호 : " + appoint.getA_No());
 		log.info("회원번호 : " + appoint.getMemUno());

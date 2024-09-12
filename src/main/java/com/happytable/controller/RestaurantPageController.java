@@ -2,6 +2,8 @@ package com.happytable.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +69,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	}
 
 	@PostMapping("/login") // member 페이지 로그인용
-	public String login(RestaurantVO rest, RedirectAttributes rttr, Model model) {
+	public String login(RestaurantVO rest, RedirectAttributes rttr, Model model, HttpSession session) {
 		String id = rest.getResID();
 		String pw = rest.getResPW();
 		log.info("test : 로그인 계정:" + id + "/" + pw);
@@ -77,8 +79,8 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			String resNum = serviceRest.login(id, pw);
 			RestaurantVO restVO = serviceRest.get(resNum);
 			rttr.addFlashAttribute("result2", restVO.getResName());
-			model.addAttribute("loginMember", restVO);
-			model.addAttribute("loggedIn", true);
+			session.setAttribute("loginMember2", restVO);
+			session.setAttribute("loggedIn2", true);
 			return "redirect:/";
 		} else {
 			rttr.addFlashAttribute("loginError", "아이디와 비밀번호를 확인하세요");
@@ -119,26 +121,30 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 
 	}
 
-	// reginfo-영업정보 페이지
-	@GetMapping("/reginfo") // http://localhost/restaurant/reginfo
-	public void reginfo() {
-		log.info("영업정보등록 get() 실행-------");
-	}
-
-	@PostMapping("/reginfo")
-	public String regPostInfo(OperationsVO oper, RedirectAttributes rttr) {
-		log.info("영업정보등록 post() 실행-------");
-		log.info("받은 영업정보 test: " + oper);
-		int result = serviceOper.register(oper);
-		if (result == 1) {
-			oper.setReg(true);
-			return "redirect:/restaurant/myrestaurant";
-		} else {
-			oper.setReg(false);
-			rttr.addFlashAttribute("error", "가입오류. 관리자에게 문의하세요.");
-			return "redirect:/restaurant/reginfo";
+	//reginfo-영업정보 페이지
+		@GetMapping("/reginfo") // http://localhost/restaurant/reginfo
+		public void reginfo(@RequestParam("resNum") String resNum, Model model) {
+			log.info("영업정보등록 get() 실행-------");
+			model.addAttribute("resNum", resNum);
+			log.info("test : "+resNum+"========"); //test : 10000014kkk========
 		}
-	}
+		@PostMapping("/reginfo")
+		public String regPostInfo(OperationsVO oper, RedirectAttributes rttr, Model model) {
+			log.info("영업정보등록 post() 실행-------");
+			log.info("받은 영업정보 test: "+oper);
+			int result = serviceOper.register(oper);
+			String resNum = oper.getResNum();
+			if(result==1) {
+				oper.setReg(true);
+				rttr.addFlashAttribute("resNum", resNum);
+				model.addAttribute("oper", serviceOper.get(resNum));
+				return "redirect:/restaurant/myrestaurant";
+			}else {
+				oper.setReg(false);
+				rttr.addFlashAttribute("error", "가입오류. 관리자에게 문의하세요.");
+				return "redirect:/restaurant/reginfo";
+			}
+		}
 
 	// 테이블 정보 등록 페이지
 	@GetMapping("/regtable") // http://localhost/restaurant/reginfo

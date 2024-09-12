@@ -25,7 +25,7 @@
 						</h1>
 						<h3 class="title wow fadeInLeft" data-wow-duration="500ms"
 							data-wow-delay="300ms">
-							로그인 <span>${ loginError }</span>
+							로그인 </br><span>${ loginError }</span>
 						</h3>
 						<form role="form" action="/member/login" method="post"
 							id="loginForm">
@@ -34,16 +34,16 @@
 								<div class="input-group mb-3"
 									style="display: flex; justify-content: center; margin: 20px;">
 									<input type="text" class="form-control" placeholder="이메일"
-										aria-label="이메일" name="email"
+										aria-label="이메일" name="email" id="email"
 										style="display: inline-block; width: 400px; margin-right: 10px;"
 										required> <input type="password" class="form-control"
-										placeholder="비밀번호" aria-label="비밀번호" name="pw"
+										placeholder="비밀번호" aria-label="비밀번호" name="pw" id="pw"
 										style="display: inline-block; width: 400px;" required>
 									<input type="hidden" name="mno"
 										value="${ loginMember.getMno() }" />
 								</div>
-								<div class="input-group mb-3"
-									style="display: flex; justify-content: center; align-items: center; margin-left: 420px;">
+								<div class="btn-group" role="group"
+									style="display: flex; justify-content: center; align-items: center; margin-left: 400px;">
 									<label
 										style="margin-right: 20px; display: flex; align-items: center;">
 										<input type="radio" name="userType" id="user" checked>
@@ -52,26 +52,18 @@
 										style="margin-right: 20px; display: flex; align-items: center;">
 										<input type="radio" name="userType" id="admin"> 관리자
 									</label>
-									<button type="submit" id="submit"
-										class="btn btn-primary wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">로그인</button>
-									<button type="button" onclick="location.href='/member/join'"
-										class="btn btn-info wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">
-										회원가입</button>
+									<button type="submit" id="submit" class="btn btn-primary"
+										style="margin-right: 10px; background: none; color: #FF4F02; border: 1px solid #FF4F02;">로그인</button>
 									<button type="button" onclick="location.href='/'"
-										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms">home</button>
+										class="btn btn-default">home</button>
 								</div>
-								<div class="input-group mb-3"
+								<div class="btn-group" role="group"
 									style="display: flex; justify-content: center; align-items: center; margin-left: 600px;">
 									<button type="button" onclick="location.href='/member/findID'"
-										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">
+										class="btn btn-default" style="margin-right: 10px;">
 										이메일 찾기</button>
 									<button type="button" onclick="location.href='/member/findPW'"
-										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">
+										class="btn btn-default" style="margin-right: 10px;">
 										비밀번호 찾기</button>
 								</div>
 
@@ -90,18 +82,20 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var form = $("#loginForm");
-
 			$("#submit").on("click", function(e) {
 				var radioId = $('input[name="userType"]:checked').attr("id");
 				if (radioId === "user") {
 					form.attr("action", "/member/login").submit();
+
 				} else if (radioId === "admin") {
+					$("#email").attr("name", "resID");
+					$("#pw").attr("name", "resPW");
 					form.attr("action", "/restaurant/login").submit();
 				}
 			});
 		});
 	</script>
-	
+
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>
