@@ -1,30 +1,31 @@
 <h1 align='center'> <img src='https://cdn-icons-png.flaticon.com/512/5208/5208370.png' style='width: 300px; height: 200px;'>&nbsp;</h1>
-<h1  align='center'>👕라이브 커머스 프로젝트</h1>
+<h1  align='center'>👕HappyTable</h1>
+<h3 align='center'> 온라인 예약 프로젝트 </h3>
 
 
 
 ## 목차
-- [개요](https://github.com/YoungQWER/LiveCommerce_boot#-개요)
-- [기술 스택](https://github.com/YoungQWER/LiveCommerce_boot#-기술-스택)
-- [프로젝트 설계](https://github.com/YoungQWER/LiveCommerce_boot#프로젝트-설계)
-- [핵심 기능](https://github.com/YoungQWER/LiveCommerce_boot#-핵심-기능)
-- [주요기능 실행화면](https://github.com/YoungQWER/LiveCommerce_boot#-주요기능-실행화면)
-- [개선사항](https://github.com/YoungQWER/LiveCommerce_boot#-개선사항)
+- [개요](https://github.com//poty7877/SpringProject#-개요)
+- [기술 스택](https://github.com//poty7877/SpringProject#-기술-스택)
+- [프로젝트 설계](https://github.com//poty7877/SpringProject#프로젝트-설계)
+- [핵심 기능](https://github.com//poty7877/SpringProject#-핵심-기능)
+- [주요기능 실행화면](https://github.com//poty7877/SpringProject#-주요기능-실행화면)
+- [개선사항](https://github.com//poty7877/SpringProject#-개선사항)
   
 
 
 ## 🚩 개요
-- 프로젝트 목표 : `스프링부트` 라이브 커머스 프로젝트
-- 개발기간 : 24/06/17 ~ 24/06/27
+- 프로젝트 목표 : `Spring Legacy` 온라인 예약 프로젝트
+- 개발기간 : 24/09/02 ~ 24/09/20
 
 
 
 ## 🔧 기술 스택
-- Language : `java(11)` `JavaScript(3.22)`
-- Library & Framework : `Spring Boot(2.7.1)` `Thymeleaf(3.0.0)` `jQuery`
-- Database : `MySQL(8.0.27)`
+- Language : `java(11)` `JavaScript(3.6.0)`
+- Library & Framework : `Spring Frame Work(5.0.7 RELEASE)` `jQuery`
+- Database : `Oracle Express(OJDBC8)`
 - Target : `Web Browser`
-- Tool : `IntelliJ IDEA 2024.1.2`
+- Tool : `Eclipse IDE 2022.06`
 - Etc : `Git`
 
 ## 👾 프로젝트 설계, 구현 📂 PPT 📂
