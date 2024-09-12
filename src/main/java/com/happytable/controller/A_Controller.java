@@ -1,10 +1,14 @@
 package com.happytable.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +59,7 @@ public class A_Controller {
 	}
 
 	@GetMapping("/insert")
-	public void insert(A_VO appoint, @RequestParam("resNum") String resNum, Model model) {
+	public void insert(A_VO appoint, @RequestParam("resNum") String resNum, Model model) throws ParseException {
 		MyResturantDTO oper = new MyResturantDTO();
 		oper = res_Service.getAllInfo(resNum);
 		log.info(oper.toString());
@@ -63,12 +67,12 @@ public class A_Controller {
 		String closeTime = oper.getOper().getEndTime().substring(0, 2);
 		int open = Integer.parseInt(openTime);
 		int close = Integer.parseInt(closeTime);
-		//가게 허용 총인원
+		// 가게 허용 총인원
 		int p_Cnt = 0;
-		for(int i=0; i<oper.getSalList().size(); i++) {
+		for (int i = 0; i < oper.getSalList().size(); i++) {
 			p_Cnt += oper.getSalList().get(i).getHeadCount();
 		}
-		
+
 		/*
 		 * //예약 기간 오늘 기준으로 한정 Date now = new Date(); SimpleDateFormat format = new
 		 * SimpleDateFormat("yyyy-MM-dd"); Calendar cal = Calendar.getInstance();
@@ -79,35 +83,130 @@ public class A_Controller {
 		 * log.info("오늘 + 1 : "+s_Date); log.info("오늘 + 7 : "+e_Date);
 		 * log.info("resVO : " + oper.toString());
 		 */
-		
-		
+
 		// 모델에 값 삽입
 		/*
-		 * model.addAttribute("s_Date", s_Date); model.addAttribute("e_Date", e_Date);		 * 
+		 * model.addAttribute("s_Date", s_Date); model.addAttribute("e_Date", e_Date); *
 		 * 
 		 */
-		
+
 		// 예약 불가 날짜 출력하기
 		// 1. 매월 몇주차 몇요일
+		String m_w_day = "";
+		if (oper.getOper().getDayoff_cate().equals("매월")) {
+			LocalDate now = LocalDate.now(); // 시스템 날짜 가져오기
+			Date date = java.sql.Date.valueOf(now);
+
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+			String n_Month = format.format(date);
+			String s_Month = n_Month + "-01"; // yyyy-MM-01 스트링 완성
+			date = formatter.parse(s_Month);
+
+			LocalDate localDate = new java.sql.Date(date.getTime()).toLocalDate(); // localDate 값으로 치환
+
+			DayOfWeek dow = localDate.getDayOfWeek();// dayofweek 객체 만들기
+
+			int dowN = dow.getValue(); // 숫자 요일 구하기 월요일 1 일요일 7
+
+			// 현대 달의 1일이 무슨 요일인지 확인 가능해짐 한국에서는 첫째주의 기준이 한주에 4일 이상 잇냐로 판단.
+			// 즉, 일, 월, 화, 수 는 첫째주이고 목, 금 , 토 는 저번달의 마지막 주로 계산.
+			// 7,1,2,3 -> 1 week 4, 5, 6 -> 0 week
+
+			int week_N = 0; // 기준 주차
+			if (4 <= dowN & dowN <= 6) {
+				week_N = 0;
+			} else {
+				week_N = 1;
+			}
+			Calendar cal = Calendar.getInstance();
+			// 매월 몇주차인지 스트링 잘라서 보관
+			int week = 0;
+			int length = oper.getOper().getDayoff_weekCnt().length();
+			String day = oper.getOper().getDayoff_Day();
+			day = day.replace("일", "0");
+			day = day.replace("월", "1");
+			day = day.replace("화", "2");
+			day = day.replace("수", "3");
+			day = day.replace("목", "4");
+			day = day.replace("금", "5");
+			day = day.replace("토", "6");
+			
+			
+			for(int i = 0; i<length; i++) {
+				String week_c = oper.getOper().getDayoff_weekCnt().substring(i, i+1);
+				log.info(week_c+"주");
+				week = Integer.parseInt(week_c);
+				week = week - week_N;
+				log.info("week : " + week);
 				
+				int delay = (week * 7) + Integer.parseInt(day);
+				cal.setTime(date);
+				cal.add(Calendar.DATE, delay);
+				String r_Date = formatter.format(cal.getTimeInMillis()); // 첫번째 휴무일 날짜
+				String result = "";
+				 if(i==0) {
+					 result = "'" + r_Date+"'";
+					} else {
+						result = ", '"+r_Date+"'";
+					}
+					m_w_day =	m_w_day + result;	
+			}
+			
+			
+			/*
+			 * String week_C1 = oper.getOper().getDayoff_weekCnt().substring(0, 1); String
+			 * week_C2 = oper.getOper().getDayoff_weekCnt().substring(1, 2);
+			 * log.info(oper.getOper().getDayoff_weekCnt()); log.info(week_C1);
+			 * log.info(week_C2); int week_d1 = Integer.parseInt(week_C1); int week =
+			 * week_d1 - week_N;
+			 * 
+			 * 
+			 * log.info("week : " + week); int delay = (week * 7) + Integer.parseInt(day);
+			 * 
+			 * cal.setTime(date); cal.add(Calendar.DATE, delay); String r_Date =
+			 * formatter.format(cal.getTimeInMillis()); // 첫번째 휴무일 날짜 m_w_day = "'" +
+			 * r_Date+"'";
+			 * 
+			 * if (oper.getOper().getDayoff_weekCnt().substring(1, 2) != null) { week_C2 =
+			 * oper.getOper().getDayoff_weekCnt().substring(1, 2); int week_d2 =
+			 * Integer.parseInt(week_C2); week = week_d2 - week_N; log.info("week : " +
+			 * week); delay = (week * 7) + Integer.parseInt(day);
+			 * 
+			 * cal.setTime(date); cal.add(Calendar.DATE, delay); String r_Date2 =
+			 * formatter.format(cal.getTimeInMillis()); // 첫번째 휴무일 날짜 m_w_day = m_w_day +
+			 * ", '" + r_Date2 + "'";
+			 * 
+			 * }
+			 */
+
+		}
+
 		// 2. 매주 몇요일
 		String everyWeek_day = "";
-		if(oper.getOper().getDayoff_cate().equals("매주")) {
-		everyWeek_day = oper.getOper().getDayoff_Day();
-		everyWeek_day = everyWeek_day.replace("일", "0");
-		everyWeek_day = everyWeek_day.replace("월", "1");
-		everyWeek_day = everyWeek_day.replace("화", "2");
-		everyWeek_day = everyWeek_day.replace("수", "3");
-		everyWeek_day = everyWeek_day.replace("목", "4");
-		everyWeek_day = everyWeek_day.replace("금", "5");
-		everyWeek_day = everyWeek_day.replace("토", "6");
-		};		
-		
+		if (oper.getOper().getDayoff_cate().equals("매주")) {
+			everyWeek_day = oper.getOper().getDayoff_Day();
+			everyWeek_day = everyWeek_day.replace("일", "0");
+			everyWeek_day = everyWeek_day.replace("월", "1");
+			everyWeek_day = everyWeek_day.replace("화", "2");
+			everyWeek_day = everyWeek_day.replace("수", "3");
+			everyWeek_day = everyWeek_day.replace("목", "4");
+			everyWeek_day = everyWeek_day.replace("금", "5");
+			everyWeek_day = everyWeek_day.replace("토", "6");
+		}
+		;
+
+		log.info("휴일 : " + m_w_day);
+		log.info("매주 휴일 : " + everyWeek_day);
+		log.info("레스토랑 정보 : " + oper.toString());
+
 		model.addAttribute("resVO", oper);
 		model.addAttribute("open", open);
 		model.addAttribute("close", close);
 		model.addAttribute("p_Cnt", p_Cnt);
 		model.addAttribute("everyWeek_day", everyWeek_day);
+		model.addAttribute("rest_day", m_w_day);
 
 	}
 
@@ -171,7 +270,7 @@ public class A_Controller {
 			} else {
 				rttr.addFlashAttribute("a_result", "가게로 문의하여 주시기바랍니다. 취소가 실패하였습니다.");// 수정 실패시 fail 메시지를 보냄
 			}
-			
+
 		}
 		return "redirect:/";
 	}
