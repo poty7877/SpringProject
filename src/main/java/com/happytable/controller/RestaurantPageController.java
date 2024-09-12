@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.MenuVO;
@@ -39,7 +40,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	}
 
 	@GetMapping("/restlogin") // http://localhost/restaurant/login 
-	public void login() { log.info("RestaurantController.restlogin() 실행-------"); }
+	public void login() { 
+		log.info("RestaurantController.restlogin() 실행-------"); 
+		}
 
 	
 	
@@ -91,8 +94,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	
 	//레스토랑 로그인->마이페이지
 	@GetMapping("/myrestaurant")
-	public void getPostAllInfo(@ModelAttribute RestaurantVO rest, Model model, RedirectAttributes rttr) {
-		String resNum = rest.getResNum();	
+	public void getPostAllInfo(@ModelAttribute("resNum") String resNum, Model model) {
 		log.info("test : 받은 resnum:" + resNum);
 		int opercnt = serviceOper.countOper(resNum);
 		int salCnt = serviceSal.countTable(resNum);
@@ -117,23 +119,27 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("oper", oper);
 		model.addAttribute("sales", tables);
 		model.addAttribute("menus", menus);
-		rttr.addAttribute("resNum", resNum);
 		
 	}
 	
 	//reginfo-영업정보 페이지
 	@GetMapping("/reginfo") // http://localhost/restaurant/reginfo
-	public void reginfo() {
+	public void reginfo(@RequestParam("resNum") String resNum, Model model) {
 		log.info("영업정보등록 get() 실행-------");
+		model.addAttribute("resNum", resNum);
+		log.info("test : "+resNum+"========"); //test : 10000014kkk========
 	}
 	
 	@PostMapping("/reginfo")
-	public String regPostInfo(OperationsVO oper, RedirectAttributes rttr) {
+	public String regPostInfo(OperationsVO oper, RedirectAttributes rttr, Model model) {
 		log.info("영업정보등록 post() 실행-------");
 		log.info("받은 영업정보 test: "+oper);
 		int result = serviceOper.register(oper);
+		String resNum = oper.getResNum();
 		if(result==1) {
 			oper.setReg(true);
+			rttr.addFlashAttribute("resNum", resNum);
+			model.addAttribute("oper", serviceOper.get(resNum));
 			return "redirect:/restaurant/myrestaurant";
 		}else {
 			oper.setReg(false);
@@ -145,7 +151,8 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	//테이블 정보 등록 페이지
 	@GetMapping("/regtable") // http://localhost/restaurant/reginfo
 	public void regtable(@ModelAttribute("resNum") String resNum) {
-		log.info("테이블정보등록 get() 실행-------");
+		log.info("테이블정보등록 get() 실행-------: resnum - "+resNum);
+		
 	}
 	//메뉴등록 페이지
 	@GetMapping("/regmenu") // http://localhost/restaurant/reginfo

@@ -44,6 +44,12 @@
 			</c:choose>
 		</ul>
 	</div>
+	<!-- resNum 전송위한 hidden -->
+	<form role="form" name="resnumForm" id="resnumForm" action=""
+		method="get">
+		<input type="hidden" id="rest_resNum" name="resNum"
+			value="${myrest.resNum}">
+	</form>
 
 	<!-- Tab panes -->
 	<div class="tab-content">
@@ -55,7 +61,6 @@
 						<div class="panel-heading">기본정보</div>
 						<!-- .panel-heading -->
 						<div class="panel-body">
-
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group" id="idDiv">
 									<label>아이디</label> <input type="text" class="form-control"
@@ -165,154 +170,9 @@
 		<div class="tab-pane fade" id="myoper">
 			<form id="operForm" method="post" action="restaurant/register"
 				onsubmit="return valForm(this)">
-				<input type="hidden" name="resNum" value="${rest.resNum}">
-				<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-info">
-				<div class="panel-heading">영업정보 등록</div>
-				<div class="panel-body">
-
-					<!-- 영업시간 입력란 -->
-					<div class="row">
-						<div class="col-md-4 form-group">
-							<label>OPEN</label> <input type="time" class="form-control"
-								id="inputTime_op" name="inputTime_op" />
-								<input type="hidden" id="openTime" name="openTime" value=""/>
-						</div>
-						<!-- col-md-3 -->
-
-						<div class="col-md-4 form-group">
-							<label>CLOSE</label> <input type="time" class="form-control"
-								id="inputTime_ed" name="inputTime_ed" />
-								<input type="hidden" id="endTime" name="endTime"  />
-						</div>
-						<!-- col-md-3 -->
-					</div>
-					<!-- .row close -->
-					<!-- breakTime 입력란 -->
-					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
-							<label>BreakTime</label>
-							<div>
-								<label class="radio-inline"> <input type="radio"
-									id="bt_true" name="bt_sel" value="1"> 있음
-								</label> <label class="radio-inline"> <input type="radio"
-									id="bt_false" name="bt_sel" value="0" checked> 없음
-								</label>
-							</div>
-						</div>
-						<!-- col-md-8 -->
-					</div>
-					<!-- .row close -->
-					<div class="row" id="breaktime_input" style="display: none">
-						<div class="col-md-4 ">
-							<div class="input-group">
-								<span class="input-group-addon">START</span> <input type="time"
-									class="form-control" id="input_btst"  name="input_btst"/>
-									<input type="hidden" id="breakTime_start" name="breakTime_start" value=""/>
-							</div>
-							<!--.input-group  -->
-						</div>
-						<!-- col-md-8 -->
-
-						<div class="col-md-4">
-							<div class="input-group">
-								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="input_bted" name="input_bted" />
-									<input type="hidden" id="breakTime_end" name="breakTime_end" value=""/>
-							</div>
-							<!--.input-group  -->
-						</div>
-						<!-- col-md-8 -->
-					</div>
-
-					<!-- 휴무일 -->
-					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
-							<label for="dayoff">휴무일</label>
-							<div class="input-group" id="dayoff">
-								<select class="form-control" id="dayoff_cate" name="dayoff_cate"
-									style="width: 40%">
-									<option value="A">연중무휴</option>
-									<option value="M">매월</option>
-									<option value="W">매주</option>
-								</select> <select class="form-control" id="dayoff_weekCnt"
-									name="dayoff_weekCnt" style="width: 30%" disabled>
-									<option value="1">첫째주</option>
-									<option value="2">둘째주</option>
-									<option value="3">셋째주</option>
-									<option value="4">넷째주</option>
-									<option value="1, 3">첫째, 셋째주</option>
-									<option value="2, 4">둘째, 넷째주</option>
-								</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
-									style="width: 30%" disabled>
-									<option value="월">월요일</option>
-									<option value="화">화요일</option>
-									<option value="수">수요일</option>
-									<option value="목">목요일</option>
-									<option value="금">금요일</option>
-									<option value="토">토요일</option>
-									<option value="일">일요일</option>
-								</select>
-							</div>
-							<!--.input-group  -->
-						</div>
-						<!-- col-md-8 -->
-					</div>
-					<!-- .row close -->
-					<!-- 선불정보 입력란 -->
-					<div class="row">
-						<div class="col-md-8 form-group">
-						<hr>
-							<label for="adPayCheck">예약금 설정
-								<button type="button" class="btn btn-danger btn-circle"
-									id="queBtn">
-									<i class="fa fa-question-circle"></i>
-								</button>
-							</label>
-							<div id="adPayCheck">
-								<label class="radio-inline"> <input type="radio"
-									id="adPay_false" name="adPay_sel" value="0" checked>
-									설정안함
-								</label> <label class="radio-inline"> <input type="radio"
-									id="adPay_true" name="adPay_sel" value="1"> 설정함
-								</label>
-							</div>
-						</div>
-						<!-- col-md-8 -->
-					</div>
-					<!-- .row close -->
-
-					<div class="row" id="adPay_input" style="display: none;">
-						<!-- 선택하면 활성화되는 란 -->
-						<div class="col-md-4">
-							<p>예약금 지불 최소인원 </p>
-							<div class="input-group">
-								<input type="text" class="form-control" name="adPayCond"><span
-									class="input-group-addon">명</span>
-							</div>
-						</div>
-						<!-- col-md-4 -->
-						<div class="col-md-4">
-							<p>예약금액 </p>
-							<div class="input-group">
-								<input type="text" class="form-control" name="adPay"><span
-									class="input-group-addon">원</span>
-							</div>
-						</div>
-						<!-- col-md-4 -->
-					</div>
-					<!-- .row close -->
-				</div>
-				<!-- panel-body -->
-				<div class="panel-footer">
-					<button type="submit" class="btn btn-primary btn-lg btn-block">저장하기</button>
-				</div>
-			</div>
-			<!-- .panel-info-->
-		</div>
-		<!-- .col-md-8 close -->
+				<input type="hidden" name="resNum" id="oper_resNum"
+					value="${resNum}">
+				<jsp:include page="./getoper.jsp"></jsp:include>
 			</form>
 
 		</div>
@@ -400,10 +260,10 @@
 				<!--panel panel-default  -->
 			</div>
 			<!-- .col-lg-12 -->
+		</div>
+		<!--.tab-pane  -->
 	</div>
-	<!--.tab-pane  -->
-</div>
-<!-- .tab-content -->
+	<!-- .tab-content -->
 </div>
 <!-- .row -->
 
@@ -418,11 +278,11 @@
 				<h4 class="modal-title" id="myModalLabel">Happy Table</h4>
 			</div>
 			<div class="modal-body">
-				<p>
-				</p>
+				<ul></ul>
 			</div>
-			<div class="modal-footer">				
-				<button type="button" class="btn btn-success" id="modalRegBtn">등록하러 가기</button>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="modalRegBtn">등록하러
+					가기</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -432,6 +292,7 @@
 </div>
 <!-- /.modal -->
 
-<script type="text/javascript" src="/resources/js/restreginfo.js"></script>
+
+
 <script type="text/javascript" src="/resources/js/restmanage.js"></script>
 <%@ include file="../includes/footer2.jsp"%>
