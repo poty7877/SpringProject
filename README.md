@@ -1,5 +1,8 @@
-<h1 align='center'> <img src='https://cdn-icons-png.flaticon.com/512/5208/5208370.png' style='width: 300px; height: 200px;'>&nbsp;</h1>
-<h1  align='center'>👕HappyTable</h1>
+<h1 align='center'> <img src='https://private-user-images.githubusercontent.com/171959356/366739552-3cf7c010-4ee2-4834-97f7-f99cf871c758.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjYxMjEzOTMsIm5iZiI6MTcyNjEyMTA5MywicGF0aCI6Ii8xNzE5NTkzNTYvMzY2NzM5NTUyLTNjZjdjMDEwLTRlZTItNDgzNC05N2Y3LWY5OWNmODcxYzc1OC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwOTEyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDkxMlQwNjA0NTNaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT00ZDMyZmQxNWE0MmFiNjY0NzAzNmYwNmFkN2MyMDc5ZTA3YTQ0ZjhiMjFlYTZlMTY5NjhkNDA3NjNhZTFhMWJiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.GNkuUU7rYTiqfaCD5d6Y277-7dTMDs2PQbO99_WgqTY' style='width: 300px; height: 200px;'>&nbsp;</h1>
+
+
+
+<h1  align='center'>HappyTable</h1>
 <h3 align='center'> 온라인 예약 프로젝트 </h3>
 
 
@@ -69,16 +72,16 @@
 - 리뷰 작성 및 수정
 
 #### 관리자
-- 
-- 
-- 
-- 
+- 기본정보로 가입
+- 운영정보 등록, 메뉴등록 (가입과 별도로 이루어짐) 
+- 정보 수정(가게정보, 메뉴)
+- 회원 탈퇴 
 
 #### 예약
-- 
-- 
-- 
-- 
+- 레스토랑 정보로 휴일, 오픈마감시간 반영
+- 유저 예약 확인
+- 식당 예약 확인
+- 예약 상태 확인(예약중, 예약확인, 예약완료)
 
 ## 🎇 주요기능 실행화면
 
