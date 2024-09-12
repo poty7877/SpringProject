@@ -11,6 +11,8 @@ create table tb_appointment (
 );
 
 alter table tb_appointment add A_adPay number(10);
+alter table tb_appointment drop constraint sys_c007558;
+select * from USER_CONSTRAINTS where table_Name = 'TB_APPOINTMENT';
 
 select * from tb_appointment;
 drop table tb_appointment;
@@ -98,3 +100,6 @@ insert into tb_sales (resnum, tablenum, tabletype, headcount)
 		values ( '10000002tes', '2', '룸(10인)', '10');		
 
 delete from tb_sales where headcount=3;
+
+select * from tb_restaurant;
+select * from tb_oper;

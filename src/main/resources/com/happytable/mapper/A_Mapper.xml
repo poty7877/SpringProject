@@ -19,6 +19,7 @@
 	 								or memUno = #{memUno, jdbcType=VARCHAR}
 	 								or A_No = #{a_No, jdbcType=VARCHAR}
 	 								or A_Date = #{a_Date, jdbcType=VARCHAR}	
+	 								order by A_Date ASC
 	]]>	
 	</select>
 

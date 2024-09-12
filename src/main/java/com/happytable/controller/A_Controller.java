@@ -35,9 +35,11 @@ public class A_Controller {
 
 	@PostMapping("/insert")
 	public String insert(A_VO appoint, @RequestParam("date") String date, @RequestParam("time") String time,
-			RedirectAttributes rttr, Model model) {
+			@RequestParam("table") String table, RedirectAttributes rttr, Model model) {
 		String a_Date = date + " " + time;
+		String a_Note = appoint.getA_Note() + "/ 요청테이블 : " + table;
 		appoint.setA_Date(a_Date);
+		appoint.setA_Note(a_Note);
 		log.info("insert : " + appoint.toString());
 		model.addAttribute("resVO", res_Service.get(appoint.getResNum()));
 		model.addAttribute("operVO", res_Service.get(appoint.getResNum()));
@@ -67,29 +69,45 @@ public class A_Controller {
 			p_Cnt += oper.getSalList().get(i).getHeadCount();
 		}
 		
-		//예약 기간 오늘 기준으로 한정
-		Date now = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(now);
-		cal.add(Calendar.DATE, 1);
-		String s_Date = format.format(cal.getTimeInMillis()); //예약 시작 날짜
-		cal.add(Calendar.DATE, 6);
-		String e_Date = format.format(cal.getTimeInMillis()); //예약 마지막 날짜
-				
-		log.info("오늘 + 1 : "+s_Date);
-		log.info("오늘 + 7 : "+e_Date);
-		log.info("resVO : " + oper.toString());
-		
+		/*
+		 * //예약 기간 오늘 기준으로 한정 Date now = new Date(); SimpleDateFormat format = new
+		 * SimpleDateFormat("yyyy-MM-dd"); Calendar cal = Calendar.getInstance();
+		 * cal.setTime(now); cal.add(Calendar.DATE, 1); String s_Date =
+		 * format.format(cal.getTimeInMillis()); //예약 시작 날짜 cal.add(Calendar.DATE, 6);
+		 * String e_Date = format.format(cal.getTimeInMillis()); //예약 마지막 날짜
+		 * 
+		 * log.info("오늘 + 1 : "+s_Date); log.info("오늘 + 7 : "+e_Date);
+		 * log.info("resVO : " + oper.toString());
+		 */
 		
 		
 		// 모델에 값 삽입
-		model.addAttribute("s_Date", s_Date);
-		model.addAttribute("e_Date", e_Date);
+		/*
+		 * model.addAttribute("s_Date", s_Date); model.addAttribute("e_Date", e_Date);		 * 
+		 * 
+		 */
+		
+		// 예약 불가 날짜 출력하기
+		// 1. 매월 몇주차 몇요일
+				
+		// 2. 매주 몇요일
+		String everyWeek_day = "";
+		if(oper.getOper().getDayoff_cate().equals("매주")) {
+		everyWeek_day = oper.getOper().getDayoff_Day();
+		everyWeek_day = everyWeek_day.replace("일", "0");
+		everyWeek_day = everyWeek_day.replace("월", "1");
+		everyWeek_day = everyWeek_day.replace("화", "2");
+		everyWeek_day = everyWeek_day.replace("수", "3");
+		everyWeek_day = everyWeek_day.replace("목", "4");
+		everyWeek_day = everyWeek_day.replace("금", "5");
+		everyWeek_day = everyWeek_day.replace("토", "6");
+		};		
+		
 		model.addAttribute("resVO", oper);
 		model.addAttribute("open", open);
 		model.addAttribute("close", close);
 		model.addAttribute("p_Cnt", p_Cnt);
+		model.addAttribute("everyWeek_day", everyWeek_day);
 
 	}
 
