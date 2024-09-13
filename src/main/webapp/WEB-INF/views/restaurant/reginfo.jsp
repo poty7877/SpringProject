@@ -15,21 +15,21 @@
 <!-- .row close -->
 <div class="row" style="margin-top: 50px;">
 	<form id="reginfoForm" method="post" action="/restaurant/reginfo" onsubmit="return valForm(this)">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-6 col-md-offset-3"><!-- 사이즈 줄임 md 8->6 수정(조용재) -->
 			<div class="panel panel-info">
 				<div class="panel-heading">영업정보</div>
 				<div class="panel-body">
 					<!-- 영업시간 입력란 -->
 					<input type="hidden" id="oper_resNum" name="resNum" value="${resNum}">
-					<div class="row">
-						<div class="col-md-4 form-group">
+					<div class="row position-relative">
+						<div class="col-md-6"> <!-- open 칸 바깥에 비해 반절로(조용재) -->
 							<label>OPEN</label> <input type="time" class="form-control"
 								id="inputTime_op" />
 								<input type="hidden" id="openTime" name="openTime" value=""/>
 						</div>
 						<!-- col-md-3 -->
 
-						<div class="col-md-4 form-group">
+						<div class="col-md-6">
 							<label>CLOSE</label> <input type="time" class="form-control"
 								id="inputTime_ed"/>
 								<input type="hidden" id="endTime" name="endTime"  />
@@ -39,7 +39,7 @@
 					<!-- .row close -->
 					<!-- breakTime 입력란 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
+						<div class="col-md-12 form-group"><!-- md 수치 12로 변경 글자 정렬 가운데로 정렬(조용재)-->
 						<hr>
 							<label>BreakTime</label>
 							<div>
@@ -54,7 +54,7 @@
 					</div>
 					<!-- .row close -->
 					<div class="row" id="breaktime_input" style="display: none">
-						<div class="col-md-4 ">
+						<div class="col-md-6 "><!-- md 4 -> 6(조용재) -->
 							<div class="input-group">
 								<span class="input-group-addon">START</span> <input type="time"
 									class="form-control" id="input_btst" />
@@ -64,7 +64,7 @@
 						</div>
 						<!-- col-md-8 -->
 
-						<div class="col-md-4">
+						<div class="col-md-6"><!-- md 4 -> 6(조용재) -->
 							<div class="input-group">
 								<span class="input-group-addon">END</span> <input type="time"
 									class="form-control" id="input_bted"/>
@@ -77,7 +77,7 @@
 
 					<!-- 휴무일 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
+						<div class="col-md-12 form-group"><!-- md 수치 12로 변경(조용재)-->
 						<hr>
 							<label for="dayoff">휴무일</label>
 							<div class="input-group" id="dayoff">
@@ -112,7 +112,7 @@
 					<!-- .row close -->
 					<!-- 선불정보 입력란 -->
 					<div class="row">
-						<div class="col-md-8 form-group">
+						<div class="col-md-12 form-group"><!-- md 수치 12로 변경(조용재)-->
 						<hr>
 							<label for="adPayCheck">예약금 설정
 								<button type="button" class="btn btn-danger btn-circle"

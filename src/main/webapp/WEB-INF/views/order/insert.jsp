@@ -69,12 +69,12 @@
 									
 									<th>요청테이블</th>
 									<th>
-									<%-- <c:forEach var="i" begin="0" end="${fn:length(resVO.salList)-1}">
+									<c:forEach var="i" begin="0" end="${fn:length(resVO.salList)-1}">
 									<input type="checkbox" class="check" value="${resVO.salList[i].tableType}" name="table"/>
 									<label for="${resVO.salList[i].tableType}">
 									<c:out value="${resVO.salList[i].tableType}"/>
 									</label>
-									</c:forEach> --%>
+									</c:forEach>
 									</th>					
 									
 
