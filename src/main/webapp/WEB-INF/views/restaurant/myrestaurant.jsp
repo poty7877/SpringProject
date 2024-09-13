@@ -181,48 +181,9 @@
 		<div class="tab-pane fade" id="mysales">
 			<form id="saleForm" method="post" action="restaurant/register"
 				onsubmit="return valForm(this)">
-				<div class="col-md-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							테이블 정보 입력
-							<button>추가</button>
-						</div>
-						<!-- panel-heading -->
-						<div class="panel-body">
-							<table width="80%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
-								<thead>
-									<tr>
-										<th>NO.</th>
-										<th>운영타입</th>
-										<th>최대수용인원</th>
-										<th>관리</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td><select class="form-control" id="tableType">
-												<option value="room">룸(단체석)</option>
-												<option value="table">일반테이블</option>
-										</select></td>
-										<td><input type="text" id="headCount" name="headCount" />명
-										</td>
-										<td><button>삭제</button></td>
-									</tr>
-								</tbody>
-							</table>
-							<!-- /.table-responsive -->
-						</div>
-						<!-- panel-body -->
-						<div class="panel-footer">
-							<button type="submit" class="btn btn-primary btn-lg btn-block">저장하기</button>
-						</div>
-					</div>
-					<!--panel panel-info  -->
-				</div>
-				<!-- .col-md-12 close -->
+			 <input type="hidden" name="resNum" id="sales_resNum"
+					value="${resNum}">
+				<jsp:include page="./gettable.jsp"></jsp:include>	
 			</form>
 		</div>
 		<!--.tab-pane  -->
