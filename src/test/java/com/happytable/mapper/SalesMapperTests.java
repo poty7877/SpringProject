@@ -65,7 +65,7 @@ public class SalesMapperTests {
 	
 	@Test
 	public void testDeleteAll() {
-		log.info("삭제개수 : "+mapper.deleteAll("10000002tes"));  //삭제개수 : 2
+		log.info("삭제개수 : "+mapper.deleteAll("10000014kkk"));  //삭제개수 : 2
 	}
 	
 	@Test

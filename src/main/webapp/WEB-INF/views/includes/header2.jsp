@@ -34,8 +34,8 @@
 <!-- Custom Fonts -->
 <link href="/resources/sbadmin/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<!-- favicon.ico 404 (Not Found) 에러로 삽입한줄 
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">	-->
+<!-- favicon.ico 404 (Not Found) 에러로 삽입한줄  -->
+<link rel="shortcut icon" href="#">	
 
 </head>
 

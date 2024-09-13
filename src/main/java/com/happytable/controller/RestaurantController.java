@@ -1,15 +1,21 @@
 package com.happytable.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.RestaurantVO;
+import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
 import com.happytable.service.RestaurantService;
@@ -63,9 +69,37 @@ public class RestaurantController {
 			String resNum = "NotFoundAccount";
 			log.info("resNumTest" + resNum);
 			return new ResponseEntity<>(resNum, HttpStatus.OK); //204(콘텐츠 없음)
+		}		
+	}
+	
+	//테이블 등록정보받기(리스트형 json)
+	//**@Controller는 List를 지원하지 않지만, RestController는 List 지원!!!!
+	@PostMapping(value = "/regtable", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> tableAjaxReg(@RequestBody List<SalesVO> tables){
+		log.info("test 받은 list data:"+ tables);
+		int regCnt = 0; //등록개수
+		int total = tables.size(); //리스트 전체 개수
+		
+		for(SalesVO table:tables) { //리스트 순회하면서 객체별로 db등록
+			int result = serviceSal.register(table);
+			if(result>0) {
+				regCnt += result;
+				table.setReg(true);
+			}else {
+				table.setReg(false);
+			}			
+		} //--for()
+		log.info("---등록개수 : "+ regCnt+" / 리스트개수:"+ total);
+		if(total==regCnt) { //전체 등록성공
+			return new ResponseEntity<>("success", HttpStatus.OK);
+			
+		}else {
+			return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
+	
+	//
 	
 
 	
