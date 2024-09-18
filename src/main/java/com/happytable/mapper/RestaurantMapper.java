@@ -31,5 +31,10 @@ public interface RestaurantMapper { //레스토랑(기업) 회원가입용 CRUD
 	
 	//로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가)
 	public int loginChech(@Param("resID") String resID, @Param("resPW") String resPW);
+	
+	//영업정보, 테이블 정보, 메뉴정보 등록 시 개수 업데이트
+	public int updateOperCnt(@Param("resNum") String resNum, @Param("cntOper") int cntOper);
+	public int updateTableCnt(@Param("resNum") String resNum, @Param("cntTable") int cntTable);
+	public int updateMenuCnt(@Param("resNum") String resNum, @Param("cntMenu") int cntMenu);
 
 }

@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.happytable.domain.SalesVO;
+import com.happytable.mapper.RestaurantMapper;
 import com.happytable.mapper.SalesMapper;
 
 import lombok.Setter;
@@ -16,12 +18,17 @@ import lombok.extern.log4j.Log4j2;
 public class SalesServiceImpl implements SalesService{
 	@Setter(onMethod_ = @Autowired)
 	private SalesMapper mappsal;
+	@Setter(onMethod_ = @Autowired)
+	private RestaurantMapper mappRest;
 	
-	
+
+	@Transactional
 	@Override
-	public int register(SalesVO sales) {
+	public int register(SalesVO sales) {  //**09/14수정-rest tb에 개수 동시등록
 		log.info("SalesServiceImpl.register() 서비스 실행.....");
-		return mappsal.insert(sales) ;
+		int tableCnt = mappsal.insert(sales);
+		mappRest.updateTableCnt(sales.getResNum(), tableCnt);
+		return tableCnt ;
 	}
 
 	@Override

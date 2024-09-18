@@ -2,6 +2,7 @@ package com.happytable.service;
 
 import java.util.List;
 
+import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 
 public interface MenuService {
@@ -25,5 +26,8 @@ public interface MenuService {
 	
 	//매장별 등록 메뉴개수 산출
 	public int countMenu(String resNum);
+	
+	//**09/14: Controller 이용을 위한 객체를 활용한 리스트 넘기기
+	public MenuPageDTO getMenuList(String resNum);
 
 }

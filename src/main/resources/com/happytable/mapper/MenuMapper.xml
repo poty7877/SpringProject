@@ -5,8 +5,13 @@
 <mapper namespace="com.happytable.mapper.MenuMapper">
 <!-- c 메뉴등록 -->
 <insert id="insert">
+<selectKey keyProperty="menuNum" order="BEFORE" resultType="int">
+  	<![CDATA[
+  	select seq_menu.nextval from dual
+  	]]>
+</selectKey>
 <![CDATA[
-insert into tb_menu (resNum, menuNum, menuName, menuAcoount , mainIngredient, serving, unitCost, menuImg) values (#{resNum}, seq_menu.nextval, #{menuName}, #{menuAcoount}, #{mainIngredient}, #{serving}, #{unitCost}, #{menuImg})
+insert into tb_menu (resNum, menuNum, menuName, menuAcoount , mainIngredient, serving, unitCost, menuImg) values (#{resNum}, #{menuNum}, #{menuName}, #{menuAcoount}, #{mainIngredient}, #{serving}, #{unitCost}, #{menuImg})
 ]]>
 </insert>
 

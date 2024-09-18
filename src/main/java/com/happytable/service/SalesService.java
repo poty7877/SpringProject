@@ -6,7 +6,7 @@ import com.happytable.domain.SalesVO;
 
 public interface SalesService {
 	//c : 매장 테이블 정보 등록
-	public int register(SalesVO sales);
+	public int register(SalesVO sales); 
 	
 	//r : 리스트로 매장별 전체 테이블 정보 호출
 	public List<SalesVO> getList(String resNum);

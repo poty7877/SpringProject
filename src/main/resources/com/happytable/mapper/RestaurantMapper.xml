@@ -61,7 +61,26 @@
   	<![CDATA[
   	select count(resNum) from tb_restaurant where resID = #{resID} and resPW = #{resPW}
   	]]>
-  </select>  
+  </select> 
+ 
+ <!-- 등록정보 개수 업데이트 -->
+ <update id="updateOperCnt">
+ 	<![CDATA[
+ 	update tb_restaurant set cntOper = #{cntOper} where resNum = #{resNum}
+ 	]]>
+ </update>  
+ 
+  <update id="updateTableCnt">
+ 	<![CDATA[
+ 	update tb_restaurant set cntTable = #{cntTable} where resNum = #{resNum}
+ 	]]>
+ </update>  
+ 
+  <update id="updateMenuCnt">
+ 	<![CDATA[
+ 	update tb_restaurant set cntMenu = #{cntMenu} where resNum = #{resNum}
+ 	]]>
+ </update>  
   
   
   </mapper>

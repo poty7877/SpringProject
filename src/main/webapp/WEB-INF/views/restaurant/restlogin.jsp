@@ -17,6 +17,7 @@
 				<h3 class="panel-title">레스토랑 회원 로그인</h3>
 			</div>
 			<div class="panel-body">
+			<input type="hidden" id="resNum" name= "resNum"  value="${loginResNum}"/>
 		<form role="form" name="loginForm" id="loginForm"
 					action="/restaurant//restlogin" method="post"
 					onsubmit="return valForm(this)"> 
@@ -43,8 +44,6 @@
 	</div>
 </div>
 <!-- hidden form : resNum -->
-<form role="form" name="resNumForm" id="resNumForm" action="/restaurant/myrestaurant" method="get">
-<input type="hidden" id="resNum" name= "resNum" />
-</form>
+
 <script type="text/javascript" src="/resources/js/restlogin.js"></script>
 <%@ include file="../includes/footer2.jsp"%>

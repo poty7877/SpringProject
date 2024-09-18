@@ -4,7 +4,7 @@ import com.happytable.domain.OperationsVO;
 
 public interface OperationsService {
 	
-	public int register(OperationsVO oper);
+	public boolean register(OperationsVO oper); //**09/14수정-rest tb에 개수 동시등록
 	
 	public OperationsVO get(String resNum);
 	

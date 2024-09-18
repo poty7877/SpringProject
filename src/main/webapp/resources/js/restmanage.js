@@ -20,7 +20,7 @@ $(document).ready(function() {
 	$("#conum_l").val(conums[2]);
 	console.log(conums);
 
-	//tab : 미등록상태 -> 모달-> 링크연결(resnum 함께 전송)
+	//tab : 미등록상태 -> 모달-> 링크연결(resnum 함께 전송)**메뉴는 미등록 리스트 보이기
 	var nonOper = $("#nonOper a");
 	var nonSale = $("#nonSales a");
 	var nonMenu = $("#nonMenu a");
@@ -49,6 +49,7 @@ $(document).ready(function() {
 		modalBtn.attr("onclick", "location.href = '/restaurant/regtable?resNum="+resNum+"'")
 
 	});
+	
 
 	nonMenu.click(function() {
 		mbodyStr = "<p>메뉴가 미등록 상태입니다. 등록하러 가시겠습니까?</p>";

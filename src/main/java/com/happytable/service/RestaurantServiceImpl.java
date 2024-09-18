@@ -18,7 +18,6 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	private RestaurantMapper mappr;
 
-
 	@Override
 	public int register(RestaurantVO rest) {
 		log.info("RestaurantServiceImpl.register() 서비스 실행.....");
@@ -66,5 +65,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 		log.info("loginChech()  계정확인 서비스 실행.....");
 		return mappr.loginChech(resID, resPW);
 	}
+
+
 
 }

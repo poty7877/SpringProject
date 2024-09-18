@@ -2,7 +2,6 @@ package com.happytable.service;
 
 import java.util.List;
 
-import com.happytable.domain.MyResturantDTO;
 import com.happytable.domain.RestaurantVO;
 
 public interface RestaurantService {
@@ -32,5 +31,8 @@ public interface RestaurantService {
 
 	// 마이페이지 불러오기
 	//public MyResturantDTO getAllInfo(String resNum);
+	
+	//**09/14추가 : 등록정보 개수 업데이트 -- 각 하위 등록정보service에서 업데이트 될 때 추가
+
 
 }

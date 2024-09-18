@@ -8,12 +8,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.happytable.domain.MenuPageDTO;
+import com.happytable.domain.MenuVO;
 import com.happytable.domain.RestaurantVO;
 import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuService;
@@ -26,6 +31,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
+@SessionAttributes({"loginMember", "loginResNum", "loggedIn"}) //session객체에 저장될 내용(사용자 이름, 고유번호, 로그인 여부)
 @RequestMapping("/restaurant/*")
 public class RestaurantController {
 	@Setter(onMethod_ = @Autowired)
@@ -55,7 +61,7 @@ public class RestaurantController {
 	
 	//로그인(restlogin)
 	@PostMapping(value = "/restlogin", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> restAjaxLogin(@RequestBody RestaurantVO rest){
+	public ResponseEntity<String> restAjaxLogin(@RequestBody RestaurantVO rest, Model model){
 		String id = rest.getResID();
 		String pw = rest.getResPW();
 		log.info("test : 로그인 계정:" + id + "/" + pw);
@@ -63,12 +69,15 @@ public class RestaurantController {
 		
 		if(check == 1) {
 			String resNum = serviceRest.login(rest.getResID(), rest.getResPW());
+			RestaurantVO loginrest = serviceRest.get(resNum);
 			log.info("resNum" + resNum);
-			return new ResponseEntity<>(resNum, HttpStatus.OK);
-		}else {
-			String resNum = "NotFoundAccount";
-			log.info("resNumTest" + resNum);
-			return new ResponseEntity<>(resNum, HttpStatus.OK); //204(콘텐츠 없음)
+			//session생성
+			model.addAttribute("loginMember", loginrest.getResName());//레스토랑 이름
+			model.addAttribute("loginResNum", loginrest.getResNum()); //resNum
+			model.addAttribute("loggedIn", true);
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}else {			
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT); //204(콘텐츠 없음)
 		}		
 	}
 	
@@ -99,7 +108,23 @@ public class RestaurantController {
 		
 	}
 	
-	//
+	//메뉴등록
+	@PostMapping(value = "/newmenu", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> menuAjaxReg(@RequestBody MenuVO menu){
+		log.info("test 받은 menu:"+menu);
+		int cnt = serviceMenu.register(menu);
+		log.info("test menu 등록결과:"+cnt);
+		
+		return (cnt==1)? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//메뉴리스트 가져오기
+	@GetMapping(value = "/getmenus/{resNum}", consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	public ResponseEntity<MenuPageDTO> getMenuList(@PathVariable("resNum") String resNum){
+		log.info("test 메뉴리스트 가져오기 받은 resNum:"+resNum);
+		return new ResponseEntity<>(serviceMenu.getMenuList(resNum), HttpStatus.OK);
+	}
 	
 
 	
