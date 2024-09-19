@@ -38,7 +38,7 @@ $(document).ready(function() {
 		mtitle.html("Happy Table");
 		mbody.html(mbodyStr);
 		modalBtn.show();
-		modalBtn.attr("onclick", "location.href = '/restaurant/reginfo?resNum="+resNum+"'")
+		modalBtn.attr("onclick", "location.href = '/restaurant/reginfo'")
 	});
 
 	nonSale.click(function() {
@@ -46,7 +46,7 @@ $(document).ready(function() {
 		mtitle.html("Happy Table");
 		mbody.html(mbodyStr);
 		modalBtn.show();
-		modalBtn.attr("onclick", "location.href = '/restaurant/regtable?resNum="+resNum+"'")
+		modalBtn.attr("onclick", "location.href = '/restaurant/regtable'")
 
 	});
 	
@@ -56,7 +56,7 @@ $(document).ready(function() {
 		mtitle.html("Happy Table");
 		mbody.html(mbodyStr);
 		modalBtn.show();
-		modalBtn.attr("onclick", "location.href = '/restaurant/regmenu?resNum="+resNum+"'")
+		modalBtn.attr("onclick", "location.href = '/restaurant/regmenu'")
 	});
 	
 

@@ -30,7 +30,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-@SessionAttributes({"loginMember", "loginResNum", "loggedIn"}) //session객체에 저장될 내용(사용자 이름, 고유번호, 로그인 여부)
+@SessionAttributes({"loginMember2", "loginResNum", "loggedIn2"}) //session객체에 저장될 내용(사용자 이름, 고유번호, 로그인 여부)
 @RequestMapping("/restaurant/*")
 @AllArgsConstructor
 public class RestaurantPageController { // jsp 페이지를 불러오는 경로만 정의
@@ -74,9 +74,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			String resNum = serviceRest.login(id, pw);
 			RestaurantVO restVO = serviceRest.get(resNum);
 			//session생성
-			model.addAttribute("loginMember", restVO.getResName());//레스토랑 이름
+			model.addAttribute("loginMember2", restVO.getResName());//레스토랑 이름
 			model.addAttribute("loginResNum", restVO.getResNum()); //resNum
-			model.addAttribute("loggedIn", true);
+			model.addAttribute("loggedIn2", true);
 
 			return "redirect:/";
 		} else {
@@ -95,17 +95,16 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	@GetMapping("/myrestaurant")
 	public void getPostAllInfo(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("test : 받은 resnum:" + resNum);
-		int opercnt = serviceOper.countOper(resNum);
-		int salCnt = serviceSal.countTable(resNum);
-		int menuCnt = serviceMenu.countMenu(resNum);
+		RestaurantVO myrest = serviceRest.get(resNum); //**09/19수정->restaurant_tb의 cnt 결과만으로 판단하도록
+		int opercnt = myrest.getCntOper();
+		int salCnt = myrest.getCntTable();
+		int menuCnt = myrest.getCntMenu();
 		OperationsVO oper = null;
 		List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
-		RestaurantVO myrest = serviceRest.get(resNum);
 
 		if (opercnt != 0) {
 			oper = serviceOper.get(resNum);
-			oper.setRegCnt(opercnt);
 		}
 		if (menuCnt != 0) {
 			menus = serviceMenu.getList(resNum);

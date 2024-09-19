@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
@@ -31,8 +30,8 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @RestController
-@SessionAttributes({"loginMember", "loginResNum", "loggedIn"}) //session객체에 저장될 내용(사용자 이름, 고유번호, 로그인 여부)
-@RequestMapping("/restaurant/*")
+@SessionAttributes({"loginMember2", "loginResNum", "loggedIn2"}) //session객체에 저장될 내용(사용자 이름, 고유번호, 로그인 여부)
+@RequestMapping("/restaurant/**")
 public class RestaurantController {
 	@Setter(onMethod_ = @Autowired)
 	private RestaurantService serviceRest;
@@ -72,9 +71,9 @@ public class RestaurantController {
 			RestaurantVO loginrest = serviceRest.get(resNum);
 			log.info("resNum" + resNum);
 			//session생성
-			model.addAttribute("loginMember", loginrest.getResName());//레스토랑 이름
+			model.addAttribute("loginMember2", loginrest.getResName());//레스토랑 이름
 			model.addAttribute("loginResNum", loginrest.getResNum()); //resNum
-			model.addAttribute("loggedIn", true);
+			model.addAttribute("loggedIn2", true);
 			return new ResponseEntity<>("success", HttpStatus.OK);
 		}else {			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT); //204(콘텐츠 없음)
@@ -120,7 +119,7 @@ public class RestaurantController {
 	}
 	
 	//메뉴리스트 가져오기
-	@GetMapping(value = "/getmenus/{resNum}", consumes = "application/json", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@GetMapping(value = "/getmenus/{resNum}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<MenuPageDTO> getMenuList(@PathVariable("resNum") String resNum){
 		log.info("test 메뉴리스트 가져오기 받은 resNum:"+resNum);
 		return new ResponseEntity<>(serviceMenu.getMenuList(resNum), HttpStatus.OK);
