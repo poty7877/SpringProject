@@ -90,7 +90,11 @@ function regMenu(menu, callback, error) {
 //등록메뉴 불러오기(리스트보이기)
 function getMenus(resNum, callback, error){
 	console.log("test:메뉴리스트get ajax 함수실행....");
-	$.getJSON("/restaurant/getmenus/"+resNum+"", function(dto){
-		if(callback){callback(dto.menuCnt, dto.menus)}
-	}).fail(function(xhr, status, err){error();});
+	$.getJSON("/restaurant/getmenus/"+resNum+".json", function(dto){
+		if(callback){
+			callback(dto.menuCnt, dto.menus)
+			}
+	}).fail(function(xhr, status, err){
+		if (error) { error(); }
+		});
 } //--showMenu()
