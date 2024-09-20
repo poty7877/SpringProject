@@ -14,25 +14,23 @@
 </div>
 <!-- .row close -->
 <div class="row" style="margin-top: 50px;">
-	<form id="reginfoForm" method="post" action="/restaurant/reginfo"
-		onsubmit="return valForm(this)">
+	<form id="reginfoForm" method="post" action="/restaurant/reginfo" onsubmit="return valForm(this)">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">영업정보</div>
 				<div class="panel-body">
 					<!-- 영업시간 입력란 -->
-					<input type="hidden" id="oper_resNum" name="resNum"
-						value="${loginResNum}">
+					<input type="hidden" id="oper_resNum" name="resNum" value="${loginResNum}">
 					<div class="row position-relative">
 						<div class="col-md-6 form-group">
-							<label>OPEN</label> <input type="time" class="form-control"
-								id="openTime" name="openTime" /> 
+							<label>OPEN</label> <input type="time" class="form-control" id="openTime"/> 
+							<input type="hidden" name="openTime" value="--:--">							
 						</div>
 						<!-- col-md-3 -->
 
 						<div class="col-md-6 form-group">
-							<label>CLOSE</label> <input type="time" class="form-control"
-								id="endTime" name="endTime" /> 
+							<label>CLOSE</label> <input type="time" class="form-control" id="endTime" /> 
+							<input type="hidden" name="endTime" value="--:--">	
 						</div>
 						<!-- col-md-3 -->
 					</div>
@@ -55,9 +53,8 @@
 					<div class="row" id="breaktime_input" style="display: none">
 						<div class="col-md-6 ">
 							<div class="input-group">
-								<span class="input-group-addon">START</span> <input type="time"
-									class="form-control" id="breakTime_start" name="breakTime_start"/> 
-									<input type="hidden" name="breakTime_start" value="-">
+								<span class="input-group-addon">START</span> <input type="time" class="form-control" id="breakTime_start" /> 
+									<input type="hidden" name="breakTime_start" value="--:--">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -66,8 +63,8 @@
 						<div class="col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="breakTime_end" name="breakTime_end" /> 
-									<input type="hidden" name="breakTime_end" value="-">
+									class="form-control" id="breakTime_end" /> 
+									<input type="hidden" name="breakTime_end" value="--:--">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -105,6 +102,8 @@
 									<option value="토">토요일</option>
 									<option value="일">일요일</option>
 								</select>
+								<input type="hidden" name=dayoff_weekCnt value="-">
+								<input type="hidden" name=dayoff_Day value="-">
 							</div>
 							<!--.input-group  -->
 						</div>

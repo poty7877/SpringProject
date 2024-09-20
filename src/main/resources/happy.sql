@@ -42,7 +42,7 @@ endTime varchar2(10) not null,
 breakTime number(2),
 breakTime_start varchar2(10),
 breakTime_end varchar2(10),
-dayoff_cate varchar2(10),
+dayoff_cate varchar2(20),
 dayoff_weekCnt varchar2(10),
 dayoff_Day varchar2(10),
 adPaySel number(2),
@@ -57,7 +57,7 @@ truncate table tb_oper;
 -- fk 추가
 alter table tb_oper add constraint op_num_fk foreign key (resNum) references tb_restaurant (resNum);
 alter table tb_oper modify dayoff_weekCnt varchar2(10); --create 반영됨
-
+alter table tb_oper modify dayoff_cate varchar2(20);
 insert into tb_oper (resNum, openTime, endTime, adPaySel, adPay, adPayCond, breakTime, breakTime_start, breakTime_end, dayoff_cate, dayoff_weekCnt, dayoff_Day) values ('10000002tes', '09:00', '22:00', 1, 100000, 10, 1, '15:30', '17:30', '매주', '-', '수') ;
 
 --**0918 column 추가 --create 에 반영됨
