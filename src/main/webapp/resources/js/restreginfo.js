@@ -6,14 +6,18 @@ $(document).ready(function() {
 	var resnum = $("#oper_resNum").val();
 	console.log("test:" + resnum);
 	//브레이크타임 여부에 따라 입력칸 나타내기
-	$("#bt_true").on("click", function() {
+	$("#bt_true").on("click", function(e) {
 		var inputDiv = $("#breaktime_input");
 		inputDiv.attr("style", "display: block");
+		$("input[name='breakTime_start']").val($("#breakTime_start").val());
+		$("input[name='breakTime_end']").val($("#breakTime_end").val());
 	});//--$("#bt_true").on("click")
 
-	$("#bt_false").on("click", function() {
+	$("#bt_false").on("click", function(e) {
 		var inputDiv = $("#breaktime_input");
 		inputDiv.attr("style", "display: none");
+		$("input[name='breakTime_start']").val("-");
+		$("input[name='breakTime_end']").val("-");
 	});//--$("#bt_true").on("click")
 
 	//휴무일 카테고리 따라 활성화	
@@ -24,8 +28,10 @@ $(document).ready(function() {
 		if (dayoffcateVal === "연중무휴") {//연중무휴인 경우
 			weekSelBox.prop("disabled", true);
 			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
+			$("#dayoff_weekCnt").val("-");
 			daySelBox.prop("disabled", true);
 			$("#dayoff_Day option[value='-']").prop("selected", true);
+			$("#dayoff_Day").val("-");
 		}
 		if (dayoffcateVal === "매월") { //매월 선택
 			weekSelBox.prop("disabled", false);
@@ -35,7 +41,8 @@ $(document).ready(function() {
 		}
 		if (dayoffcateVal === "매주") { //매주 선택
 			weekSelBox.prop("disabled", true);
-			$("#dayoff_weekCnt option[value='-']").prop("selected", true);	
+			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
+			$("#dayoff_weekCnt").val("-");	
 			daySelBox.prop("disabled", false);	
 			$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
@@ -72,48 +79,17 @@ $(document).ready(function() {
 		}
 	});
 
-	//시간값 처리
-	$("#inputTime_op").on("focusout", function() {
-		var inputTime = $(this).val();
-		var strTime = inputTime + "";
-		$("#openTime").val(strTime);
-		console.log(inputTime);
-		console.log(strTime);
-	});
 
-	$("#inputTime_ed").on("focusout", function() {
-		var inputTime = $(this).val();
-		var strTime = inputTime + "";
-		$("#endTime").val(strTime);
-		console.log(inputTime);
-		console.log(strTime);
-	});
-
-	$("#input_btst").on("focusout", function() {
-		var inputTime = $(this).val();
-		var strTime = inputTime + "";
-		$("#breakTime_start").val(strTime);
-		console.log(inputTime);
-		console.log(strTime);
-	});
-
-	$("#input_bted").on("focusout", function() {
-		var inputTime = $(this).val();
-		var strTime = inputTime + "";
-		$("#breakTime_end").val(strTime);
-		console.log(inputTime);
-		console.log(strTime);
-	});
 
 }); //--$(document).ready
 
 function valForm(form) {
-	if (!form.inputTime_op.value) {
+	if (!form.openTime.value) {
 		alert("영업시작 시간을 입력하세요.");
 		return false;
 	}
 
-	if (!form.inputTime_ed.value) {
+	if (!form.endTime.value) {
 		alert("영업종료 시간을 입력하세요.");
 		return false;
 	}
@@ -144,6 +120,17 @@ function valForm(form) {
 		if(!form.adPay.value|| form.adPay.value==''){
 			alert("예약금액을 입력하세요.");
 			return false;		
+		}
+	}
+	
+	if(form.breakTime.value==="true"){
+		if(!form.breakTime_start.value || form.breakTime_start.value==''){
+			alert("브레이크타임 시작시간을 입력하세요.");
+			return false;
+		}
+		if(!form.breakTime_end.value || form.breakTime_end.value==''){
+			alert("브레이크타임 시작시간을 입력하세요.");
+			return false;
 		}
 	}
 

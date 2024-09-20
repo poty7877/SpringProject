@@ -111,5 +111,6 @@ SELECT DECODE(TO_CHAR(TRUNC(sysdate,'MONTH'), 'D'), 7,TRUNC(sysdate,'MONTH'), NE
 select to_date('18:00', 'HH24:MI') from dual;
 
 
-
+update tb_restaurant set resPW = 'aaaa', resName = 'aaaa', resAddr = '경기도 어딘가', co_Num = '111-000-0000', 
+certify = '추후구현', summary = 'aaaaaa' resPhone = '010-111-1111' where resNum = '10000046aaa' ;
 

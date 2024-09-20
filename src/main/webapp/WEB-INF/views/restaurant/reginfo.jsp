@@ -26,15 +26,13 @@
 					<div class="row position-relative">
 						<div class="col-md-6 form-group">
 							<label>OPEN</label> <input type="time" class="form-control"
-								id="inputTime_op" /> <input type="hidden" id="openTime"
-								name="openTime" value="" />
+								id="openTime" name="openTime" /> 
 						</div>
 						<!-- col-md-3 -->
 
 						<div class="col-md-6 form-group">
 							<label>CLOSE</label> <input type="time" class="form-control"
-								id="inputTime_ed" /> <input type="hidden" id="endTime"
-								name="endTime" />
+								id="endTime" name="endTime" /> 
 						</div>
 						<!-- col-md-3 -->
 					</div>
@@ -45,10 +43,8 @@
 							<hr>
 							<label>BreakTime</label>
 							<div>
-								<label class="radio-inline"> <input type="radio"
-									id="bt_true" name="breakTime" value="true"> 있음
-								</label> <label class="radio-inline"> <input type="radio"
-									id="bt_false" name="breakTime" value="false" checked>
+								<label class="radio-inline"> <input type="radio" id="bt_true" name="breakTime" value="true"> 있음
+								</label> <label class="radio-inline"> <input type="radio" id="bt_false" name="breakTime" value="false" checked>
 									없음
 								</label>
 							</div>
@@ -60,8 +56,8 @@
 						<div class="col-md-6 ">
 							<div class="input-group">
 								<span class="input-group-addon">START</span> <input type="time"
-									class="form-control" id="input_btst" /> <input type="hidden"
-									id="breakTime_start" name="breakTime_start" value="" />
+									class="form-control" id="breakTime_start" name="breakTime_start"/> 
+									<input type="hidden" name="breakTime_start" value="-">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -70,8 +66,8 @@
 						<div class="col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="input_bted" /> <input type="hidden"
-									id="breakTime_end" name="breakTime_end" value="" />
+									class="form-control" id="breakTime_end" name="breakTime_end" /> 
+									<input type="hidden" name="breakTime_end" value="-">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -91,7 +87,7 @@
 									<option value="매주">매주</option>
 								</select> <select class="form-control" id="dayoff_weekCnt"
 									name="dayoff_weekCnt" style="width: 30%" disabled>
-									<option value="-" disabled>-</option>
+									<option value="-" >-</option>
 									<option value="1">첫째주</option>
 									<option value="2">둘째주</option>
 									<option value="3">셋째주</option>
@@ -100,7 +96,7 @@
 									<option value="24">둘째, 넷째주</option>
 								</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
 									style="width: 30%" disabled>
-									<option value="-" disabled>-</option>
+									<option value="-" >-</option>
 									<option value="월">월요일</option>
 									<option value="화">화요일</option>
 									<option value="수">수요일</option>
@@ -143,7 +139,7 @@
 						<div class="col-md-6">
 							<p>예약금 지불 최소인원</p>
 							<div class="input-group">
-								<input type="number" class="form-control" name="adPayCond"><span
+								<input type="number" class="form-control" name="adPayCond" value="0"><span
 									class="input-group-addon">명</span>
 							</div>
 						</div>
@@ -151,7 +147,7 @@
 						<div class="col-md-6">
 							<p>예약금액</p>
 							<div class="input-group">
-								<input type="number" class="form-control" name="adPay"><span
+								<input type="number" class="form-control" name="adPay" value="0"><span
 									class="input-group-addon">원</span>
 							</div>
 						</div>

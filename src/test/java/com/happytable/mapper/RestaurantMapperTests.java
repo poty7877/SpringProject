@@ -56,7 +56,7 @@ public class RestaurantMapperTests {
 	
 	@Test
 	public void testUpdate() {
-		RestaurantVO vo = mapper.readByResnum("10000002tes");
+		RestaurantVO vo = mapper.readByResnum("10000046aaa");
 		vo.setResName("테스트식당 수정");
 		int rst = mapper.update(vo);
 		log.info("수정결과:" + rst); //수정결과:1
