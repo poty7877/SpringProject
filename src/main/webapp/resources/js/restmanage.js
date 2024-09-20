@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function() {
-	var result = $("#rest_result").val();
+	var result = $("#common_result").val();
 	console.log("test: modify submit 실행: " + result);
 	checkResult(result);
 	history.replaceState({}, null, null);
@@ -13,9 +13,11 @@ $(document).ready(function() {
 			return;
 		}
 		if (result == "success") {
-			alert("기본정보 변경 성공");
-		} else if(result == "error"){
-			alert("기본정보 변경 실패. 관리자에게 문의하세요.");
+			alert("정보 변경 성공");
+		} else if(result == "delsuccess"){
+			alert("정보 삭제 성공");
+		} else {
+			alert(result);
 		}
 	}
 

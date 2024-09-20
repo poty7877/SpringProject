@@ -187,12 +187,43 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			rttr.addFlashAttribute("result", "success");
 			
 		}else {
-			rttr.addFlashAttribute("result", "error");
+			rttr.addFlashAttribute("result", "변경오류. 관리자에게 문의하세요.");
 		}
 		log.info("rttr:"+rttr.getFlashAttributes()); //rttr:{result=success}
 		
 		return "redirect:/restaurant/myrestaurant";
 	}
 	
-
+	//U-영업정보 변경
+	@PostMapping("/modoper")
+	public String modOper(OperationsVO oper, RedirectAttributes rttr) {
+		log.info("영업정보변경 실행-------"+oper.getResNum());
+		boolean result = serviceOper.modify(oper);
+		if(result) { //변경성공시
+			rttr.addFlashAttribute("result", "success");
+			
+		}else {
+			rttr.addFlashAttribute("result", "변경오류. 관리자에게 문의하세요.");
+		}
+		log.info("rttr:"+rttr.getFlashAttributes()); //rttr:{result=success}
+		
+		return "redirect:/restaurant/myrestaurant";
+	}
+	
+	//D-영업정보 삭제
+	@PostMapping("/deloper")
+	public String delOper(OperationsVO oper, RedirectAttributes rttr) {
+		log.info("영업정보삭제 실행-------"+oper.getResNum());
+		boolean result = serviceOper.remove(oper.getResNum());
+		if(result) { //삭제성공시
+			rttr.addFlashAttribute("result", "delsuccess");
+			
+		}else {
+			rttr.addFlashAttribute("result", "삭제오류. 관리자에게 문의하세요.");
+		}
+		log.info("rttr:"+rttr.getFlashAttributes()); //rttr:{result=success}
+		
+		return "redirect:/restaurant/myrestaurant";
+	}
+	
 }

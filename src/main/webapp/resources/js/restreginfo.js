@@ -1,5 +1,5 @@
 /**
- * restreginfo.js -> reginjfo.jsp
+ * restreginfo.js -> reginjfo.jsp, getoper.jsp
  */
 
 $(document).ready(function() {

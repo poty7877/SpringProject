@@ -48,6 +48,7 @@
 	<form role="form" name="resnumForm" id="resnumForm" action=""
 		method="get">
 		<input type="hidden" id="resNum" name="resNum" value="${loginResNum}">
+		<input type="hidden" id="common_result" value="${result}">
 	</form>
 
 	<!-- Tab panes -->
@@ -60,7 +61,6 @@
 					<form role="form" id="restForm" method="post" action="/restaurant/modrest" onsubmit="return valForm(this)">
 					<div class="panel-body">						
 							<input type="hidden" id="rest_resNum" name="resNum" value="${loginResNum}">
-							<input type="hidden" id="rest_result" value="${result}">
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>아이디</label> <input type="text" class="form-control"
@@ -144,7 +144,7 @@
 					<div class="panel-footer ">
 						<div class="clearfix" style="text-align: right;">
 							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
-							<button data-oper="delete" class="btn btn-default" >회원탈퇴</button>
+							<button data-oper="delete" class="btn btn-default" >회원탈퇴(구현중)</button>
 						</div>
 						<!-- .right clearfix -->
 					</div>
@@ -159,12 +159,8 @@
 		<!-- .tab-pane -->
 		<!-- tab: 영업정보관리 여기부터 -->
 		<div class="tab-pane fade" id="myoper">
-			<form id="operForm" method="post" action="restaurant/register">
-				<input type="hidden" name="resNum" id="oper_resNum" value="${loginResNum}">
-				<c:if test="${oper ne null}">
-				<jsp:include page="./getoper.jsp"></jsp:include></c:if>
-			</form>
-
+			<c:if test="${oper ne null}">
+			<jsp:include page="./getoper.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 		<!-- tab: 테이블관리 여기부터 -->
