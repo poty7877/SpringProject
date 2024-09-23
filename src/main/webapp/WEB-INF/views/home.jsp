@@ -9,20 +9,27 @@
 <html>
 <head>
 <style>
-.table-bordered {
-	border: 1px solid #FF4F02;
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.table-striped {
-	border: 1px solid #FF4F02;
+.pagination a {
+    display: inline-block;
+    background-color: #ff530a; /* 기본 배경색 */
+    color: white; /* 글자 색 */
+    border-radius: 5px; /* 둥근 모서리 */
+    text-decoration: none; /* 밑줄 제거 */
 }
 
-.table-hover {
-	border: 1px solid #FF4F02;
+.pagination a:hover {
+    background-color: #ff7a00; /* 마우스 오버 시 색상 */
 }
 
-.customA {
-	background: #ff530a;
+.pagination .active a {
+    background-color: #ff7a00; /* 현재 페이지 버튼 색상 */
 }
 </style>
 <meta charset="UTF-8">
@@ -44,27 +51,29 @@
 						<div class="panel-body">
 							<table class="table table-striped table-bordered table-hover">
 								<thead>
-									<tr>
+									<tr class="danger">
 										<th>#번호</th>
 										<th>이름</th>
 										<th>주소</th>
 										<th>전화번호</th>
 										<th>홍보문</th>
-										<th>홈페이지</th>
+										<th width=5%>페이지</th>
 
 									</tr>
 								</thead>
 
 								<c:forEach items="${list}" var="restaurant" varStatus="status">
+								<!-- Controller에서 보낸 list를 받아 변수는 restaurant로 설정 -->
 									<tr>
-										<td>${ status.index + 1 }</td>
-										<td>${ restaurant.resName }</td>
-										<td>${ restaurant.resAddr }</td>
-										<td>${ restaurant.resPhone }</td>
-										<td>${ restaurant.summary }</td>
-										<td><button id="getBtn"
-												onclick="location.href='/restaurant/get?resNum=${restaurant.resNum}'">홈페이지
-											</button></td>
+										<td>${ (pageMaker.cri.pageNum - 1) * pageMaker.cri.amount + status.index + 1 }</td> <!-- varStatus를 설정하고 번호 추가 -->	
+										<td>${ restaurant.resName }</td> <!-- 이름 -->
+										<td>${ restaurant.resAddr }</td> <!-- 주소 -->
+										<td>${ restaurant.resPhone }</td> <!-- 전화번호 -->
+										<td>${ restaurant.summary }</td> <!-- 소개글,홍보문 -->
+										<td><button id="getBtn" class="btn btn-default"
+												onclick="location.href='/restaurant/get?resNum=${restaurant.resNum}'">
+												<i class="glyphicon glyphicon-home"></i>
+											</button></td> <!-- 홈페이지 버튼(클릭시 홈페이지의 번호를 가지고 상세보기페이지로 넘어감) -->
 									</tr>
 								</c:forEach>
 							</table>
@@ -77,8 +86,9 @@
 			<div class='row'>
 				<div class="col-lg-12">
 
-					<form id='searchForm' action="/restaurant/list" method='get'>
-						<select name='type'>
+					<form id='searchForm' action="/" method='get'>
+					<!-- 검색기능 Form -->
+						<select name='type' class="form-control" style="width:20%; display: inline-block;">
 							<option value=""
 								<c:out value="${pageMaker.cri.type == null?'selected':''}"/>>--</option>
 							<option value="T"
@@ -96,20 +106,20 @@
 							<option value="TWC"
 								<c:out value="${pageMaker.cri.type eq 'TWC'?'selected':''}"/>>이름
 								or 주소 or 전화번호</option>
-						</select> <input type='text' name='keyword'
+						</select> <input type='text' name='keyword' class="form-control" style="width:20%; display: inline-block;"
 							value='<c:out value="${pageMaker.cri.keyword}"/>' /> <input
 							type='hidden' name='pageNum'
 							value='<c:out value="${pageMaker.cri.pageNum}"/>' /> <input
 							type='hidden' name='amount'
 							value='<c:out value="${pageMaker.cri.amount}"/>' />
-						<button class='btn btn-default'>Search</button>
+						<button class='btn btn-default' style="background: #ff530a; color: #fff; font-size:16px;"  >검색</button>
 					</form>
 				</div>
 			</div>
 
 
 			<div class='pull-right'>
-				<ul class="pagination">
+				<ul class="pagination" >
 
 					<%--             <c:if test="${pageMaker.prev}">
               <li class="paginate_button previous"><a href="#">Previous</a>
@@ -126,13 +136,13 @@
             </c:if> --%>
 
 					<c:if test="${pageMaker.prev}">
-						<li class="paginate_button previous"><a
-							href="${pageMaker.startPage -1}">Previous</a></li>
+						<li class="paginate_button previous" ><a
+							href="${pageMaker.startPage -1}" >Previous</a></li>
 					</c:if>
 
 					<c:forEach var="num" begin="${pageMaker.startPage}"
 						end="${pageMaker.endPage}">
-						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} ">
+						<li class="paginate_button  ${pageMaker.cri.pageNum == num ? "active":""} " >
 							<a class="customA" href="${num}">${num}</a>
 						</li>
 					</c:forEach>
@@ -148,7 +158,7 @@
 			<!--  end Pagination -->
 		</div>
 
-		<form id='actionForm' action="/restaurant/list" method='get'>
+		<form id='actionForm' action="/" method='get'>
 			<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
 			<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
 

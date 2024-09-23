@@ -179,6 +179,7 @@ values ('test1', 'test1', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
 insert into  tb_sales values ('10000002tes',3,'4인용',3);
 
 insert into tb_menu values (seq_menu.nextVal, '10000002tes', 'test1', 'test1', 'test1', 4, 50000, 'test1');
+update tb_menu set menuimg = '/resources/images/slider/slider-img-1.jpg';
 select * from tb_menu where resNum = '10000002tes';
 select sequence from happy;
 

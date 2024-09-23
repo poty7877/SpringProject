@@ -93,4 +93,9 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.readMem(memUno);
 	}
 
+	@Override
+	public int changePw(Long mno, String pw) {
+		return mapper.updatePw(mno, pw);
+	}
+
 }

@@ -4,58 +4,59 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 불러오기용으로 패널정보만 표시 -->
 <!-- .row close -->
+<form id="reginfoForm" method="post" action="/restaurant/modoper" onsubmit="return valForm(this)">
+<input type="hidden" name="resNum" id="oper_resNum" value="${loginResNum}">
 <div class="col-md-8 col-md-offset-2">
 	<div class="panel panel-info">
 		<div class="panel-heading">영업정보</div>
 		<div class="panel-body">
 			<!-- 영업시간 입력란 -->
-			<div class="row">
-				<div class="col-md-4 form-group">
-					<label>OPEN</label> <input type="time" class="form-control"
-						id="openTime" name="openTime" value="${oper.openTime}" />
+			<div class="row position-relative">
+				<div class="col-md-6 form-group">
+					<label>OPEN</label> 
+					<input type="time" class="form-control" id="openTime" value="${oper.openTime}" />
+					<input type="hidden" name="openTime" value="--:--">	
 				</div>
 				<!-- col-md-3 -->
 
-				<div class="col-md-4 form-group">
-					<label>CLOSE</label> <input type="time" class="form-control"
-						id="endTime" name="endTime" value="${oper.endTime}" />
+				<div class="col-md-6 form-group">
+					<label>CLOSE</label> 
+					<input type="time" class="form-control" id="endTime"  value="${oper.endTime}" />
+					<input type="hidden" name="endTime" value="--:--">
 				</div>
 				<!-- col-md-3 -->
 			</div>
 			<!-- .row close -->
 			<!-- breakTime 입력란 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label>BreakTime</label>
 					<div>
-						<label class="radio-inline"> <input type="radio"
-							id="bt_true" name="bt_sel" value="true"> 있음
-						</label> <label class="radio-inline"> <input type="radio"
-							id="bt_false" name="bt_sel" value="false"> 없음
-						</label> <input type="hidden" id="breakTime" name="breakTime"
-							value="${oper.breakTime}">
+						<label class="radio-inline"> <input type="radio" id="bt_true" name="bt_sel" value="true"> 있음</label> 
+						<label class="radio-inline"> <input type="radio" id="bt_false" name="bt_sel" value="false"> 없음</label> 
+						<input type="hidden" id="breakTime" name="breakTime" value="${oper.breakTime}">						
 					</div>
 				</div>
 				<!-- col-md-8 -->
 			</div>
 			<!-- .row close -->
 			<div class="row" id="breaktime_input" style="display: none">
-				<div class="col-md-4 ">
+				<div class="col-md-6 ">
 					<div class="input-group">
-						<span class="input-group-addon">START</span> <input type="time"
-							class="form-control" id="breakTime_start" name="breakTime_start"
-							value="${oper.breakTime_start}" />
+						<span class="input-group-addon">START</span> 
+						<input type="time" class="form-control" id="breakTime_start" value="${oper.breakTime_start}" />
+						<input type="hidden" name="breakTime_start" value="--:--">
 					</div>
 					<!--.input-group  -->
 				</div>
 				<!-- col-md-8 -->
 
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="input-group">
-						<span class="input-group-addon">END</span> <input type="time"
-							class="form-control" id="breakTime_end" name="breakTime_end"
-							value="${oper.breakTime_end}" />
+						<span class="input-group-addon">END</span> 
+						<input type="time" class="form-control" id="breakTime_end"  value="${oper.breakTime_end}" />
+						<input type="hidden" name="breakTime_end" value="--:--">
 					</div>
 					<!--.input-group  -->
 				</div>
@@ -64,7 +65,7 @@
 
 			<!-- 휴무일 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label for="dayoff">휴무일</label>
 					<div class="input-group" id="dayoff">
@@ -98,6 +99,8 @@
 							<option value="토">토요일</option>
 							<option value="일">일요일</option>
 						</select>
+						<input type="hidden" name=dayoff_weekCnt value="-">
+						<input type="hidden" name=dayoff_Day value="-">
 					</div>
 					<!--.input-group  -->
 				</div>
@@ -106,53 +109,63 @@
 			<!-- .row close -->
 			<!-- 선불정보 입력란 -->
 			<div class="row">
-				<div class="col-md-8 form-group">
+				<div class="col-md-12 form-group">
 					<hr>
 					<label for="adPayCheck">예약금 설정 <a href="#myModal"
-						class="btn btn-danger btn-circle" id="queBtn" data-toggle="modal">
+						class="btn btn-danger btn-circle" id="queBtn2" data-toggle="modal">
 							<i class="fa fa-question-circle"></i>
 					</a>
 					</label>
 					<div id="adPayCheck">
-						<label class="radio-inline"> <input type="radio"
-							id="adPay_false" name="adPaySel_radio" value="false">
-							설정안함
-						</label> <label class="radio-inline"> <input type="radio"
-							id="adPay_true" name="adPaySel_radio" value="true"> 설정함
-						</label> <input type="hidden" id="adPaySel" name="adPaySel"
-							value="${oper.adPaySel}">
+						<label class="radio-inline"> <input type="radio" id="adPay_false" name="adPaySel_radio" value="false">
+							설정안함</label> 
+						<label class="radio-inline"> <input type="radio" id="adPay_true" name="adPaySel_radio" value="true"> 설정함</label> 
+						<input type="hidden" id="adPaySel" name="adPaySel" value="${oper.adPaySel}">
 					</div>
 				</div>
 				<!-- col-md-8 -->
 			</div>
 			<!-- .row close -->
-
 			<div class="row" id="adPay_input" style="display: none;">
 				<!-- 선택하면 활성화되는 란 -->
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<p>예약금 지불 최소인원</p>
 					<div class="input-group">
-						<input type="text" class="form-control" name="adPayCond"
+						<input type="number" class="form-control" name="adPayCond"
 							value="${oper.adPayCond}"><span class="input-group-addon">명</span>
 					</div>
 				</div>
 				<!-- col-md-4 -->
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<p>예약금액</p>
 					<div class="input-group">
-						<input type="text" class="form-control" name="adPay"
+						<input type="number" class="form-control" name="adPay"
 							value="${oper.adPay}"><span class="input-group-addon">원</span>
 					</div>
 				</div>
 				<!-- col-md-4 -->
 			</div>
 			<!-- .row close -->
+			<!-- **0918 추가 : 메뉴지정예약선택란 -->
+			<div class="row">
+				<div class="col-md-12 form-group">
+					<hr>
+					<label for="inputMenuRev">메뉴 지정 예약 </label>
+					<div>
+						<input type="hidden" id="menuReserv" name="menuReserv" value="${oper.menuReserv}"> 
+						<input type="checkbox" id="inputMenuRev" name="menuReserv" value="true"> 메뉴예약 필요<br>
+						<p>(※ 재료준비, 조리시간 필요 등의 이유로 메뉴별 예약이 필요한 경우 선택해 주세요.)</p>
+					</div>
+				</div>
+				<!-- col-md-8 -->
+			</div>
+			<!-- .row close -->
 		</div>
 		<!-- panel-body -->
 		<div class="panel-footer">
 			<div class="clearfix" style="text-align: right;">
-				<button type="button" class="btn btn-primary" id="modoperBtn">수정하기</button>
-				<button type="button" class="btn btn-default" id="deloperBtn">삭제하기</button>
+				<button data-oper="opermodify" class="btn btn-primary" >수정하기</button>
+				<button data-oper="operdelete" class="btn btn-default" >삭제하기</button>
 			</div>
 			<!-- .right clearfix -->
 		</div>
@@ -160,5 +173,6 @@
 	<!-- .panel-info-->
 </div>
 <!-- .col-md-8 close -->
-
+</form>
 <script type="text/javascript" src="/resources/js/restget.js"></script>
+<script type="text/javascript" src="/resources/js/restreginfo.js"></script>

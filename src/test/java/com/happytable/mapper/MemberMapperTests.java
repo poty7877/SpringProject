@@ -63,5 +63,7 @@ public class MemberMapperTests {
 	public void delete() {
 		mapper.delete(50L);
 	}
+	
+	
 
 }

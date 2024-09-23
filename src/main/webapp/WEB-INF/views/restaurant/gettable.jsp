@@ -2,19 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="../includes/header2.jsp"%>
-<div class="row">
-	<div class="col-md-12">
-		<h1 class="heading">
-			<span>Restaurant 테이블 운영정보 등록</span>
-		</h1>
-	</div>
-	<!-- .col-md-12 close -->
-</div>
+<!-- 불러오기용으로 패널정보만 표시 -->
 
-<!-- .row close -->
-<div class="row" style="margin-top: 50px;">
-<form id="regiTableForm" method="post" action="/restaurant/regtable" >
 	<input type="hidden" id="tables" name="tables" >
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-info">
@@ -32,8 +21,9 @@
 						</tr>
 					</thead>
 					<tbody id="table-body">
-						<tr id="tr1">
-							<td><input class="form-control" name="tableNum" type="number" value="1" readonly="readonly"></td>
+					<c:forEach items="${sales}" var="tables">
+						<tr id="tr${tables.tableNum}">
+							<td><input class="form-control" name="tableNum" type="number" value="${tables.tableNum}" readonly="readonly"></td>
 							<td>
 							<select class="form-control" name="tableType">
 							<option value="room">룸타입</option>
@@ -41,10 +31,11 @@
 							</select>
 							</td>
 							<td><div class="input-group">
-							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
-							<td><input id="delBtn1" class="delbtn btn btn-default btn-sm"  value="삭제" onclick="deleteTR(1)" style="width: 60%">
+							<input class="form-control"  type="number" name="headCount" value="${tables.headCount}"/><span class="input-group-addon">명</span></div></td>
+							<td><input id="delBtn${tables.tableNum}" class="delbtn btn btn-default btn-sm"  value="삭제" onclick="deleteTR(${tables.tableNum})" style="width: 60%">
 							</td>
 						</tr>
+					</c:forEach>	
 					</tbody>
 				</table><!-- /.table-responsive -->
 				</div><!--.table-responsive  -->
@@ -53,16 +44,14 @@
 			</div>
 			<!-- panel-body -->
 			<div class="panel-footer">
-				<button  class="btn btn-primary btn-lg btn-block" id="submitBtn" type="submit" >저장하기</button>
+			<div class="clearfix" style="text-align: right;">
+				<button type="button" class="btn btn-primary" id="modtableBtn">수정내용 저장</button>
+				<button type="button" class="btn btn-default" id="deltableBtn">전체삭제하기</button>
+				</div>
 			</div>
 		</div>
 		<!--panel panel-info  -->
 	</div>
 	<!-- .col-md-12 close -->
-</form>
-</div>
-<!-- .row -->
-<!-- resnum 전송위한 hidden -->
-<input type="hidden" id="sales_resNum" name="resNum" value="${loginResNum}">
-<script type="text/javascript" src="/resources/js/restregtable.js"></script>
-<%@ include file="../includes/footer2.jsp"%>
+
+<script type="text/javascript" src="/resources/js/restget.js"></script>

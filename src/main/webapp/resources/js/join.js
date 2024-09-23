@@ -2,29 +2,45 @@
 $(document).ready(function() {
 	var $subBtn = $("#subBtn");
 	var emailValid = false;
+	var emailInput = $("#email");
+	var emailError = $("#emailError");
 	var nickNameValid = false;
+	var nickNameInput = $("#nickName");
+	var nickNameError = $("#nickNameError");
+	var pwValid = false;
+	var pwInput = $("#pw");
+	var cpwInput = $("#cpw");
+	var pwError = $("#pwError");
+	var birthValid = false;
+	var birthInput = $("#birth");
+	var birthError = $("#birthError");
+	var phoneValid = false;
+	var phoneInput = $("#phone");
+	var phoneError = $("#phoneError");
 	$subBtn.prop("disabled", true);
-	$("#email").on("blur", function() {
-		var email = $(this).val();
+
+	$("#email").on("blur", function() { // blur : focus를 잃을떄, 칸에서 벗어날때 실행
+		var email = $(this).val(); // 입력된 email주소를 받아서 변수로 저장
 		$.ajax({
-			url: "/member/checkEmail",
-			type: "POST",
-			data: { email: email },
-			dataType: "json",
-			success: function(response) {
-				if (response.status === "error") {
-					alert(response.message);
+			url: "/member/checkEmail", // url : http://localhost/member/checkEmail
+			type: "POST", // Post방식으로
+			data: { email: email }, // 변수로 저장한 email 값을
+			dataType: "json", // json 타입으로
+			success: function(response) { // 성공하면 response 실행
+				if (response.status === "error") { // response의 값이 error 이면,
 
 					emailValid = false; // 이메일 검증 실패
-
-
-				} else if (response.status === "success") {
-					console.log(response.message);
+					emailInput.css("border-color", "red");
+					emailError.css("display", "block");
+				} else if (response.status === "success") { // response의 값이 success이면,
+					console.log(response.message); // console에 표시(사용가능한 이메일)
 					emailValid = true; // 이메일 검증 성공
+					emailInput.css("border-color", "");
+					emailError.css("display", "none");
 				}
 				updateSubmitButtonState(); // 버튼 상태 업데이트
 			},
-			error: function(xhr, status, error) {
+			error: function(xhr, status, error) { // 에러 발생시
 				console.error("AJAX Error: ", status, error);
 				emailValid = false; // 이메일 검증 실패
 				updateSubmitButtonState(); // 버튼 상태 업데이트
@@ -42,11 +58,14 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(response) {
 				if (response.status === "error") {
-					alert(response.message);
 					nickNameValid = false; // 닉네임 검증 실패
+					nickNameInput.css("border-color", "red");
+					nickNameError.css("display", "block");
 				} else if (response.status === "success") {
 					console.log(response.message);
 					nickNameValid = true; // 닉네임 검증 성공
+					nickNameInput.css("border-color", "");
+					nickNameError.css("display", "none");
 				}
 				updateSubmitButtonState(); // 버튼 상태 업데이트
 			},
@@ -58,26 +77,77 @@ $(document).ready(function() {
 		});
 
 	});
-	function updateSubmitButtonState() {
-		if (emailValid && nickNameValid) {
-			$subBtn.prop("disabled", false); // 둘 다 성공했으면 버튼 활성화
+
+	$("#cpw").on("blur", function() {
+		var pw = $("#pw").val();
+		var cpw = $(this).val();
+		console.log(pw);
+		console.log(cpw);
+		$.ajax({
+			url: "/member/checkPw",
+			type: "POST",
+			data: {
+				pw: pw,
+				cpw: cpw
+			},
+			dataType: "json",
+			success: function(response) {
+				if (response.status === "error") {
+					pwValid = false;
+					pwInput.css("border-color", "red");
+					cpwInput.css("border-color", "red");
+					pwError.css("display", "block");
+				} else if (response.status === "success") {
+					console.log(response.message)
+					pwValid = true;
+					cpwInput.css("border-color", "");
+					pwInput.css("border-color", "");
+					pwError.css("display", "none");
+				}
+			}
+		});
+	});
+	$("#birth").on("blur", function() {
+		var birthVal = $(this).val();
+
+		if (/[^0-9]/.test(birthVal)) {
+			birthValid = false;
+			birthInput.css("border-color", "red");
+			birthError.css("display", "block");
 		} else {
+			birthValid = true;
+			birthInput.css("border-color", "");
+			birthError.css("display", "none");
+		}
+	})
+	
+	$("#phone").on("blur", function() {
+		var phoneVal = $(this).val();
+
+		if (/[^0-9]/.test(phoneVal)) {
+			phoneValid = false;
+			phoneInput.css("border-color", "red");
+			phoneError.css("display", "block");
+		} else {
+			phoneValid = true;
+			phoneInput.css("border-color", "");
+			phoneError.css("display", "none");
+		}
+	})
+	function updateSubmitButtonState() { // 버튼 활성화하는 기능
+	
+		if (emailValid && nickNameValid && pwValid && birthValid) { // 이메일, 닉네임값이 중복체크를 통과하면
+			$subBtn.prop("disabled", false); // 버튼 활성화
+		} else {// 아니면
 			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
 		}
 	}
+
+
 	$("#myForm").on("submit", function(e) {
-		var emailMessage = $("#emailMessage").text();
-		var pw = $("#pw").val();
-		var cpw = $("#cpw").val();
 
-
-
-		if (pw !== cpw) {
-			e.preventDefault();
-			alert("비밀번호가 다릅니다.");
-			return;
-		}
-
+		var pw = $("#pw");
+		var cpw = $("#cpw");
 		var name = $("#name").val();
 		var phone = $("#phone").val();
 		var email = $("#email").val();
@@ -99,6 +169,7 @@ $(document).ready(function() {
 			alert("이메일 주소는 5자 이상 또는 100자 이하 이어야 합니다.");
 			return;
 		}
+		// nickName의 글자가 2자이하, 10자 이상이면
 		if (nickName.length < 2 || nickName.length > 10) {
 			e.preventDefault();
 			alert("닉네임은 2자 이상 10자 이하 이어야 합니다.");
@@ -114,6 +185,8 @@ $(document).ready(function() {
 			alert("생년월일은 정확히 6자이어야 합니다.");
 			return;
 		}
+		// 각변수의 값은 현재 input값에 입력된 값으로 저장되어있음
+		// 하나의 칸이라도 비어있으면 alert창 띄움
 		if (!name || !phone || !email || !nickName || !pw || !cpw || !birth) {
 			e.preventDefault();
 			alert("입력하지 않은 정보가 있습니다.");

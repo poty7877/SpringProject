@@ -12,7 +12,7 @@
 <html>
 
 
-<%@ include file="../includes/header.jsp"%>
+<%@ include file="../includes/header3.jsp"%>
 
 <head>
 <meta charset="UTF-8">
@@ -132,37 +132,28 @@
 		
 	
 		var loggedIn =	<%=loggedInStr%>;
-		if (!loggedIn) {
-			$("#myModal").modal("show");
+		
+		
+		if (!loggedIn) { // 로그인 상태가 아니면
+			$("#myModal").modal("show"); // 로그인 필수 모달창 띄움
 			$("#myModal").on("hidden.bs.modal", function() {
-				window.location.href = "/";
+				window.location.href = "/"; // 모달창 꺼지면 홈으로 이동
 			});
 		}
-
-		$(document).ready(
-				function() {
-
-					var formObj = $("form");
-
-					$('button').on(
-							"click",
-							function(e) {
-
-								e.preventDefault();
-
-								var operation = $(this).data("oper");
-
-								console.log(operation);
-								if (operation === 'appoint') {
-									formObj.attr("action", "/order/insert")
-											.attr("method", "post");
-									formObj.submit();
-								} else if (operation === 'modal') {
-									formObj.attr("action", "/").attr("method",
-											"get")
-									formObj.submit();
-								} 
-							});
+		$(document).ready(function() {
+			var formObj = $("form"); // form 찾아서 변수에저장
+			$('button').on("click",function(e) { // 버튼 클릭시
+			e.preventDefault(); // 기본 동작멈춤
+			var operation = $(this).data("oper"); //data-oper의 정보를 받아 저장
+			if (operation === 'appoint') { // appoint이면,
+			formObj.attr("action", "/order/insert") // action변경
+			.attr("method", "post"); // method는 post로
+			formObj.submit(); // 폼 제출
+			} else if (operation === 'modal') { // modal이면
+			formObj.attr("action", "/") // action홈으로 변경
+			.attr("method","get") // method는 get으로
+			formObj.submit();} // 폼 제출
+			});
 					
 					$(".check").click(function(){  // 여기서 .click은 체크박스의 체크를 뜻한다.
 
@@ -191,12 +182,13 @@
 	
 	
 	$(function() {	
+		console.log(${rest_day});
 		$('#datePicker').datepicker({
 		    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
 		    startDate: '+1d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
 		    endDate: '+7d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
 		    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-		    datesDisabled : ['2019-06-24','2019-06-26'],//선택 불가능한 일 설정 하는 배열 위에 있는 format 과 형식이 같아야함.
+		    datesDisabled : [${rest_day}],//선택 불가능한 일 설정 하는 배열 위에 있는 format 과 형식이 같아야함.
 		    daysOfWeekHighlighted : [${everyWeek_day}], //강조 되어야 하는 요일 설정
 		    daysOfWeekDisabled : [${everyWeek_day}],	//선택 불가능한 요일 설정 0 : 일요일 ~ 6 : 토요일
 		    immediateUpdates: false,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false 

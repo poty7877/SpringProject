@@ -48,8 +48,11 @@
 							alt="cooker-img">
 						<h1 class="heading wow fadeInUp" data-wow-duration="400ms"
 							data-wow-delay="500ms">
-							<span>${ resVO.resName }</span></br> ${ resVO.summary }
+							<!-- 컨트롤러에서 가져온 정보 사용  -->
+							<span>${ resVO.resName }</span>
 						</h1>
+						</br>
+						<h3>${ resVO.summary }</h3>
 					</div>
 				</div>
 			</div>
@@ -79,12 +82,12 @@
 								</h3>
 							</div>
 							<ul class="menu-list">
+								<!-- 컨트롤러에서 보낸 menuList를 변수 menu로 사용 -->
 								<c:forEach items="${ menuList }" var="menu">
 									<li class="menu-item">
 										<div class="item">
 											<div>
-												<img class="img-responsive"
-													src="/resources/images/slider/slider-img-1.jpg" alt="">
+												<img class="img-responsive" src="${ menu.menuImg }" alt="">
 												<h2>
 													${ menu.menuName } </a>
 												</h2>
@@ -97,7 +100,8 @@
 									</li>
 								</c:forEach>
 							</ul>
-							<button class="btn btn-primary">예약하기</button>
+							<button class="btn btn-primary"
+								onclick="location.href='/order/insert?resNum=${resVO.resNum}'">예약하기</button>
 						</div>
 
 					</div>
@@ -137,8 +141,7 @@
 
 				<div class="panel-heading">
 					<i class="fa fa-comments fa-fw">Reply</i>
-					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New
-						Reply</button>
+					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>리뷰 작성</button>
 				</div>
 
 				<!-- /.panel-heading -->
@@ -184,11 +187,12 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label>Reply</label> <input class="form-control" name='reply'
-							value="NewReply!!!!">
+							value="내용">
 					</div>
 					<div class="form-group">
 						<label>Replyer</label> <input class="form-control" name="replyer"
-							value='Replyer'>
+							value="${loginMember.nickName}" readonly>
+
 					</div>
 					<div class="form-group">
 						<label for="rating">평점(1~5)</label> <input class="form-control"
@@ -202,12 +206,12 @@
 				</div>
 				<!-- class="modal-body" end -->
 				<div class="modal-footer">
-					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
-					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+					<button id='modalModBtn' type="button" class="btn btn-warning">수정</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">삭제</button>
 					<button id='modalRegisterBtn' type="button" class="btn btn-primary"
-						data-dismiss="modal">Register</button>
+						data-dismiss="modal">등록</button>
 					<button id='modalCloseBtn' type="button" class="btn btn-default"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">취소</button>
 
 				</div>
 				<!-- class="modal-footer end -->
@@ -223,33 +227,26 @@
 				<div class="col-md-6">
 					<div class="block wow fadeInLeft" data-wow-delay="200ms">
 						<h3>
-							page <span>info</span>
+							식당 <span>정보</span>
 						</h3>
 						<div class="info">
 							<ul>
 								<li>
 									<h4>
-										<i class="fa fa-phone"></i>Telefone
+										<i class="fa fa-phone"></i><a>전화</a>
 									</h4>
 									<p>${ resVO.resPhone }</p>
 
 								</li>
 								<li>
 									<h4>
-										<i class="fa fa-map-marker"></i>Address
+										<i class="fa fa-map-marker"></i><a>주소</a>
 									</h4>
 									<p>${ resVO.resAddr }</p>
 								</li>
 								<li>
 									<h4>
-										<i class="fa fa-envelope"></i>E mail
-									</h4>
-									<p>mbc@mbc.com</p>
-
-								</li>
-								<li>
-									<h4>
-										<i class="fa fa-align-justify"></i>coNum
+										<i class="fa fa-align-justify"></i><a>사업자번호</a>
 									</h4>
 									<p>${ resVO.co_Num }</p>
 
@@ -262,37 +259,37 @@
 				<div class="col-md-6">
 					<div class="block wow fadeInLeft" data-wow-delay="700ms">
 						<h3>
-							restaurant <span>info</span>
+							영업 <span>정보</span>
 						</h3>
 						<div class="blog">
 							<ul>
 								<li>
 									<h4>
-										<a>open</a>
+										<a>오픈</a>
 									</h4>
-									<p>${ operVO.openTime }</p>
+									<p>${ operVO.openTime }</p> <!-- 컨트롤러에서 가져온 정보 사용 -->
 								</li>
 								<li>
 									<h4>
-										<a>close</a>
+										<a>마감</a>
 									</h4>
 									<p>${ operVO.endTime }</p>
 								</li>
 								<li>
 									<h4>
-										<a>break</a>
+										<a>브레이크타임</a>
 									</h4>
 									<p>${ operVO.breakTime_start }~${ operVO.breakTime_end }</p>
 								</li>
 								<li>
 									<h4>
-										<a>rest</a>
+										<a>휴일</a>
 									</h4>
-									<p>${ operVO.dayoff_cate }${ operVO.dayoff_weekCnt }${ operVO.dayoff_Day }</p>
+									<p>${ operVO.dayoff_cate }${ operVO.dayoff_weekCnt }째주${ operVO.dayoff_Day }요일</p>
 								</li>
 								<li>
 									<h4>
-										<a>pay</a>
+										<a>예약금 정보</a>
 									</h4>
 									<p>${ operVO.adPayCond }명이상예약시</p>
 									<p>${ operVO.adPay }원선불</p>
@@ -310,6 +307,9 @@
 		<!-- .containe close -->
 
 	</section>
+	<script type="text/javascript">
+		
+	</script>
 	<script>
 		document.getElementById('rating').addEventListener('input',
 				function(e) {
@@ -325,14 +325,15 @@
 		include용 */
 	</script>
 
+
 	<script>
 		$(document)
 				.ready(
 						function() {
-
+							var loginMemberNickName = "${ loginMember.getNickName() }";
 							var resNumValue = "${resVO.resNum}";
 							var replyUL = $(".chat");
-
+							console.log(loginMemberNickName);
 							showList(1);
 
 							var modal = $(".modal");
@@ -349,27 +350,41 @@
 							var modalRemoveBtn = $("#modalRemoveBtn");
 							var modalRegisterBtn = $("#modalRegisterBtn");
 
+							var loggedIn =
+	<%=loggedInStr%>
+		;
+
+							if (!loggedIn) {
+								$("#addReplyBtn").on("click", function() {
+									alert("로그인 후 댓글 작성 가능합니다.");
+									return;
+								});
+
+							} else {
+								$("#addReplyBtn")
+										.on(
+												"click",
+												function(e) {
+
+													modalInputReplyDate
+															.closest("div")
+															.hide();
+													modal
+															.find(
+																	"button[id !='modalCloseBtn']")
+															.hide();
+
+													modalRegisterBtn.show();
+
+													$(".modal").modal("show");
+
+												});
+							}
+
 							$("#modalCloseBtn").on("click", function(e) {
 
 								modal.modal('hide');
 							});
-
-							$("#addReplyBtn").on(
-									"click",
-									function(e) {
-
-										modal.find("input").val("");
-										modalInputReplyDate.closest("div")
-												.hide();
-										modal.find(
-												"button[id !='modalCloseBtn']")
-												.hide();
-
-										modalRegisterBtn.show();
-
-										$(".modal").modal("show");
-
-									});
 
 							modalRegisterBtn.on("click", function(e) {
 
@@ -394,6 +409,7 @@
 							});
 
 							//댓글 조회 클릭 이벤트 처리 
+
 							$(".chat")
 									.on(
 											"click",
@@ -424,19 +440,26 @@
 																			.data(
 																					"rno",
 																					reply.rno);
+																	console.log("로그인멤버닉네임 " + loginMemberNickName);
+																	console.log("모달 닉네임 : " + reply.replyer);
+																	if (loginMemberNickName === reply.replyer) {
 
-																	modal
-																			.find(
-																					"button[id !='modalCloseBtn']")
-																			.hide();
-																	modalModBtn
-																			.show();
-																	modalRemoveBtn
-																			.show();
+																		modal
+																				.find(
+																						"button[id !='modalCloseBtn']")
+																				.hide();
+																		modalModBtn
+																				.show();
+																		modalRemoveBtn
+																				.show();
+																		$(
+																				".modal")
+																				.modal(
+																						"show");
 
-																	$(".modal")
-																			.modal(
-																					"show");
+																	} else {
+																		alert("본인 리뷰만 수정, 삭제가 가능합니다.");
+																	}
 
 																});
 											});

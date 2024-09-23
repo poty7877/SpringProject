@@ -26,7 +26,7 @@
 
 	<update id="update">
 	<![CDATA[
-		update tb_member set birth = #{birth}, phone = #{phone}, email = #{email}, nickName = #{nickName}, pw = #{pw} where mno = #{mno}
+		update tb_member set birth = #{birth}, phone = #{phone}, email = #{email}, nickName = #{nickName} where mno = #{mno}
 	]]>
 	</update>
 
@@ -72,6 +72,8 @@
 		email = #{email} and name = #{name} and phone = #{phone}
 	</select>
 
-
+	<update id="updatePw" parameterType="map">
+		update tb_member set pw = #{pw} where mno = #{mno}
+	</update>
 
 </mapper>

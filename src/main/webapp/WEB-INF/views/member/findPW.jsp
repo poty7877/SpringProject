@@ -21,11 +21,11 @@
 					<div class="block ">
 						<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
 							data-wow-delay="300ms">
-							<span>아이디, 비밀번호 찾기</span>
+							<span>비밀번호 찾기</span>
 						</h1>
 						<h3 class="title wow fadeInLeft" data-wow-duration="500ms"
-							data-wow-delay="300ms">회원가입시 입력했던 이메일,이름,핸드폰번호를 입력해주세요.</h3>
-						<span>${ loginError }</span>
+							data-wow-delay="300ms">회원가입시 입력했던 이메일,이름,핸드폰번호를 입력해주세요.
+						</br><span>${ FindError }</span></h3>
 						<form role="form" action="/member/findPW" method="post"
 							id="findForm">
 							<div class="form-group wow fadeInDown" data-wow-duration="500ms"
@@ -47,7 +47,7 @@
 									style="display: flex; justify-content: center; align-items: center; margin-left: 1000px;">
 									<button type="submit" id="findPW"
 										class="btn btn-primary wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">입력
+										data-wow-delay="1300ms" style="margin-right: 10px; background:#ff530a;">입력
 										완료</button>
 									<button type="button" onclick="location.href='/'"
 										class="btn btn-default wow bounceIn" data-wow-duration="500ms"

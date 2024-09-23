@@ -3,9 +3,12 @@
 <%
 // 일반회원 로그인 값
 // 세션에서 loggedIn값을 가져와 loggedIn변수에 저장
+
+
 Boolean loggedIn = (Boolean) session.getAttribute("loggedIn");
 // loggedIn이 null이 아니고, true이면 String변수에 true저장, 아니면 false저장
 String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
+
 // 사업자회원 로그인 값
 Boolean loggedIn2 = (Boolean) session.getAttribute("loggedIn2");
 String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
@@ -21,10 +24,7 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 <!-- Owl Carousel -->
 <link rel="stylesheet" href="/resources/css/owl.carousel.css">
 <!-- bootstrap.min css -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- <link rel="stylesheet" href="/resources/css/bootstrap.min.css"> -->
 <!-- Font-awesome.min css -->
 <link rel="stylesheet" href="/resources/css/font-awesome.min.css">
@@ -53,43 +53,12 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.js"></script> -->
 <script src="/resources/js/bootstrap-datepicker.js"></script>
 </head>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap')
-	;
-
-@import
-	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap')
-	;
-
-@import
-	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap')
-	;
-
-.jua-regular {
-	font-family: "Jua", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-
-body {
-	font-family: "Noto Sans KR", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
-	font-style: normal;
-}
-
-#footer {
-	font-family: "Jua", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-</style>
 <!--
 	header-img start 
 	============================== -->
-<section id="hero-area">
+<!-- <section id="hero-area">
 	<img class="img-responsive" src="/resources/images/header.jpg" alt="">
-</section>
+</section> -->
 <!--
     Header start 
 	============================== -->

@@ -37,7 +37,7 @@
 	rel="stylesheet" type="text/css">
 <!-- favicon.ico 404 (Not Found) 에러로 삽입한줄 
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">	-->
-
+<link rel="shortcut icon" href="#">	
 </head>
 
 <body>
@@ -52,7 +52,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">Happy Table</a>
+				<a class="navbar-brand" href="/">Happy Table</a>
 			</div>
 			<!-- /.navbar-header -->
 

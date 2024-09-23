@@ -44,11 +44,11 @@
 									style="display: flex; justify-content: center; align-items: center; margin-left: 1000px;">
 									<button type="submit" id="findID"
 										class="btn btn-primary wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms" style="margin-right: 10px;">입력
+										data-wow-delay="1300ms" style="margin-right: 10px; background:#ff530a;">입력
 										완료</button>
 									<button type="button" onclick="location.href='/'"
 										class="btn btn-default wow bounceIn" data-wow-duration="500ms"
-										data-wow-delay="1300ms">home</button>
+										data-wow-delay="1300ms" >home</button>
 								</div>
 
 							</div>

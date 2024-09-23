@@ -3,15 +3,15 @@ $(document).ready(
 	function() {
 
 		checkModal(mno, result1);
-		console.log(result1);
-		console.log(mno);
-		function checkModal(mno, result1) {
-			if (result1 === '') {
+		function checkModal(mno, result1) { // Controller에서 보낸 mno와 result를 받아서 실행
+			if (result1 === '') { // result값이 null이면 return
 				return;
 			}
-			if (parseInt(mno) > 0) {
+			if (parseInt(mno) > 0) { // mno값이 0보다 크면
+				// Controller에서 받아온 result값을 이용해 modal-body의 내용을 변경
 				$(".modal-body").html(result1 + "님 회원가입을 축하드립니다.");
 			}
+			// Modal창 띄움
 			$("#myModal").modal("show");
 		}
 
@@ -76,14 +76,16 @@ $(document).ready(
 			}
 			$("#myModal").modal("show");
 		}
+
+
 		A_Modal(a_result);
 		console.log(a_result);
 		function A_Modal(a_result) {
-			if (a_result > 0) {
-				$(".modal-body").html(
-					"예약에 성공하였습니다.");
-			} else {
+			if (a_result === "") {
 				return;
+			} else {
+				$(".modal-body").html(a_result);
+
 			}
 			$("#myModal").modal("show");
 		}

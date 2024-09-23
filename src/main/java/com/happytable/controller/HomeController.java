@@ -30,13 +30,17 @@ import lombok.extern.log4j.Log4j2;
 public class HomeController {
 
 	private RestaurantService serviceRest;
-	private ReplyService serviceReply;
-	@GetMapping()
+
+	@GetMapping() // URL http://localhost/
 	public String list(Criteria cri, Model model) {
-		model.addAttribute("list", serviceRest.getList(cri));
-		int total = serviceRest.getTotal(cri);
+		// Criteria, PageDTO는 페이징, 검색처리 위해 추가
+		model.addAttribute("list", serviceRest.getList(cri)); 
+		// 식당 리스트를 불러와 model 영역에 list라는 이름으로 전달
+		int total = serviceRest.getTotal(cri); 
+		// 식당의 갯수를 가져옴
 		log.info("list: " + model);
-		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
+		// model 영역에 pageMaker라는 이름으로 PageDTO 전달
 		return "home";
 	}
 
