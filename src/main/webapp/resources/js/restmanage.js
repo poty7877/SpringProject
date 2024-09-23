@@ -4,7 +4,7 @@
 
 $(document).ready(function() {
 	var result = $("#common_result").val();
-	console.log("test: modify submit 실행: " + result);
+	//console.log("test: modify submit 실행: " + result);
 	checkResult(result);
 	history.replaceState({}, null, null);
 

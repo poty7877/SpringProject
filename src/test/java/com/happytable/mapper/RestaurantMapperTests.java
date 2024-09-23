@@ -43,6 +43,7 @@ public class RestaurantMapperTests {
 		vo.setCo_Num("111-11-11111");
 		vo.setSummary("테스트용식당, 맛은 보장 못하는데요.");
 		vo.setCertify("");
+		vo.setResPhone("010-123-4567");
 		
 		int result = mapper.insert(vo);
 		log.info("등록결과 : "+result); //등록결과 : 1

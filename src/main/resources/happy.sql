@@ -67,7 +67,7 @@ alter table tb_oper add menuReserv varchar2(10) default 'false';
 ---------------------------- tb_sales : 레스토랑 테이블 정보
 create table tb_sales(
 resNum varchar2(20),
-tableNum number(10),
+tableNum number,
 tableType varchar2(10),
 headCount number(3)
 );
@@ -76,10 +76,22 @@ select * from tb_sales;
 drop table tb_sales;
 -- fk 추가
 alter table tb_sales add constraint sal_num_fk foreign key (resNum) references tb_restaurant (resNum);
-
+--alter table tb_sales modify tableNum number;
 --index 생성(pk가 없어 검색속도 향상위한 인덱스)
 create index sales_index on tb_sales (resNum);
 
+--tableNum  sequence **09/21
+CREATE SEQUENCE seq_table
+START WITH 10000000
+INCREMENT BY 1
+MINVALUE 10000000
+MAXVALUE 99999999
+CYCLE
+CACHE 20;
+drop sequence seq_table;
+
+
+truncate table tb_sales; --더미데이터 초기화용
 
 ---------------------------- tb_menu : 레스토랑 메뉴 정보
 create table tb_menu(

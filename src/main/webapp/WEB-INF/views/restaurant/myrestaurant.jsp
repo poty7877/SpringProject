@@ -165,11 +165,8 @@
 		<!--.tab-pane  -->
 		<!-- tab: 테이블관리 여기부터 -->
 		<div class="tab-pane fade" id="mysales">
-			<form id="saleForm" method="post" action="restaurant/register" >
-				<input type="hidden" name="resNum" id="sales_resNum" value="${loginResNum}">
 				<c:if test="${sales ne null}">
 				<jsp:include page="./gettable.jsp"></jsp:include></c:if>
-			</form>
 		</div>
 		<!--.tab-pane  -->
 
