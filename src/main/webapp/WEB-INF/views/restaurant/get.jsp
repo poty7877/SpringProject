@@ -88,9 +88,10 @@
 										<div class="item">
 											<div>
 												<img class="img-responsive" src="${ menu.menuImg }" alt="">
-												<h2>
-													${ menu.menuName } </a>
-												</h2>
+												</br>
+												<h3>
+													${ menu.menuName }
+												</h3>
 												<div class="border-bottom"></div>
 												<span>${ menu.unitCost } 원</span></br> <span>주재료 : ${ menu.mainIngredient }
 												</span></br> <span>${ menu.serving }인분</span>

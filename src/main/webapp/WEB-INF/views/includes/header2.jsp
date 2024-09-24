@@ -73,7 +73,7 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 					href="/restaurant/myrestaurant?resNum=${ loginResNum }"> 내정보 </a>
 				<li id="checkrev" class="dropdown"><a class="dropdown-toggle"
 					href="/order/listRes?resNum=${ loginResNum }"> 예약조회 </a>
-				<li class="dropdown" id="login"><a href="/member/login">로그인</a></li>
+				<li class="dropdown" id="login"><a href="/restaurant/restlogin">로그인</a></li>
 
 				<li class="dropdown" id="logout"><a href="/member/logout">로그아웃</a></li>
 

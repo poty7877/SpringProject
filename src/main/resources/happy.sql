@@ -19,7 +19,7 @@ alter table tb_member add constraint pk_member
 primary key (memUno);
 
 create sequence seq_member;
-drop sequence tb_mno_sequence;
+drop sequence seq_member;
 
 
 insert into tb_member(mno, name, phone, email, birth, nickName, pw)
@@ -68,6 +68,8 @@ BEGIN
 
     :NEW.memUno := v_random;
 END;
+
+delete trigger trg_memUno_insert_tb_member;
 
 ALTER SEQUENCE seq_member_Uno RESTART START WITH 10000000;
 SELECT * FROM user_sequences WHERE sequence_name = 'SEQ_MEMBER_UNO';
@@ -179,8 +181,23 @@ values ('test1', 'test1', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
 insert into  tb_sales values ('10000002tes',3,'4인용',3);
 
 insert into tb_menu values (seq_menu.nextVal, '10000002tes', 'test1', 'test1', 'test1', 4, 50000, 'test1');
-update tb_menu set menuimg = '/resources/images/slider/slider-img-1.jpg';
-select * from tb_menu where resNum = '10000002tes';
+
+116 비빔국수
+117 콩국수
+118 포장만두
+
+update tb_menu set menuimg = '/resources/images/exam1/돼지양념갈비.png' where menunum = 127;
+update tb_menu set menuimg = '/resources/images/exam1/삼겹살.png' where menunum = 128;
+update tb_menu set menuimg = '/resources/images/exam1/이베리코.png' where menunum = 129;
+update tb_menu set menuimg = '/resources/images/exam1/차돌.png' where menunum = 130;
+update tb_menu set menuimg = '/resources/images/exam1/소갈비살.png' where menunum = 131;
+update tb_menu set menuimg = '/resources/images/exam1/LA갈비.png' where menunum = 132;
+update tb_menu set menuimg = '/resources/images/exam1/소양념갈비.png' where menunum = 133;
+update tb_menu set menuimg = '/resources/images/exam1/한우꽃등심.png' where menunum = 134;
+select * from tb_restaurant;
+select * from tb_menu where resNum = '10000108adm';
+
+
 select sequence from happy;
 
 SELECT *
@@ -240,4 +257,20 @@ create table tb_like(
 alter table tb_like add constraint fk_tb_like foreign key (resNum) references tb_restaurant (resNum); 
 
 select * from tb_like;
+
+select * from tb_restaurant;
+select * from tb_oper;
+select * from tb_sales;
+select * from tb_menu;
+select * from tb_appointment;
+select * from tb_A_menu;
+sele
+select * from tb_member;
+
+delete from tb_restaurant;
+
+
+
+
+SELECT sequence_name, last_number, increment_by, min_value, max_value from user_sequences;
 
