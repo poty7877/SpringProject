@@ -1,7 +1,9 @@
 package com.happytable.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.happytable.domain.Criteria;
 import com.happytable.domain.PageDTO;
+import com.happytable.domain.RestaurantVO;
 import com.happytable.service.ReplyService;
 import com.happytable.service.RestaurantService;
 
@@ -30,6 +33,7 @@ import lombok.extern.log4j.Log4j2;
 public class HomeController {
 
 	private RestaurantService serviceRest;
+	private ReplyService reply;
 
 	@GetMapping() // URL http://localhost/
 	public String list(Criteria cri, Model model) {
@@ -39,8 +43,23 @@ public class HomeController {
 		int total = serviceRest.getTotal(cri); 
 		// 식당의 갯수를 가져옴
 		log.info("list: " + model);
+		log.info("겟리스트 : " + serviceRest.getList(cri).size());
 		model.addAttribute("pageMaker", new PageDTO(cri, total)); 
 		// model 영역에 pageMaker라는 이름으로 PageDTO 전달
+		List<RestaurantVO> result = new ArrayList<RestaurantVO>();
+		result = serviceRest.getList(cri);
+		
+		for(int i = 0; i<serviceRest.getList(cri).size(); i++) {
+			RestaurantVO res = new RestaurantVO();
+			res = serviceRest.getList(cri).get(i);
+			String resNum = res.getResNum();
+			double ave = reply.getRatingAverage(resNum);
+			res.setAve(ave);
+			result.set(i, res);
+		}
+		
+		model.addAttribute("list", result); 
+
 		return "home";
 	}
 

@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.heading span {
+  font-size: 45px;
+  color: #067087;
+  font-weight: 600;
+}
+</style>
 </head>
 <body>
 	<section id="contact-us">
@@ -18,7 +25,7 @@
 					<div class="block">
 						<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
 							data-wow-delay="300ms">
-							<span>예약 현황 페이지에 어서오세요</span>
+							<span>예약 확인 페이지 - 관리자</span>
 						</h1>
 					</div>
 					<form role="form" action="/order/read" method="get">

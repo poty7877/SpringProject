@@ -21,5 +21,5 @@ public class RestaurantVO {
 	private int cntOper; //**09/14추가 = 영업정보 등록 개수
 	private int cntTable; //**09/14추가 =테이블 (리스트) 등록개수
 	private int cntMenu; //**09/14추가 = 메뉴(리스트) 등록개수
-	
+	private double ave; // **09/24 mjh 추가 = 메인메뉴 평점 나타내기
 }

@@ -95,4 +95,17 @@ public class ReplyServiceImpl implements ReplyService {
 
 	}
 
+	@Override
+	public double getRatingAverage(String resNum) {
+		log.info("ReplyServiceImpl.getRatingAverage 메서드 실행 " + resNum);		
+		double result = 0;
+		Double ratingAvg = mapper.getRatingAverage(resNum);
+		if (ratingAvg!=null) {
+			ratingAvg = (double) (Math.round(ratingAvg * 10));
+			ratingAvg = ratingAvg / 10;
+			result = ratingAvg;
+		}
+		return result;
+	}
+
 }

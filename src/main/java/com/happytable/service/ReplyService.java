@@ -21,4 +21,6 @@ public interface ReplyService {
 	
 	public ReplyPageDTO getListPage(Criteria cri, String resNum);
 	
+	public double getRatingAverage(String resNum);
+	
 }

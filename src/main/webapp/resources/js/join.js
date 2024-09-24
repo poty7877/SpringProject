@@ -97,12 +97,14 @@ $(document).ready(function() {
 					pwInput.css("border-color", "red");
 					cpwInput.css("border-color", "red");
 					pwError.css("display", "block");
+					updateSubmitButtonState(); // 버튼 상태 업데이트
 				} else if (response.status === "success") {
 					console.log(response.message)
 					pwValid = true;
 					cpwInput.css("border-color", "");
 					pwInput.css("border-color", "");
 					pwError.css("display", "none");
+					updateSubmitButtonState(); // 버튼 상태 업데이트
 				}
 			}
 		});
@@ -114,10 +116,12 @@ $(document).ready(function() {
 			birthValid = false;
 			birthInput.css("border-color", "red");
 			birthError.css("display", "block");
+			updateSubmitButtonState(); // 버튼 상태 업데이트
 		} else {
 			birthValid = true;
 			birthInput.css("border-color", "");
 			birthError.css("display", "none");
+			updateSubmitButtonState(); // 버튼 상태 업데이트
 		}
 	})
 	
@@ -128,10 +132,12 @@ $(document).ready(function() {
 			phoneValid = false;
 			phoneInput.css("border-color", "red");
 			phoneError.css("display", "block");
+			updateSubmitButtonState(); // 버튼 상태 업데이트
 		} else {
 			phoneValid = true;
 			phoneInput.css("border-color", "");
 			phoneError.css("display", "none");
+			updateSubmitButtonState(); // 버튼 상태 업데이트
 		}
 	})
 	function updateSubmitButtonState() { // 버튼 활성화하는 기능
@@ -175,11 +181,7 @@ $(document).ready(function() {
 			alert("닉네임은 2자 이상 10자 이하 이어야 합니다.");
 			return;
 		}
-		if (pw.length < 6 || pw.length > 16) {
-			e.preventDefault();
-			alert("비밀번호는 6자 이상 16자 이하 이어야 합니다.");
-			return;
-		}
+		
 		if (birth.length !== 6) {
 			e.preventDefault();
 			alert("생년월일은 정확히 6자이어야 합니다.");

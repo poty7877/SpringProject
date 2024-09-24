@@ -144,7 +144,7 @@
 					<div class="panel-footer ">
 						<div class="clearfix" style="text-align: right;">
 							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
-							<button data-oper="delete" class="btn btn-default" >회원탈퇴(구현중)</button>
+							<button id="delBtn" data-oper="delete" class="btn btn-default" >회원탈퇴</button> <!-- 20240924 용상엽 수정 -->
 						</div>
 						<!-- .right clearfix -->
 					</div>

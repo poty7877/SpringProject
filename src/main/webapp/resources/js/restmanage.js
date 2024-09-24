@@ -3,18 +3,27 @@
  */
 
 $(document).ready(function() {
+
+// 20240924 용상엽 추가
+	$("#delBtn").on("click", function(e) {
+		e.preventDefault();
+		console.log("delBtn 클릭");
+		window.location.href = "/restaurant/delrest";
+
+	});
+//////////////////
 	var result = $("#common_result").val();
 	console.log("test: modify submit 실행: " + result);
 	checkResult(result);
 	history.replaceState({}, null, null);
 
 	function checkResult(result) {
-		if(result===''||history.state){
+		if (result === '' || history.state) {
 			return;
 		}
 		if (result == "success") {
 			alert("정보 변경 성공");
-		} else if(result == "delsuccess"){
+		} else if (result == "delsuccess") {
 			alert("정보 삭제 성공");
 		} else {
 			alert(result);
@@ -104,7 +113,7 @@ $(document).ready(function() {
 	//기본정보 - 변경하기			
 	$("button[data-oper='modify']").on("click", function() {
 		var restForm = $("form[id='restForm']");
-		restForm.submit();		
+		restForm.submit();
 	});
 
 

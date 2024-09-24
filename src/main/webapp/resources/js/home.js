@@ -89,4 +89,21 @@ $(document).ready(
 			}
 			$("#myModal").modal("show");
 		}
+
+
+		console.log(result7);
+		delRest(result7);
+		function delRest(result7) {
+			if (result7 === "") {
+				return;
+			} else {
+				$(".modal-body").html("회원탈퇴가 완료되었습니다.\n 감사합니다");
+				$("#myModal").modal("show");
+			}
+			$("#myModal").modal("show");
+		}
+
+
+
+
 	});

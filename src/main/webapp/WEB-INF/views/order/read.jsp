@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<section id="contact-us">
@@ -18,10 +19,10 @@
 					<div class="block">
 						<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
 							data-wow-delay="300ms">
-							<span>예약 현황 페이지에 어서오세요</span>
+							<span>예약 확인 페이지</span>
 						</h1>
-						<h6>요청사항 수정이나 예약취소만 가능합니다.<br>
-						날짜 및 인원 수정에 관련되어서는 레스토랑에 직접 연락해주시기 바랍니다.</h6>
+						요청사항 수정이나 예약취소만 가능합니다.</br>
+						날짜 및 인원 수정에 관련되어서는 레스토랑에 직접 연락해주시기 바랍니다.
 
 					</div>
 					<form role="form" action="/order/read" method="get">
