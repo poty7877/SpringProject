@@ -11,17 +11,16 @@
 	</div>
 	<!-- .col-md-12 close -->
 </div>
-
 <div class="row" style="margin-top: 50px;">
-	<input type="hidden" id="tables" name="tables">
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-info">
 			<div class="panel-heading">메뉴등록</div>
 			<!-- .panel-heading -->
+			<form id="menuForm" method="post" action="restaurant/register" >		
 			<div class="panel-body">
 				<!-- resnum 전송위한 hidden -->				
-				<input type="hidden" id="menu_resNum" name="resNum"
-					value="${loginResNum}">
+				<input type="hidden" id="menu_resNum" name="resNum" value="${loginResNum}">
+				
 				<div class="row" style="width: 90%; margin-left: 20px;">
 					<div class="form-group">
 						<label for="menuName">메뉴명</label><input type="text"
@@ -67,17 +66,17 @@
 				<div class="row" style="width: 90%; margin-left: 20px;">
 					<div class="form-group">
 						<label for="menuImg">이미지파일(선택사항-구현중)</label> <input type="file"
-							id="menuImg" name="menuImg">
+							id="menuImg" name="menuImg" value="-">
 					</div>
 				</div>
 				<!--.row  -->
 			</div>
 			<!-- .panel-body -->
 			<div class="panel-footer">
-			<button type="button" class="btn btn-primary btn-lg btn-block"
-						id="saveMenuBtn">저장하기</button>
+			<button type="button" class="btn btn-primary btn-lg btn-block" id="saveMenuBtn">저장하기</button>
 			</div>
 			<!-- .panel-footer -->
+			</form>
 		</div>
 		<!--.panel panel-Info  -->
 	</div>
