@@ -10,6 +10,11 @@ create table tb_member(
 	pw			varchar2(50) not null
 );
 
+alter table tb_member add point number(30);
+UPDATE tb_member SET point = 0;  -- 적절한 값으로 업데이트
+ALTER TABLE tb_member MODIFY point NUMBER(30) NOT NULL;
+
+
 select * from tb_member;
 
 delete from tb_member;

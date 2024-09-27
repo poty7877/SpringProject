@@ -16,5 +16,6 @@ public class MemberVO {
 	private String birth; // 생년월일 6자리(성인 여부 확인)
 	private String nickName; // 닉네임
 	private int grade; // 회원 등급 점수
+	private Long point;
 	
 }

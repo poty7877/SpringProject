@@ -9,7 +9,8 @@ $(document).ready(
 			}
 			if (parseInt(mno) > 0) { // mno값이 0보다 크면
 				// Controller에서 받아온 result값을 이용해 modal-body의 내용을 변경
-				$(".modal-body").html(result1 + "님 회원가입을 축하드립니다.");
+				$(".modal-body").html(result1 + "님 회원가입을 축하드립니다.\n" + "가입선물로 500포인트 지급해드립니다.");
+				
 			}
 			// Modal창 띄움
 			$("#myModal").modal("show");

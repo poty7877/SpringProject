@@ -78,6 +78,12 @@
 									id="nickName" class="form-control" name="nickName"
 									value="${ loginMember.getNickName() }" required maxlength="10">
 							</div>
+							
+							<div class="form-group">
+								<label for="point">내 포인트</label> <input type="text"
+									id="point" class="form-control" name="point"
+									value="${ loginMember.getPoint() }" readonly>
+							</div>
 
 							<div class="form-group">
 								<label for="nickName">회원 가입일</label> <input type="text"
