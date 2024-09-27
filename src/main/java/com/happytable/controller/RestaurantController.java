@@ -109,6 +109,15 @@ public class RestaurantController {
 
 	}
 
+	// 테이블 등록(건별-수정페이지에서)
+	@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> regOneTable(@RequestBody SalesVO table) {
+		log.info("test 받은 data:" + table);
+		int result = serviceSal.register(table);
+		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 	// 메뉴등록
 	@PostMapping(value = "/newmenu", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> menuAjaxReg(@RequestBody MenuVO menu) {
@@ -134,6 +143,7 @@ public class RestaurantController {
 	public ResponseEntity<String> modRest(@RequestBody RestaurantVO rest) {
 		String resNum = rest.getResNum();
 		log.info("변경할 resnum:" + resNum);
+		log.info("변경한 rest:" + rest);
 		boolean result = serviceRest.modify(rest);
 
 		return result ? new ResponseEntity<>("success", HttpStatus.OK)

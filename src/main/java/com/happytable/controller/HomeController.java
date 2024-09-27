@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.happytable.domain.Criteria;
 import com.happytable.domain.PageDTO;
 import com.happytable.domain.RestaurantVO;
+import com.happytable.service.GuestAlrService;
 import com.happytable.service.ReplyService;
+import com.happytable.service.RestAlrService;
 import com.happytable.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -34,10 +36,11 @@ public class HomeController {
 
 	private RestaurantService serviceRest;
 	private ReplyService reply;
-
+	
 	@GetMapping() // URL http://localhost/
 	public String list(Criteria cri, Model model) {
 		// Criteria, PageDTO는 페이징, 검색처리 위해 추가
+		
 		model.addAttribute("list", serviceRest.getList(cri)); 
 		// 식당 리스트를 불러와 model 영역에 list라는 이름으로 전달
 		int total = serviceRest.getTotal(cri); 

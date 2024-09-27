@@ -36,7 +36,7 @@ if (!loggedIn) { // loggedIn이 false이면
 	// modal창이 닫히면 실행
 	$("#myModal").on("hidden.bs.modal", function() {
 		// 홈으로 이동
-		window.location.href = "/";
+		window.location.href = "/member/login";
 	});
 } else {
 	$(document).ready(function() {

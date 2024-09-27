@@ -57,7 +57,7 @@
 										일반회원
 									</label> <label
 										style="margin-right: 20px; display: flex; align-items: center;">
-										<input type="radio" name="userType" id="admin"> 관리자
+										<input type="radio" name="userType" id="admin"> 사업자회원
 									</label>
 									<button type="button" onclick="location.href='/member/findID'"
 										class="btn btn-default">이메일 찾기</button>

@@ -4,7 +4,8 @@
 
 $(document).ready(function() {
 	/*영업정보관리-페이지 로드*/
-	
+
+
 
 	//라디오 버튼값 활성화
 	var breakTimeResult = $("#breakTime").val();
@@ -17,7 +18,7 @@ $(document).ready(function() {
 		var bt_f = $("input[id='bt_false']");
 		var ad_t = $("input[id='adPay_true']"); //adPay
 		var ad_f = $("input[id='adPay_false']");
-		if (breakTimeResult=="true") {
+		if (breakTimeResult == "true") {
 			bt_t.prop("checked", true);
 			var inputDiv = $("#breaktime_input");
 			inputDiv.attr("style", "display: block");
@@ -27,7 +28,7 @@ $(document).ready(function() {
 			inputDiv.attr("style", "display: none");
 		}
 
-		if (adPaySelResult=="true") {
+		if (adPaySelResult == "true") {
 			ad_t.prop("checked", true);
 			var inputDiv = $("#adPay_input");
 			inputDiv.attr("style", "display: block");
@@ -43,20 +44,36 @@ $(document).ready(function() {
 	//select default값 부르기
 	var do_data = $("#dayoff_cate_data").val();
 	var do_op = $("#dayoff_cate option[value=" + do_data + "]");
-	//console.log("test:"+do_data);
-	//console.log("test:"+do_op);
+	console.log("test:"+do_data);
+	console.log("test:"+do_op);
 	do_op.prop("defaultSelected", true);
 
 	var do_wdata = $("#dayoff_weekCnt_data").val();
 	var do_wop = $("#dayoff_weekCnt option[value=" + do_wdata + "]");
 	do_wop.prop("defaultSelected", true);
 
-
 	var do_ddata = $("#dayoff_Day_data").val();
 	var do_dop = $("#dayoff_Day option[value=" + do_ddata + "]");
 	do_dop.prop("defaultSelected", true);
+
 	console.log("test:" + do_ddata);
 
+	if(do_data === "연중무휴") {
+		$("#dayoff_weekCnt option:not([value='-'])").hide(); // - 제외한 모든 옵션 숨기기
+            $("#dayoff_Day option:not([value='-'])").hide(); // - 제외한 모든 옵션 숨기기
+			do_op.prop("defaultSelected", true);
+	} else if(do_data === "매월") {
+		$("#dayoff_weekCnt option").show(); // 모든 옵션 보이기
+			$("#dayoff_Day option").show(); // 모든 옵션 보이기
+			$("#dayoff_weekCnt option[value='-']").hide();
+			$("#dayoff_Day option[value='-']").remove();
+			do_wop.prop("defaultSelected", true);
+	} else if(do_data ==="매주") {
+		$("#dayoff_weekCnt option:not([value='-'])").hide();
+			$("#dayoff_Day option").show(); // 모든 옵션 보이기
+			$("#dayoff_Day option[value='-']").hide();
+			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
+	}
 	//**0918추가 : 메뉴지정예약 선택여부에 따라 보이기 */
 	var menuReservVal = $("#menuReserv").val();
 	if (menuReservVal == "true") {
@@ -84,7 +101,7 @@ $(document).ready(function() {
 		var operForm = $("form[id='reginfoForm']");
 		operForm.submit();
 	});
-	
+
 	$("button[data-oper='operdelete']").on("click", function() {
 		var operForm = $("form[id='reginfoForm']");
 		operForm.attr("action", "/restaurant/deloper")

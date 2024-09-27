@@ -55,13 +55,15 @@
 								<h4>
 									<a>조장</a>
 								</h4>
-								<p>용상엽</p>
+								<a href="https://github.com/poty7877/SpringProject" style="font-size:20px; color:black;">용상엽</a>
 							</li>
 							<li>
 								<h4>
 									<a>조원</a>
 								</h4>
-								<p>문지현, 조용재, 김지선</p>
+								<a href="https://github.com/jsKim-prog"  style="font-size:20px; color:black;">김지선</a>
+								<a href="https://github.com/moonji-hyun"  style="font-size:20px; color:black;">문지현</a>
+								<a href="https://github.com/hopepu"  style="font-size:20px; color:black;">조용재</a>
 							</li>
 						</ul>
 					</div>
@@ -83,7 +85,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="block">
 					<p>
-						Copyright &copy; 2014 - All Rights Reserved.Design and Developed
+						Copyright &copy; 2024 - All Rights Reserved.Design and Developed
 						By <a href="http://www.themefisher.com">Themefisher</a>
 					</p>
 				</div>

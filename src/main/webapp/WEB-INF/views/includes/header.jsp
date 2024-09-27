@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 // 일반회원 로그인 값
 // 세션에서 loggedIn값을 가져와 loggedIn변수에 저장
@@ -65,6 +67,21 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 	url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap')
 	;
 
+.note-num {
+	position: absolute;
+	top: 0;
+	right: 15;
+	z-index: 3;
+	height: 20px;
+	width: 20px;
+	line-height: 20px;
+	text-align: center;
+	background-color: black;
+	color: white;
+	border-radius: 15px;
+	display: inline-block;
+}
+
 .jua-regular {
 	font-family: "Jua", sans-serif;
 	font-weight: 400;
@@ -120,7 +137,9 @@ body {
 								id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav navbar-right" id="top-nav">
 									<li><a href="/">홈</a></li>
-									<li><a id="reservationCheck" href="">예약조회</a></li>
+									<li><a id="page"
+										href="/restaurant/get?resNum=${loginResNum }">내 홈페이지</a></li>
+									<li><a id="reservationCheck" href="/order/list">예약조회</a></li>
 									<!-- 예약 조회시 resNum혹은 memUno의 정보를 가져가 실행 -->
 									<li><a href="/member/modify" id="myInfo">내정보</a></li>
 									<!-- <li class="nav-item dropdown"><a
@@ -136,6 +155,20 @@ body {
 									<li id="login"><a href="/member/login">로그인</a></li>
 									<li id="logout"><a href="/member/logout">로그아웃</a></li>
 									<li><a href="/joinType">회원가입</a></li>
+									<li class="dropdown" id="dropdown"><a href="#"
+										class="dropdown-toggle" data-toggle="dropdown" role="button"
+										aria-haspopup="true" aria-expanded="false"><i
+											class="fa fa-bell" aria-hidden="true"></i> <span
+											class="note-num" id="">!</span>
+											<ul class="dropdown-menu">
+												<li><a id="RA" style="cursor: pointer"></a></li>
+												<li><a id="GA" style="cursor: pointer"></a></li>
+											</ul> </a></li>
+
+								</ul>
+
+								<ul class="dropdown-menu">
+
 								</ul>
 							</div>
 							<!-- /.navbar-collapse -->
@@ -151,10 +184,15 @@ body {
 	<!-- .container close -->
 </nav>
 <!-- header close -->
+
+
 <script type="text/javascript">
 	$(document)
 			.ready(
 					function() {
+						$("#dropdown").hide();
+						$("#GA").hide();
+						$("#RA").hide();
 						// 로그인 상태를 확인하는 함수
 						var loggedIn =
 <%=loggedInStr%>
@@ -166,28 +204,145 @@ body {
 						console.log(loggedIn2);
 
 						if (loggedIn || loggedIn2) { // 로그인 상태면
+							$("#dropdown").show();
 							$('#login').hide(); // 로그인 버튼 숨기기
 							$('#logout').show(); // 로그아웃 버튼 보이기
 						} else if (!loggedIn || !loggedIn2) { // 로그아웃 상태면
+							$("#dropdown").hide();
 							$('#login').show(); // 로그인 버튼 보이기
 							$('#logout').hide(); // 로그아웃 버튼 숨기기
+							$("#page").hide();
 						}
 						if (loggedIn) { // 일반사용자 로그인시
 							// 예약조회 버튼의, href를 아래와 같이 변경
+							function fetchGcount() {
+								$
+										.ajax({
+											url : '/member/getGcount',
+											method : 'GET',
+											success : function(data) {
+												if (data.gcount > 0) {
+													$("#GA")
+															.html(
+																	data.gcount
+																			+ " 개의 예약상태가 변경되었습니다.");
+													$(".note-num").html(
+															data.gcount).show();
+													  $("#GA").data("hasData", true)
+												} else {
+													$("#GA").html(
+															"변경된 예약 상태가 없습니다.");
+													$(".note-num").hide();
+													$("#GA").data("hasData", false)
+												
+												}
+											}
+										});
+							}
+
+							// 초기 호출
+							fetchGcount();
+
+							// 5초마다 호출
+							setInterval(fetchGcount, 5000);
 							$("#reservationCheck")
 									.attr("href",
 											"/order/list?memUno=${loginMember.getMemUno()}");
 							// 내정보 버튼의, href를 아래와 같이 변경
 							$("#myInfo").attr("href", "/member/modify");
+							$("#page").hide();
+							$("#GA").show();
+							$("#RA").hide();
+
+							// 일반로그인
 
 						} else if (loggedIn2) {// 관리자 로그인시
 							// 예약조회 버튼의, href를 아래와 같이 변경
+							function fetchRcount() {
+								$
+										.ajax({
+											url : "/member/getRcount",
+											method : "GET",
+											success : function(data) {
+												if (data.rcount > 0) {
+													$("#RA")
+															.html(
+																	data.rcount
+																			+ " 개의 새로운 예약이 있습니다.");
+													$(".note-num").html(
+															data.rcount).show();
+													$("#RA").data("hasData", true)
+												} else {
+													$("#RA").html(
+															"새로운 예약이 없습니다.");
+													$(".note-num").hide();
+													$("#RA").data("hasData", false)
+													
+												}
+											}
+										});
+							}
+
+							// 초기 호출
+							fetchRcount();
+
+							// 5초마다 호출
+							setInterval(fetchRcount, 5000);
+
+							$("#page").show();
 							$("#reservationCheck").attr("href",
 									"/order/listRes?resNum=${ loginResNum }");
 							// 내정보 버튼의, href를 아래와 같이 변경
 							$("#myInfo")
 									.attr("href",
-											"/restaurant/myrestaurant?resNum=${ loginResNum }");
+											"/restaurant/myrestaurant/?resNum=${ loginResNum }");
+							$("#myInfo").html("가게정보");
+							$("#RA").show();			
+							$("#GA").hide();
 						}
+
 					});
+</script>
+<script type="text/javascript">
+
+	$("#GA")
+			.on(
+					"click",
+					function(e) {
+						e.preventDefault();
+						 if (!$("#GA").data("hasData")) {
+						        return; // 아무 동작도 하지 않음
+						    }
+						$
+								.ajax({
+									url : "/member/delGcount",
+									method : "DELETE",
+									success : function() {
+										console.log("삭제 성공!!");
+										window.location.href = "/order/list?memUno=${loginMember.getMemUno()}";
+									},
+									error : function(jqXHR, textStatus,
+											errorThrown) {
+										console.error("Error: " + textStatus,
+												errorThrown);
+										console.error("Response: "
+												+ jqXHR.responseText);
+									}
+								});
+					});
+	$("#RA").on("click", function(e) {
+		e.preventDefault();
+		 if (!$("#RA").data("hasData")) {
+		        return; // 아무 동작도 하지 않음
+		    }
+		$.ajax({
+			url : "/member/delRcount",
+			method : "DELETE",
+			success : function() {
+				console.log("삭제 성공!");
+				window.location.href = "/order/listRes?resNum=${loginResNum}";
+			}
+		})
+	});
+
 </script>

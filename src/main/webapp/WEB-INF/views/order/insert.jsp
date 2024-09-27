@@ -39,9 +39,10 @@
 								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
 								type='hidden' name='a_Status' value='예약 중' />
 
-
+<p style="margin-left:140px; color:red;">당일 예약은 불가합니다.</p>
 							<table width='100%'>
 								<tr>
+								
 									<th>예약일</th>
 									<th>
 									<%-- <input type="date" class="form-control" name="date" required="required" min="${s_Date}" max="${e_Date}"> --%>
@@ -69,10 +70,10 @@
 									
 									<th>요청테이블</th>
 									<th>
-									<c:forEach var="i" begin="0" end="${fn:length(resVO.salList)-1}">
-									<input type="checkbox" class="check" value="${resVO.salList[i].tableType}" name="table"/>
-									<label for="${resVO.salList[i].tableType}">
-									<c:out value="${resVO.salList[i].tableType}"/>
+									<c:forEach var="i" begin="0" end="${fn:length(table_kind)-1}">
+									<input type="checkbox" class="check" value="${table_kind[i]}" name="table"/>
+									<label for="${table_kind[i]}">
+									<c:out value="${table_kind[i]}"/>
 									</label>
 									</c:forEach>
 									</th>					

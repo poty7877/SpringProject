@@ -22,73 +22,88 @@
 						</h1>
 
 					</div>
-						<div class="panel-body">
-							<table class="table table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th width='20%'>예약 날짜</th>
-										<th width='20%'>레스토랑 이름</th>
-										<th width='10%'>예약 인원</th>
-										<th width='15%'>예약 상태</th>
-										<th width='15%'>예약 번호</th>
-										<th width='20%'>요청 사항</th>
-									</tr>
-								</thead>
-								
-								<c:forEach items="${appoint}" var="reservation">
-									<tr>
-										<td><c:out value="${reservation.a_Date}" /></td>
+					<div class="panel-body">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th width='20%'>예약 날짜</th>
+									<th width='20%'>레스토랑 이름</th>
+									<th width='10%'>예약 인원</th>
+									<th width='15%'>예약 상태</th>
+									<th width='15%'>예약 번호</th>
+									<th width='20%'>요청 사항</th>
+								</tr>
+							</thead>
 
-										<td><c:out value="${reservation.resName}" /></td>
+							<c:forEach items="${appoint}" var="reservation">
+								<tr>
+									<td><c:out value="${reservation.a_Date}" /></td>
 
-										<td><c:out value="${reservation.a_NOP}" /></td>
+									<td><c:out value="${reservation.resName}" /></td>
 
-										<td><c:out value="${reservation.a_Status}" /></td>
+									<td><c:out value="${reservation.a_NOP}" /></td>
 
-										<td><a
-											href='/order/read?a_No=<c:out value="${reservation.a_No}"/>'>
-												<c:out value="${reservation.a_No}" />
-										</a></td>
-										<td><c:out value="${reservation.a_Note}"/></td>									
-										
-									</tr>
-								</c:forEach>
-							</table>
-					<!-- Modal  추가 -->
-					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-						aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-hidden="true">&times;</button>
-									<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+									<td><c:out value="${reservation.a_Status}" /></td>
+
+									<td><a
+										href='/order/read?a_No=<c:out value="${reservation.a_No}"/>'>
+											<c:out value="${reservation.a_No}" />
+									</a></td>
+									<td><c:out value="${reservation.a_Note}" /></td>
+
+								</tr>
+							</c:forEach>
+						</table>
+						<!-- Modal  추가 -->
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+										<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+									</div>
+									<div class="modal-body">처리가 완료되었습니다.</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+
+									</div>
 								</div>
-								<div class="modal-body">처리가 완료되었습니다.</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary"
-										data-dismiss="modal">Save changes</button>
-								</div>
+								<!-- /.modal-content -->
 							</div>
-							<!-- /.modal-content -->
+							<!-- /.modal-dialog -->
 						</div>
-						<!-- /.modal-dialog -->
+						<!-- /.modal -->
+
+
 					</div>
-					<!-- /.modal -->
-
-
+					<!--  end panel-body -->
 				</div>
-				<!--  end panel-body -->
+				<!-- end panel -->
 			</div>
-			<!-- end panel -->
-		</div>
 	</section>
 	<!-- #contact-us close -->
 
+	<script type="text/javascript">
+		var loggedIn =
+	<%=loggedInStr%>
+		;
+		var loggedIn2 =
+	<%=loggedInStr2%>
+		;
+		if (!loggedIn && !loggedIn2) { // loggedIn이 false이면
+			$("#myModal .modal-body").html("로그인 후 이용해주세요");
+			$("#myModal").modal("show"); // modal창 띄움 (로그인 필수)
 
-
+			// modal창이 닫히면 실행
+			$("#myModal").on("hidden.bs.modal", function() {
+				// 홈으로 이동
+				window.location.href = "/member/login";
+			});
+		}
+	</script>
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

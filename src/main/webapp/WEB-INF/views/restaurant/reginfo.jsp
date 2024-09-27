@@ -14,23 +14,27 @@
 </div>
 <!-- .row close -->
 <div class="row" style="margin-top: 50px;">
-	<form id="reginfoForm" method="post" action="/restaurant/reginfo" onsubmit="return valForm(this)">
+	<form id="reginfoForm" method="post" action="/restaurant/reginfo"
+		onsubmit="return valForm(this)">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">영업정보</div>
 				<div class="panel-body">
 					<!-- 영업시간 입력란 -->
-					<input type="hidden" id="oper_resNum" name="resNum" value="${loginResNum}">
+					<input type="hidden" id="oper_resNum" name="resNum"
+						value="${loginResNum}">
 					<div class="row position-relative">
 						<div class="col-md-6 form-group">
-							<label>OPEN</label> <input type="time" class="form-control" id="openTime"/> 
-							<input type="hidden" name="openTime" value="--:--">							
+							<label>OPEN</label> <input type="time" class="form-control"
+								id="openTime" /> <input type="hidden" name="openTime"
+								value="--:--">
 						</div>
 						<!-- col-md-3 -->
 
 						<div class="col-md-6 form-group">
-							<label>CLOSE</label> <input type="time" class="form-control" id="endTime" /> 
-							<input type="hidden" name="endTime" value="--:--">	
+							<label>CLOSE</label> <input type="time" class="form-control"
+								id="endTime" /> <input type="hidden" name="endTime"
+								value="--:--">
 						</div>
 						<!-- col-md-3 -->
 					</div>
@@ -41,8 +45,10 @@
 							<hr>
 							<label>BreakTime</label>
 							<div>
-								<label class="radio-inline"> <input type="radio" id="bt_true" name="breakTime" value="true"> 있음
-								</label> <label class="radio-inline"> <input type="radio" id="bt_false" name="breakTime" value="false" checked>
+								<label class="radio-inline"> <input type="radio"
+									id="bt_true" name="breakTime" value="true"> 있음
+								</label> <label class="radio-inline"> <input type="radio"
+									id="bt_false" name="breakTime" value="false" checked>
 									없음
 								</label>
 							</div>
@@ -53,8 +59,9 @@
 					<div class="row" id="breaktime_input" style="display: none">
 						<div class="col-md-6 ">
 							<div class="input-group">
-								<span class="input-group-addon">START</span> <input type="time" class="form-control" id="breakTime_start" /> 
-									<input type="hidden" name="breakTime_start" value="--:--">
+								<span class="input-group-addon">START</span> <input type="time"
+									class="form-control" id="breakTime_start" /> <input
+									type="hidden" name="breakTime_start" value="--:--">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -63,8 +70,8 @@
 						<div class="col-md-6">
 							<div class="input-group">
 								<span class="input-group-addon">END</span> <input type="time"
-									class="form-control" id="breakTime_end" /> 
-									<input type="hidden" name="breakTime_end" value="--:--">
+									class="form-control" id="breakTime_end" /> <input
+									type="hidden" name="breakTime_end" value="--:--">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -84,7 +91,7 @@
 									<option value="매주">매주</option>
 								</select> <select class="form-control" id="dayoff_weekCnt"
 									name="dayoff_weekCnt" style="width: 30%" disabled>
-									<option value="-" >-</option>
+									<option value="-">-</option>
 									<option value="1">첫째주</option>
 									<option value="2">둘째주</option>
 									<option value="3">셋째주</option>
@@ -93,7 +100,7 @@
 									<option value="24">둘째, 넷째주</option>
 								</select> <select class="form-control" id="dayoff_Day" name="dayoff_Day"
 									style="width: 30%" disabled>
-									<option value="-" >-</option>
+									<option value="-">-</option>
 									<option value="월">월요일</option>
 									<option value="화">화요일</option>
 									<option value="수">수요일</option>
@@ -101,9 +108,8 @@
 									<option value="금">금요일</option>
 									<option value="토">토요일</option>
 									<option value="일">일요일</option>
-								</select>
-								<input type="hidden" name=dayoff_weekCnt value="-">
-								<input type="hidden" name=dayoff_Day value="-">
+								</select> <input type="hidden" name=dayoff_weekCnt value="-"> <input
+									type="hidden" name=dayoff_Day value="-">
 							</div>
 							<!--.input-group  -->
 						</div>
@@ -138,8 +144,8 @@
 						<div class="col-md-6">
 							<p>예약금 지불 최소인원</p>
 							<div class="input-group">
-								<input type="number" class="form-control" name="adPayCond" value="0"><span
-									class="input-group-addon">명</span>
+								<input type="number" class="form-control" name="adPayCond"
+									value="0"><span class="input-group-addon">명</span>
 							</div>
 						</div>
 						<!-- col-md-4 -->
@@ -159,9 +165,10 @@
 							<hr>
 							<label for="inputMenuRev">메뉴 지정 예약 </label>
 							<div>
-								<input type="hidden" id="menuReserv" name="menuReserv"  value="false"> 
-								<input type="checkbox" id="inputMenuRev" name="menuReserv"  value="true"> 메뉴예약 필요<br>
-								<p>(※ 재료준비, 조리시간 필요 등의 이유로 메뉴별 예약이 필요한 경우 선택해 주세요.)</p>								
+								<input type="hidden" id="menuReserv" name="menuReserv"
+									value="false"> <input type="checkbox" id="inputMenuRev"
+									name="menuReserv" value="true"> 메뉴예약 필요<br>
+								<p>(※ 재료준비, 조리시간 필요 등의 이유로 메뉴별 예약이 필요한 경우 선택해 주세요.)</p>
 							</div>
 						</div>
 						<!-- col-md-8 -->
@@ -193,6 +200,9 @@
 			</div>
 			<div class="modal-body">
 				<ul>
+					<li>예약금을 설정하시면 단체예약시 예약금을 선결제한 회원의 예약정보만 받을 수 있습니다.</li>
+					<li>예약금을 선결제할 최소 예약인원과 선결제 받을 금액을 설정할 수 있습니다.</li>
+					<li>설정을 원하시면 [설정함]을, 원하지 않으면 [설정안함]을 선택하세요.</li>
 				</ul>
 
 			</div>

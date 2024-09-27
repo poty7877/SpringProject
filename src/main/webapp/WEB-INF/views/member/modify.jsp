@@ -107,7 +107,7 @@
 								aria-hidden="true">&times;</button>
 							<h4 class="modal-title" id="myModalLabel">로그인 필요</h4>
 						</div>
-						<div class="modal-body">로그인 후에 회원정보를 수정 할 수 있습니다. 홈으로 돌아갑니다.</div>
+						<div class="modal-body">로그인 후에 회원정보를 수정 할 수 있습니다</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>

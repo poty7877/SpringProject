@@ -51,6 +51,7 @@ public class A_Controller {
 		if (result == 1) { // result가 1이면
 			// 홈으로 redirect할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 성공하였습니다.");
+			
 		} else { // result가 0이면
 			// 홈으로 redirect시 실패메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 실패하였습니다. 가게로 문의하여 주시기 바랍니다.");
@@ -126,6 +127,7 @@ public class A_Controller {
 			int week = 0;
 			int length = oper.getOper().getDayoff_weekCnt().length();
 			String day = oper.getOper().getDayoff_Day();
+			day = day.replaceAll("[,-]","");
 			day = day.replace("일", "0");
 			day = day.replace("월", "1");
 			day = day.replace("화", "2");
@@ -136,7 +138,10 @@ public class A_Controller {
 			
 			
 			for(int i = 0; i<length; i++) {
-				String week_c = oper.getOper().getDayoff_weekCnt().substring(i, i+1);
+				String week_c1 = oper.getOper().getDayoff_weekCnt();
+	            week_c1 = week_c1.replaceAll("[,-]","");
+	            String week_c = week_c1.substring(i, i+1);
+				
 				log.info(week_c+"주");
 				week = Integer.parseInt(week_c);
 				week = week - week_N;
@@ -201,6 +206,17 @@ public class A_Controller {
 		log.info("휴일 : " + m_w_day);
 		log.info("매주 휴일 : " + everyWeek_day);
 		log.info("레스토랑 정보 : " + oper.toString());
+		
+		List<String> table_kind = new ArrayList<String>();
+		table_kind.add(oper.getSalList().get(0).getTableType());
+		for(int i = 1; i<oper.getSalList().size(); i++) {
+			if(oper.getSalList().get(i-1).getTableType().equals(oper.getSalList().get(i).getTableType())) {
+				
+			} else {
+				table_kind.add(oper.getSalList().get(i).getTableType());
+			}
+		}
+		
 
 		model.addAttribute("resVO", oper);
 		model.addAttribute("open", open);
@@ -208,6 +224,8 @@ public class A_Controller {
 		model.addAttribute("p_Cnt", p_Cnt);
 		model.addAttribute("everyWeek_day", everyWeek_day);
 		model.addAttribute("rest_day", m_w_day);
+		model.addAttribute("table_kind", table_kind);
+		
 
 	}
 	

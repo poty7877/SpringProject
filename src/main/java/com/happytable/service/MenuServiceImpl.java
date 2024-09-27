@@ -59,13 +59,13 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public int removeAll(String resNum) {
 		log.info("MenuServiceImpl.removeAll() 서비스 실행.....");
-		return mappme.countMenu(resNum);
+		return mappme.deleteAll(resNum);
 	}
 
 	@Override
 	public int countMenu(String resNum) {
 		log.info("MenuServiceImpl.countMenu() 서비스 실행.....");
-		return 0;
+		return mappme.countMenu(resNum);
 	}
 
 	@Override

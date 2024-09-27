@@ -6,19 +6,25 @@ $(document).ready(function() {
 	var resnum = $("#oper_resNum").val();
 	console.log("test:" + resnum);
 	//시간설정
-	
-	$("#openTime").on("focusout", function(e){
+
+
+
+
+	console.log("용 테스트" + openTime, endTime);
+	$("#openTime").on("focusout", function(e) {
 		var openTime = $("input[id='openTime']").val();
-		$("input[name='openTime']").attr("value", openTime);
+		if (openTime) {
+			$("input[name='openTime']").attr("value", openTime);
+		}
 		console.log("test openTime:" + $("input[name='openTime']").val());
 	});
-	
-	$("#endTime").on("focusout", function(e){
+
+	$("#endTime").on("focusout", function(e) {
 		var endTime = $("input[id='endTime']").val();
-		$("input[name='endTime']").attr("value", endTime);
-		console.log("test openTime:" + $("input[name='endTime']").val());
+		if (endTime) {
+			$("input[name='endTime']").attr("value", endTime);
+		} console.log("test openTime:" + $("input[name='endTime']").val());
 	});
-	
 
 	//브레이크타임 여부에 따라 입력칸 나타내기
 	$("#bt_true").on("click", function(e) {
@@ -41,22 +47,29 @@ $(document).ready(function() {
 		var weekSelBox = $("#dayoff_weekCnt");
 		var daySelBox = $("#dayoff_Day");
 		if (dayoffcateVal === "연중무휴") {//연중무휴인 경우
-			weekSelBox.prop("disabled", true);
+			$("#dayoff_weekCnt option:not([value='-'])").hide(); // - 제외한 모든 옵션 숨기기
+			$("#dayoff_Day option:not([value='-'])").hide(); // - 제외한 모든 옵션 숨기기
 			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
-			daySelBox.prop("disabled", true);
 			$("#dayoff_Day option[value='-']").prop("selected", true);
+			weekSelBox.attr("value", "-");
+			daySelBox.attr("value", "-");
 		}
-		if (dayoffcateVal === "매월") { //매월 선택
+		else if (dayoffcateVal === "매월") { //매월 선택
+			$("#dayoff_weekCnt option").show(); // 모든 옵션 보이기
+			$("#dayoff_Day option").show(); // 모든 옵션 보이기
+			$("#dayoff_weekCnt option[value='-']").hide();
+			$("#dayoff_Day option[value='-']").hide();
 			weekSelBox.prop("disabled", false);
 			$("#dayoff_weekCnt option[value='1']").prop("selected", true);
 			daySelBox.prop("disabled", false);
 			$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
-		if (dayoffcateVal === "매주") { //매주 선택
-			weekSelBox.prop("disabled", true);
+		else if (dayoffcateVal === "매주") { //매주 선택
+			$("#dayoff_weekCnt option:not([value='-'])").hide(); // - 제외한 모든 옵션 숨기기
+			$("#dayoff_Day option").show(); // 모든 옵션 보이기
+			$("#dayoff_Day option[value='-']").hide();
 			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
-			$("#dayoff_weekCnt").val("-");
-			daySelBox.prop("disabled", false);
+			weekSelBox.attr("value", "-");
 			$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 	});//--$("#dayoff_cate").on("chage")

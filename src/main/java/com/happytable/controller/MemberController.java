@@ -1,26 +1,27 @@
 package com.happytable.controller;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.MemberVO;
+import com.happytable.domain.RestaurantVO;
+import com.happytable.service.GuestAlrService;
 import com.happytable.service.MemberService;
+import com.happytable.service.RestAlrService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Log4j2
 @AllArgsConstructor
@@ -52,6 +53,8 @@ public class MemberController {
 	}
 
 	private MemberService service;
+	private GuestAlrService gaservice;
+	private RestAlrService raservice;
 
 	@GetMapping({ "/join", "/login", "/modify", "/remove", "/findID", "/findPW", "/changePw" })
 	public void show() {
@@ -76,6 +79,7 @@ public class MemberController {
 			rttr.addFlashAttribute("result2", loginMember.getNickName()); // 홈으로 redirect할때 멤버의 NickName을 가져감
 			session.setAttribute("loginMember", loginMember); // 세션에 loginMember객체를 추가
 			session.setAttribute("loggedIn", true); // 세션에 로그인한 상태를 유지하는 값 추가
+
 		} else { // 일치하는 객체가 없어 loginMember가 null이면
 			rttr.addFlashAttribute("loginError", "이메일,비밀번호 입력오류."); // member/login으로 redirect할때 에러메시지 가져감
 			return "redirect:/member/login"; // member/login으로 redirect
@@ -155,5 +159,7 @@ public class MemberController {
 		}
 
 	}
+
+
 
 }

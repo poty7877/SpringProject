@@ -2,8 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../views/includes/header.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -52,10 +51,10 @@
 							<table class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr class="danger">
-										<th>#번호</th>
+										<th width=4%>번호</th>
 										<th>이름</th>
 										<th>주소</th>
-										<th>전화번호</th>
+										<th width=12%>전화번호</th>
 										<th>홍보문</th>
 										<th>평점</th>
 										<th width=5%>페이지</th>
@@ -70,13 +69,15 @@
 										<!-- varStatus를 설정하고 번호 추가 -->
 										<td>${ restaurant.resName }</td>
 										<!-- 이름 -->
-										<td>${ restaurant.resAddr }</td>
+										<td><a
+											href="https://www.google.co.kr/maps/search/${restaurant.resAddr }${ restaurant.resName }" target="_blank">${ restaurant.resAddr } </a></td>
 										<!-- 주소 -->
 										<td>${ restaurant.resPhone }</td>
 										<!-- 전화번호 -->
 										<td>${ restaurant.summary }</td>
 										<!-- 소개글,홍보문 -->
-										<td>${ restaurant.ave }점</td><!-- 평점 -->
+										<td>${ restaurant.ave }/5</td>
+										<!-- 평점 -->
 										<td><button id="getBtn" class="btn btn-default"
 												onclick="location.href='/restaurant/get?resNum=${restaurant.resNum}'">
 												<i class="glyphicon glyphicon-home"></i>
@@ -301,6 +302,7 @@
 		var result6 = "${randomPW}";
 		var a_result = "${a_result}"; //예약성공시 반환되어 모달창으로 결과 전달
 		var result7 = "${result7}";
+		var result8 = "${loginRes}";
 	</script>
 	<script src="/resources/js/home.js"></script>
 	<%@ include file="../views/includes/footer.jsp"%>

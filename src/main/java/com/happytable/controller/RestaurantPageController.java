@@ -1,21 +1,32 @@
 package com.happytable.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Red;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
@@ -23,11 +34,13 @@ import com.happytable.domain.RestaurantVO;
 import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
+import com.happytable.service.RestAlrService;
 import com.happytable.service.RestaurantService;
 import com.happytable.service.SalesService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j2
@@ -74,6 +87,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			RestaurantVO restVO = serviceRest.get(resNum);
 			// session생성
 			session.setAttribute("loginMember2", restVO);// 레스토랑 이름
+			rttr.addFlashAttribute("loginRes", restVO.getResName());
 			session.setAttribute("loginResNum", restVO.getResNum()); // resNum
 			model.addAttribute("loginResNum", restVO.getResNum());
 			session.setAttribute("loggedIn2", true);
@@ -180,6 +194,115 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 	}
 
+	@PostMapping("/modmenu")
+	public String modifyMenu(MenuVO menu, RedirectAttributes rttr) {
+		log.info("메뉴수정하기 실행-------" + menu);
+
+		if (serviceMenu.modify(menu)) {
+			rttr.addFlashAttribute("result", "success");
+		} else {
+			rttr.addFlashAttribute("result", "error");
+		}
+
+		return "redirect:/restaurant/myrestaurant";
+	}
+
+	// 메뉴삭제
+	@PostMapping("/delmenu")
+	public String deleteMenu(MenuVO menu, RedirectAttributes rttr) {
+		log.info("메뉴삭제하기 실행-------" + menu);
+		boolean rst = serviceMenu.remove(menu.getMenuNum());
+		if (rst) {
+			rttr.addFlashAttribute("result", "delsuccess");
+		} else {
+			rttr.addFlashAttribute("result", "error");
+		}
+
+		return "redirect:/restaurant/myrestaurant";
+	}
+
+	private String getFolder() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+
+		return str.replace("-", File.separator);
+	}
+
+	// 중복파일 방지 : 저장파일명 생성
+	private String makeNewName(String originName) {
+		String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
+		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+		return now + ext;
+
+	}
+
+	@PostMapping("/preimgsave")
+	public void previewSave(MultipartFile preview, Model model) {
+		String uploaFolder = "D:\\upload";
+		log.info("------------------------");
+		log.info("업로드 파일명 : " + preview.getOriginalFilename());
+		log.info("업로드 파일크기 : " + preview.getSize());
+
+		try {
+			File savePreview = new File(uploaFolder, preview.getOriginalFilename());
+			preview.transferTo(savePreview);
+		} catch (IllegalStateException | IOException e) {
+			log.error(e.getMessage());
+			// e.printStackTrace();
+		}
+	}
+
+	@GetMapping("/preimgview")
+	@ResponseBody
+	public ResponseEntity<byte[]> getPreview(String fileName) {
+		log.info("파일명:" + fileName);
+		String uploaFolder = "D:\\upload";
+		File file = new File(uploaFolder + fileName);
+		log.info("전체 파일경로 : " + file);
+
+		ResponseEntity<byte[]> result = null;
+
+		try {
+			HttpHeaders header = new HttpHeaders();
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			// e.printStackTrace();
+		}
+		return result;
+	}
+
+	@PostMapping("/regmenufile")
+	public void regmenuFile(@RequestParam("menuImg") MultipartFile menuImg, @RequestParam("menu") MultipartFile menu) {
+		MenuImageVO imgvo = new MenuImageVO(); // DB 등록을 위한 객체
+		MenuVO menuvo = new MenuVO();
+
+		// 파일처리
+		log.info("------------------------");
+		log.info("업로드 파일명 : " + menuImg.getOriginalFilename());
+		log.info("업로드 파일크기 : " + menuImg.getSize());
+		String uploaFolder = "D:\\upload";
+		String uploadFolderPath = getFolder();
+
+		File uploadPath = new File(uploaFolder, uploadFolderPath);
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		String fileName = makeNewName(menuImg.getOriginalFilename()); // 날짜넣은 저장용 파일이름 만들기
+		try {
+			File saveFile = new File(uploaFolder, fileName);
+			menuImg.transferTo(saveFile);
+
+			// 섬네일 제작
+			FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + fileName));
+			Thumbnailator.createThumbnail(menuImg.getInputStream(), thumbnail, 100, 100);
+			thumbnail.close();
+		} catch (IllegalStateException | IOException e) {
+			log.error(e.getMessage());
+		}
+	}
+
 	// U-기본정보 변경
 	@PostMapping("/modrest")
 	public String modRest(RestaurantVO rest, RedirectAttributes rttr) {
@@ -251,6 +374,10 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		String num = resVO.getCo_Num();
 
 		if (id.equals(resID) && pw.equals(resPW) && num.equals(co_Num)) {
+
+			serviceMenu.removeAll(resNum);
+			serviceOper.remove(resNum);
+			serviceSal.removeAll(resNum);
 			boolean count = serviceRest.remove(resNum);
 			if (count) {
 				rttr.addFlashAttribute("result7", "회원탈퇴가 완료되었습니다.</br>감사합니다.");

@@ -58,9 +58,11 @@
 				<div class="panel panel-info">
 					<div class="panel-heading">기본정보</div>
 					<!-- .panel-heading -->
-					<form role="form" id="restForm" method="post" action="/restaurant/modrest" onsubmit="return valForm(this)">
-					<div class="panel-body">						
-							<input type="hidden" id="rest_resNum" name="resNum" value="${loginResNum}">
+					<form role="form" id="restForm" method="post"
+						action="/restaurant/modrest" onsubmit="return valForm(this)">
+						<div class="panel-body">
+							<input type="hidden" id="rest_resNum" name="resNum"
+								value="${loginResNum}">
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>아이디</label> <input type="text" class="form-control"
@@ -73,7 +75,7 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>패스워드</label><input type="password" class="form-control"
-										id="resPW" name="resPW" value="${myrest.resPW}" required/>
+										id="resPW" name="resPW" value="${myrest.resPW}" required />
 								</div>
 								<!-- .form-group-->
 							</div>
@@ -91,10 +93,13 @@
 								<div class="form-group">
 									<label>대표 전화번호</label>
 									<div class="input-group">
-										<input type="number" class="form-control" id="phone_f" name="divNum"  required/><span class="input-group-addon">-</span> 
-										<input type="number" class="form-control" id="phone_m" name="divNum"  required/><span class="input-group-addon">-</span> 
-										<input type="number" class="form-control" id="phone_l" name="divNum"  required/> 
-										<input type="hidden" name="resPhone" id="resPhone" value="${myrest.resPhone}" />
+										<input type="number" class="form-control" id="phone_f"
+											name="divNum" required /><span class="input-group-addon">-</span>
+										<input type="number" class="form-control" id="phone_m"
+											name="divNum" required /><span class="input-group-addon">-</span>
+										<input type="number" class="form-control" id="phone_l"
+											name="divNum" required /> <input type="hidden"
+											name="resPhone" id="resPhone" value="${myrest.resPhone}" />
 									</div>
 								</div>
 								<!-- .form-group close -->
@@ -103,7 +108,7 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>식당 주소</label><input type="text" class="form-control"
-										id="resAddr" name="resAddr" value="${myrest.resAddr}" required/>
+										id="resAddr" name="resAddr" value="${myrest.resAddr}" required />
 								</div>
 								<!-- .form-group close -->
 							</div>
@@ -111,7 +116,8 @@
 							<div class="row" style="width: 90%; margin-left: 20px;">
 								<div class="form-group">
 									<label>식당 소개</label>
-									<textarea class="form-control" rows="2" id="summary" name="summary" required>${myrest.summary}</textarea>
+									<textarea class="form-control" rows="2" id="summary"
+										name="summary" required>${myrest.summary}</textarea>
 								</div>
 								<!-- .form-group close -->
 							</div>
@@ -120,10 +126,13 @@
 								<div class="form-group">
 									<label>사업자번호</label>
 									<div class="input-group" id="coNum">
-										<input type="number" class="form-control" id="conum_f" name="divNum" required/><span class="input-group-addon">-</span> 
-										<input type="number" class="form-control" id="conum_m" name="divNum"  required/><span class="input-group-addon">-</span> 
-										<input type="number" class="form-control" id="conum_l" name="divNum"  required> 
-										<input type="hidden" name="co_Num" id="co_Num" value="${myrest.co_Num}" />
+										<input type="number" class="form-control" id="conum_f"
+											name="divNum" required /><span class="input-group-addon">-</span>
+										<input type="number" class="form-control" id="conum_m"
+											name="divNum" required /><span class="input-group-addon">-</span>
+										<input type="number" class="form-control" id="conum_l"
+											name="divNum" required> <input type="hidden"
+											name="co_Num" id="co_Num" value="${myrest.co_Num}" />
 									</div>
 								</div>
 								<!-- .form-group close -->
@@ -138,17 +147,17 @@
 								<!-- .form-group close -->
 							</div>
 							<!--.row  -->
-							<input type="hidden" name="certify" value="추후구현">						
-					</div>
-					<!-- .panel-body -->
-					<div class="panel-footer ">
-						<div class="clearfix" style="text-align: right;">
-							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
-							<button id="delBtn" data-oper="delete" class="btn btn-default" >회원탈퇴</button> <!-- 20240924 용상엽 수정 -->
+							<input type="hidden" name="certify" value="추후구현">
 						</div>
-						<!-- .right clearfix -->
-					</div>
-					<!-- .panel-footer -->
+						<!-- .panel-body -->
+						<div class="panel-footer ">
+							<div class="clearfix" style="text-align: right;">
+								<button data-oper="modify" class="btn btn-primary">수정하기</button>
+								<button id="delBtn" data-oper="delete" class="btn btn-default">회원탈퇴</button>
+							</div>
+							<!-- .right clearfix -->
+						</div>
+						<!-- .panel-footer -->
 					</form>
 				</div>
 				<!--.panel panel-Info  -->
@@ -160,26 +169,20 @@
 		<!-- tab: 영업정보관리 여기부터 -->
 		<div class="tab-pane fade" id="myoper">
 			<c:if test="${oper ne null}">
-			<jsp:include page="./getoper.jsp"></jsp:include></c:if>
+				<jsp:include page="./getoper.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 		<!-- tab: 테이블관리 여기부터 -->
 		<div class="tab-pane fade" id="mysales">
-			<form id="saleForm" method="post" action="restaurant/register" >
-				<input type="hidden" name="resNum" id="sales_resNum" value="${loginResNum}">
-				<c:if test="${sales ne null}">
+			<c:if test="${sales ne null}">
 				<jsp:include page="./gettable.jsp"></jsp:include></c:if>
-			</form>
 		</div>
 		<!--.tab-pane  -->
 
 		<!-- tab: 메뉴관리 여기부터 -->
 		<div class="tab-pane fade" id="mymenu">
-			<form id="menuForm" method="post" action="restaurant/register" >
-				<input type="hidden" name="resNum" id="menu_resNum" value="${loginResNum}">
-				<c:if test="${menus ne null}">
+			<c:if test="${menus ne null}">
 				<jsp:include page="./getmenulist.jsp"></jsp:include></c:if>
-			</form>
 		</div>
 		<!--.tab-pane  -->
 	</div>

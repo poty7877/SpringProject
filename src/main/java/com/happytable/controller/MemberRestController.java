@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.happytable.domain.ChangePw;
 import com.happytable.domain.MemberVO;
+import com.happytable.domain.RestaurantVO;
+import com.happytable.service.GuestAlrService;
 import com.happytable.service.MemberService;
+import com.happytable.service.RestAlrService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,6 +35,8 @@ import lombok.extern.log4j.Log4j2;
 public class MemberRestController {
 
 	private MemberService service;
+	private GuestAlrService gaservice;
+	private RestAlrService raservice;
 
 	@PostMapping(value = "/checkEmail", produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> checkEmail(@RequestParam("email") String email) {
@@ -106,7 +113,7 @@ public class MemberRestController {
 		Long mno = loginMember.getMno();
 		if (loginMemberPw.equals(pw) && cpw.equals(cpw2)) {
 			int count = service.changePw(mno, cpw);
-			
+
 			if (count == 1) {
 				response.put("status", "success");
 				response.put("message", "비밀번호가 변경되었습니다.");
@@ -123,6 +130,39 @@ public class MemberRestController {
 		}
 
 		return response;
+	}
+
+	@GetMapping(value = "/getGcount", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Integer> getGcount(HttpSession session) {
+		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+		Integer gcount = gaservice.get(loginMember.getMemUno());
+
+		Map<String, Integer> response = new HashMap<String, Integer>();
+		response.put("gcount", gcount);
+		return response;
+	}
+
+	@GetMapping(value = "/getRcount", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Integer> getRcount(HttpSession session) {
+		RestaurantVO loginMember2 = (RestaurantVO) session.getAttribute("loginMember2");
+		Integer rcount = raservice.get(loginMember2.getResNum());
+		Map<String, Integer> response = new HashMap<String, Integer>();
+		response.put("rcount", rcount);
+		return response;
+	}
+
+	@DeleteMapping(value = "/delGcount", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Integer delGcount(HttpSession session) {
+		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+		log.info(loginMember);
+		return gaservice.remove(loginMember.getMemUno());
+	}
+
+	@DeleteMapping(value = "/delRcount", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Integer delRcount(HttpSession session) {
+		RestaurantVO loginMember2 = (RestaurantVO) session.getAttribute("loginMember2");
+		log.info(loginMember2);
+		return raservice.remove(loginMember2.getResNum());
 	}
 
 }

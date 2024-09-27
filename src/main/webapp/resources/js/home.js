@@ -102,7 +102,18 @@ $(document).ready(
 			}
 			$("#myModal").modal("show");
 		}
-
+	
+		
+		loginModal2(result8);
+		console.log(result8);
+		function loginModal2(result8) {
+			if (result8 === '') {
+				return;
+			} else {
+				$(".modal-body").html(result8 + " 사장님 환영합니다.");
+			}
+			$("#myModal").modal("show");
+		}
 
 
 

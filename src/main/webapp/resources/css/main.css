@@ -584,7 +584,7 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
 #contact-us .block form textarea:focus {
   border: 1px solid #7EC3BB;
 }
-#contact-us .block a {
+/* #contact-us .block a {
   background: #FF4F02;
   float: right;
   color: #fff;
@@ -598,7 +598,7 @@ nav .block .navbar-default .navbar-nav > .active > a:hover:before {
   -webkit-transition: .3s all;
   -o-transition: .3s all;
   transition: .3s all;
-}
+} */
 /*--
     footer Start
 --*/
