@@ -45,4 +45,10 @@ public class MenuImageServiceImpl implements MenuImageService{
 		return mappImg.read(menuNum);
 	}
 
+	@Override
+	public int countImg(String resNum) {
+		log.info("가게별 이미지 개수 확인 서비스 실행.....");
+		return mappImg.countImg(resNum);
+	}
+
 }

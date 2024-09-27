@@ -1,12 +1,16 @@
 package com.happytable.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.happytable.domain.MenuPageDTO;
+import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.RestaurantVO;
 import com.happytable.domain.SalesPageDTO;
 import com.happytable.domain.SalesVO;
+import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
 import com.happytable.service.RestaurantService;
@@ -31,6 +38,7 @@ import com.happytable.service.SalesService;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnailator;
 
 @Log4j2
 @RestController
@@ -45,6 +53,8 @@ public class RestaurantController {
 	private SalesService serviceSal;
 	@Setter(onMethod_ = @Autowired)
 	private MenuService serviceMenu;
+	@Setter(onMethod_ = @Autowired)
+	private MenuImageService serviceMimg;
 
 	// 아이디 중복체크
 	@PostMapping(value = "/idcheck", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -203,6 +213,79 @@ public class RestaurantController {
 
 		return (cnt == 1) ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	// 메뉴등록(이미지 파일 포함)
+	@PostMapping(value = "/regmenufile", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> regmenuFile(@RequestPart MultipartFile menuImg, @RequestPart MenuVO menu) {
+		log.info("------------------------");
+		log.info("업로드 파일명 : " + menuImg.getOriginalFilename());
+		log.info("업로드 파일크기 : " + menuImg.getSize());
+		log.info("업로드 메뉴객체 : " + menu);
+		//String rstURI = ""; //최종경로
+
+		int cnt = serviceMenu.register(menu); // menunum 획득위한 menu 선등록
+		log.info("업로드 menu : " + menu);
+		if (cnt != 1) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		// 파일처리
+		MenuImageVO imgvo = makeNewName(menuImg.getOriginalFilename()); // DB 등록을 위한 객체(이름처리 완료)
+		String uploaFolder = "D:\\upload";
+		String uploadFolderPath = getFolder();
+		// 저장폴더준비
+		File uploadPath = new File(uploaFolder, uploadFolderPath);
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		// 객체준비
+		imgvo.setMenuNum(menu.getMenuNum());
+		imgvo.setResNum(menu.getResNum());
+		imgvo.setUploadPath(uploadFolderPath);
+		int imgcnt = 0; // db등록결과 받을 변수
+
+		try {
+			// 파일저장->db등록
+			File saveFile = new File(uploadPath, imgvo.getSaveName());
+			menuImg.transferTo(saveFile);
+			imgcnt = serviceMimg.upload(imgvo);
+
+			// 섬네일 제작
+			FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + imgvo.getSaveName()));
+			Thumbnailator.createThumbnail(menuImg.getInputStream(), thumbnail, 100, 100);
+			thumbnail.close();
+		} catch (IllegalStateException | IOException e) {
+			log.error(e.getMessage());
+		}
+
+		if (imgcnt == 1) {
+			return new ResponseEntity<>("success",HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	// 중복파일 방지 : 년/월/일 폴더생성
+	private String getFolder() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String str = sdf.format(date);
+
+		return str.replace("-", File.separator);
+	}
+
+	// 중복파일 방지 : 저장파일명 생성
+	private MenuImageVO makeNewName(String originName) {
+		MenuImageVO img = new MenuImageVO();
+		String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
+		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+		img.setUuid(now);
+		img.setOriginName(originName);
+		img.setSaveName(now + ext);
+		return img;
+
 	}
 
 }

@@ -19,6 +19,8 @@ public class MenuMapperTests {
 	private MenuMapper mappMenu;
 	
 	
+	
+	
 	@Test //등록메뉴 전체 지우기
 	public void delall() {
 		int cnt = mappMenu.deleteAll("10000014kkk");

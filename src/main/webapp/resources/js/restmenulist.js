@@ -5,7 +5,7 @@
 $(document).ready(function(){
 	
 	$("#regMenuBtn").on("click", function(){
-		self.location='/restaurant/regmenu';
+		self.location='/restaurant/regmenufile';
 	}); //등록페이지 연결
 	
 	$("#endBtn").on("click", function(){

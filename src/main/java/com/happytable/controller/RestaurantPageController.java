@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter.Red;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +30,7 @@ import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
 import com.happytable.domain.RestaurantVO;
 import com.happytable.domain.SalesVO;
+import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
 import com.happytable.service.RestaurantService;
@@ -50,6 +51,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	private OperationsService serviceOper;
 	private SalesService serviceSal;
 	private MenuService serviceMenu;
+	private MenuImageService serviceMimg;
 
 	@GetMapping("/register") // http://localhost/restaurant/register
 	public void register() {
@@ -229,76 +231,32 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	public void regmenu() {
 		log.info("단일메뉴등록 get() 실행-------");
 	}
-	
-	//메뉴이미지 미리보기 저장
-	@PostMapping("/preimgsave")
-	public void previewSave(MultipartFile preview, Model model) {
-		String uploaFolder = "D:\\upload";
-		log.info("------------------------");
-		log.info("업로드 파일명 : " + preview.getOriginalFilename());
-		log.info("업로드 파일크기 : " + preview.getSize());
-		
-		try {
-			File savePreview = new File(uploaFolder, preview.getOriginalFilename());
-			preview.transferTo(savePreview);
-		} catch (IllegalStateException | IOException e) {
-			log.error(e.getMessage());
-			//e.printStackTrace();
-		}
+
+	// 메뉴등록 페이지(단일메뉴-이미지 등록 포함) -페이지 연결 **0925
+	@GetMapping("/regmenufile")
+	public void regmenufile() {
+		log.info("단일메뉴 이미지등록 get() 실행-------");
 	}
-	
-	//메뉴이미지 미리보기 불러오기
+
+	// 메뉴이미지 미리보기 불러오기
 	@GetMapping("/preimgview")
 	@ResponseBody
-	public ResponseEntity<byte[]> getPreview(String fileName){
-		log.info("파일명:"+ fileName);
+	public ResponseEntity<byte[]> getPreview(String fileName) {
+		log.info("파일명:" + fileName);
 		String uploaFolder = "D:\\upload";
-		File file = new File(uploaFolder+fileName);
-		log.info("전체 파일경로 : "+file);
-		
+		File file = new File(uploaFolder + fileName);
+		log.info("전체 파일경로 : " + file);
+
 		ResponseEntity<byte[]> result = null;
-		
+
 		try {
 			HttpHeaders header = new HttpHeaders();
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
 			log.error(e.getMessage());
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return result;
-	}
-	
-
-	// 메뉴등록(이미지 파일 포함)
-	@PostMapping("/regmenufile")
-	public void regmenuFile(@RequestParam("menuImg") MultipartFile menuImg, @RequestParam("menu") MultipartFile menu) {
-		MenuImageVO imgvo = new MenuImageVO(); //DB 등록을 위한 객체
-		MenuVO menuvo = new MenuVO();
-		
-		
-		//파일처리
-		log.info("------------------------");
-		log.info("업로드 파일명 : " + menuImg.getOriginalFilename());
-		log.info("업로드 파일크기 : " + menuImg.getSize());
-		String uploaFolder = "D:\\upload";
-		String uploadFolderPath = getFolder();
-
-		File uploadPath = new File(uploaFolder, uploadFolderPath);
-		if(uploadPath.exists()==false) {
-			uploadPath.mkdirs();
-		}		
-		String fileName = makeNewName(menuImg.getOriginalFilename()); //날짜넣은 저장용 파일이름 만들기
-		try {
-			File saveFile = new File(uploaFolder, fileName);
-			menuImg.transferTo(saveFile);
-			
-			//섬네일 제작
-			FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_"+fileName));
-			Thumbnailator.createThumbnail(menuImg.getInputStream(), thumbnail, 100, 100);
-			thumbnail.close();
-		} catch (IllegalStateException | IOException e) {
-			log.error(e.getMessage());
-		}
 	}
 
 	// 메뉴 상세보기 페이지
@@ -307,51 +265,35 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		log.info("메뉴상세보기 실행-------" + menuNum);
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 	}
-	
-	//메뉴 수정
+
+	// 메뉴 수정
 	@PostMapping("/modmenu")
 	public String modifyMenu(MenuVO menu, RedirectAttributes rttr) {
 		log.info("메뉴수정하기 실행-------" + menu);
-		
-		if(serviceMenu.modify(menu)) {
-			rttr.addFlashAttribute("result", "success");			
-		}else {
+
+		if (serviceMenu.modify(menu)) {
+			rttr.addFlashAttribute("result", "success");
+		} else {
 			rttr.addFlashAttribute("result", "error");
 		}
-		
+
 		return "redirect:/restaurant/myrestaurant";
 	}
-	
-	//메뉴삭제
+
+	// 메뉴삭제
 	@PostMapping("/delmenu")
 	public String deleteMenu(MenuVO menu, RedirectAttributes rttr) {
 		log.info("메뉴삭제하기 실행-------" + menu);
-		boolean rst =serviceMenu.remove(menu.getMenuNum());
-		if(rst) {
-			rttr.addFlashAttribute("result", "success");	
-		}else {
+		boolean rst = serviceMenu.remove(menu);
+		if (rst) {
+			rttr.addFlashAttribute("result", "delsuccess");
+		} else {
 			rttr.addFlashAttribute("result", "error");
 		}
-		
+
 		return "redirect:/restaurant/myrestaurant";
 	}
+
 	
-
-	// 중복파일 방지 : 년/월/일 폴더생성
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-
-		return str.replace("-", File.separator);
-	}
-
-	// 중복파일 방지 : 저장파일명 생성
-	private String makeNewName(String originName) {
-		String ext = originName.substring(originName.lastIndexOf(".")); //확장자
-		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-		return now+ext;
-
-	}
 
 }

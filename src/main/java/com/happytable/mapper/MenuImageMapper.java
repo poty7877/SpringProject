@@ -16,5 +16,8 @@ public interface MenuImageMapper {
 	
 	//가져오기(다운로드)
 	public MenuImageVO read(int menuNum);
+	
+	//메뉴이미지 개수cnt(resnum별)
+	public int countImg(String resNum);
 
 }
