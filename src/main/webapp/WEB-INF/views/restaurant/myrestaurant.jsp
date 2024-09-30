@@ -173,7 +173,7 @@
 		<!-- tab: 메뉴관리 여기부터 -->
 		<div class="tab-pane fade" id="mymenu">
 				<c:if test="${menus ne null}">
-				<jsp:include page="./getmenulist.jsp"></jsp:include></c:if>
+				<jsp:include page="./getmenufilelist.jsp"></jsp:include></c:if>
 		</div>
 		<!--.tab-pane  -->
 	</div>

@@ -1,17 +1,30 @@
 /**
- * restregmenufile.js -> regmenufile.jsp
+ * restregmenufile.js -> regmenufile.jsp, getmenufile.jsp
  */
 
 $(document).ready(function() {
 	var resNum = $("#menu_resNum").val();
 	var uploadbox = $("#fileinput");
 	var imgBox = $("#preview");
+	var nullBox = $("#nullBox");
+	var hasImg = $(".hasimg").length; //이미지 갖고 오는지 여부
 
 	console.log("test:" + resNum);
+	console.log("test hasImg:" + hasImg);
 
-	imgBox.css("display", "none");
+	//get페이지용 - 클래스 여부 판단하여 이미지 박스 보이기
+	if (hasImg == 0) {
+		imgBox.css("display", "none");
+	} else {
+		menuviewService.makepreview();
+		imgBox.css("display", "block");
+		nullBox.css("display", "none");
+		$("#imgreg").removeClass("btn btn-primary").addClass("btn btn-success");
+		$("#imgreg").attr("value", "다른 이미지로 변경하기");
+	}
 
-	//파일업로드클릭->미리보기생성, 보이기
+
+	//reg페이지, get페이지 - 파일업로드클릭->미리보기생성, 보이기
 	$("#imgreg").on("click", function() {
 		$("#fileinput").trigger("click");
 		//console.log("파일찾기 버튼 클릭");
@@ -26,42 +39,102 @@ $(document).ready(function() {
 		let fileArr = Array.prototype.slice.call(files);
 
 		//하나만 올렸는지 개수 체크	
-		if (!setting.oneFileCheck(fileslen)) {
-			viewService.changeBtn();
+		if (!menuset.oneFileCheck(fileslen)) {
+			menuviewService.changeBtn();
 			return;
 		}
 		console.log("test: 파일명:" + files[0].name);
 		console.log("test: 파일크기:" + files[0].size);
 		//파일 확장자, 크기 확인
-		var chekfile = setting.checkFile(files[0].name, files[0].size);
+		var chekfile = menuset.checkFile(files[0].name, files[0].size);
 		if (!chekfile) {
-			viewService.changeBtn();
+			menuviewService.changeBtn();
 			return;
 		}
 		console.log("업로드 가능파일 확인완료");
-		viewService.showPreview(fileArr);
+		menuviewService.showPreview(fileArr);
 	});
 
 
 
-	//등록버튼 클릭
+	//reg페이지 - 등록버튼 클릭
 	$("#saveMenuBtn").on("click", function(e) {
 		e.preventDefault();
 		var form = $("#menuregForm");
 		if (!valregForm(form)) {
 			return;
 		}
-		setting.makeMenu(); //menu에 form값 먼저 세팅
-		var data = setting.makeData(); //이미지+menu 값 넣은 formdata
-		menuService.saveForm(data, function(result) {	
-			if(result=="success"){
+		menuset.makeMenu(); //menu에 form값 먼저 세팅
+		var data = menuset.makeData(); //이미지+menu 값 넣은 formdata
+		menuService.saveForm(data, function(result) {
+			if (result == "success") {
 				alert("메뉴저장 성공");
-				self.location ='/restaurant/myrestaurant';
-			}else{
+				self.location = '/restaurant/myrestaurant';
+			} else {
 				alert("저장오류. 관리자에게 문의하세요.");
-			}		
-			
+			}
+
 		});
+
+	});
+
+	//get페이지-수정, 삭제, 리스트 버튼 클릭
+	$(".getbtn").on("click", function(e) {
+		var form = $("#menumodForm");
+		e.preventDefault();
+		var oper = $(this).data("oper");
+		console.log("test oper:" + oper);
+		switch (oper) {
+			case "modMenu":
+				if (!valregForm(form)) {
+					return;
+				}
+				var imgModCK = $(".hasimg").length;
+				if (imgModCK == 1) { //이미지 변경이 안된 경우
+					menuset.makeOnlyMenu();
+					var data = $("#menu").val(); //기존이미지명+변경data
+					//console.log(data);
+					menuService.modData(data, function(result) {
+						if (result == "success") {
+							alert("메뉴수정 성공");
+							self.location = '/restaurant/myrestaurant';
+						} else {
+							alert("수정오류. 관리자에게 문의하세요.");
+						}
+
+					});
+					return;
+				} else { //이미지 변경된 경우
+					menuset.makeMenu();
+					var data = menuset.makeData();
+					menuService.modForm(data, function(result) {
+						if (result == "success") {
+							alert("메뉴수정 성공");
+							self.location = '/restaurant/myrestaurant';
+						} else {
+							alert("수정오류. 관리자에게 문의하세요.");
+						}
+					});
+					return;
+				}
+			case "delMenu":
+				menuset.makeOnlyMenu();
+				var data = $("#menu").val(); //cascade로 data만 전송
+
+				menuService.delData(data, function(result) {
+					if (result == "success") {
+						alert("메뉴삭제 성공");
+						self.location = '/restaurant/myrestaurant';
+					} else {
+						alert("삭제실패. 관리자에게 문의하세요.");
+					}
+				});
+				return;
+
+			case "listMenu":
+				self.location='/restaurant/myrestaurant'
+				return;
+		}//--switch()
 
 	});
 
@@ -74,7 +147,7 @@ function valregForm(form) {
 	var menuAcoount = $("textarea[name='menuAcoount']").val();
 	var unitCost = $("input[name='unitCost']").val();
 	var serving = $("input[name='serving']").val();
-	var menuImg = $("input[name='menuImg']").val();
+	var imgck = $("#preview  img").length; //img 태그 생겼는지 여부로 검사
 
 	if (menuName == "" || menuName == null) {
 		alert("메뉴명을 입력하세요.");
@@ -96,7 +169,7 @@ function valregForm(form) {
 		alert("메뉴의 판매단위를 입력하세요.");
 		return false;
 	}
-	if (menuImg == "" || menuImg == null) {
+	if (imgck == 0) {
 		alert("메뉴 이미지를 선택하세요.");
 		return false;
 	}
@@ -107,7 +180,7 @@ function valregForm(form) {
 
 
 //사전작업 메서드 모음-----------------------------------------
-var setting = (function() {
+var menuset = (function() {
 	//formdata 만들기(이미지+data)
 	function makeMenu() {
 		var resNum = $("input[name='resNum']").val();
@@ -127,6 +200,33 @@ var setting = (function() {
 			serving: serving,
 			unitCost: unitCost,
 			menuImg: file[0].name
+		};
+
+		$("#menu").val(JSON.stringify(menu));
+		console.log("test:" + $("#menu").val());
+
+	}
+
+	//formdata 만들기(data-savename 그대로 받아가기:이미지 수정 없음+menuNum 필수!!)
+	function makeOnlyMenu() {
+		var resNum = $("input[name='resNum']").val();
+		var menuNum = $("#menuNum").val();
+		var menuName = $("input[name='menuName']").val();
+		var mainIngredient = $("input[name='mainIngredient']").val();
+		var menuAcoount = $("textarea[name='menuAcoount']").val();
+		var unitCost = $("input[name='unitCost']").val();
+		var serving = $("input[name='serving']").val();
+		var menuImg = $(".filedata").data("fname");
+
+		var menu = {
+			resNum: resNum,
+			menuNum:menuNum,
+			menuName: menuName,
+			menuAcoount: menuAcoount,
+			mainIngredient: mainIngredient,
+			serving: serving,
+			unitCost: unitCost,
+			menuImg: menuImg
 		};
 
 		$("#menu").val(JSON.stringify(menu));
@@ -184,6 +284,7 @@ var setting = (function() {
 
 	return {
 		makeMenu: makeMenu,
+		makeOnlyMenu: makeOnlyMenu,
 		checkFile: checkFile,
 		oneFileCheck: oneFileCheck,
 		makeData: makeData
@@ -218,13 +319,87 @@ var menuService = (function() {
 		}); //--ajax
 	}
 
+	//수정 전송(이미지+data)
+	function modForm(data, callback, error) {
+		//console.log("test:이미지포함 전송실행...");
+		$.ajax({
+			url: '/restaurant/modmenufile',
+			type: 'put',
+			enctype: 'multipart/form-data',
+			processData: false,
+			contentType: false,
+			data: data,
+			success: function(imgresult, status, xhr) {
+				//console.log("test 전송확인");
+				if (callback) {
+					console.log("test:" + imgresult);
+					callback(imgresult);
+				}
+			},
+			error: function(xhr, status, err) {
+				if (error) {
+					error();
+				}
+			}
+		}); //--ajax
+	}
+
+	//수정 전송(data only - 이미 json화 되어 있음)
+	function modData(data, callback, error) {
+		//console.log("test:이미지포함 전송실행...");
+		$.ajax({
+			url: '/restaurant/modmenudata',
+			type: 'put',
+			data: data,
+			contentType: "application/json; charset=utf-8",
+			success: function(imgresult, status, xhr) {
+				//console.log("test 전송확인");
+				if (callback) {
+					console.log("test:" + imgresult);
+					callback(imgresult);
+				}
+			},
+			error: function(xhr, status, err) {
+				if (error) {
+					error();
+				}
+			}
+		}); //--ajax
+	}
+
+	//삭제전송(data only - cascade로 이미지 동시삭제)
+	function delData(data, callback, error) {
+		//console.log("test:이미지포함 전송실행...");
+		$.ajax({
+			url: '/restaurant/delmenudata',
+			type: 'delete',
+			data: data,
+			contentType: "application/json; charset=utf-8",
+			success: function(imgresult, status, xhr) {
+				//console.log("test 전송확인");
+				if (callback) {
+					console.log("test:" + imgresult);
+					callback(imgresult);
+				}
+			},
+			error: function(xhr, status, err) {
+				if (error) {
+					error();
+				}
+			}
+		}); //--ajax
+	}
+
 	return {
-		saveForm: saveForm
+		saveForm: saveForm,
+		modForm: modForm,
+		modData: modData,
+		delData: delData
 	};
 })();
 
 //사진처리 메서드 모음---------------------------------
-var viewService = (function() {
+var menuviewService = (function() {
 	//미리보기 보이기
 	function showPreview(fileArr) {
 		var nullbox = $(".imagebox").find("div[id=nullBox]");
@@ -258,9 +433,28 @@ var viewService = (function() {
 		$("#imgreg").attr("value", "이미지 등록하기");
 	}
 
+	//getmenu-원본이미지 보이기
+	function makepreview() {
+		var resNum = $("input[name='resNum']").val();
+		var folder = $(".filedata").data("path");
+		var fname = $(".filedata").data("fname");
+		var fileName = encodeURIComponent(resNum + "/" + folder + "/" + fname); //s_없는 원본이미지 경로
+		fileName = fileName.replace(new RegExp(/\\/g), "/");
+
+		var str = "<img alt='메뉴 이미지' src='/restaurant/displaythumb?fileName=" + fileName + "' height=237px>";
+		var imgbox = $(".hasimg");
+		imgbox.append(str);
+		//target.attr("src", "/restaurant/displaythumb?fileName="+fileName+"");
+		console.log("test folder: " + folder);
+		console.log("test fname: " + fname);
+		console.log("test src: " + fileName);
+
+	}
+
 	return {
 		showPreview: showPreview,
-		changeBtn: changeBtn
+		changeBtn: changeBtn,
+		makepreview: makepreview
 	}
 })();
 

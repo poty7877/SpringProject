@@ -102,7 +102,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		log.info("RestaurantController.restlogin() 실행-------");
 	}
 
-	// 레스토랑 로그인->마이페이지
+	// 레스토랑 로그인->마이페이지 **09/28 파일추가로 수정
 	@GetMapping("/myrestaurant")
 	public void getPostAllInfo(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("test : 받은 resnum:" + resNum);
@@ -111,14 +111,24 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		int salCnt = myrest.getCntTable();
 		int menuCnt = myrest.getCntMenu();
 		OperationsVO oper = null;
-		List<MenuVO> menus = null;
+		MenuPageDTO menufile = new MenuPageDTO();// 일단 빈객체로 세팅
+		menufile.setMenus(null);
+		menufile.setMImgs(null);
+		menufile.setMenuCnt(0);
+		// List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
+		String uploaFolder = "D:\\upload\\";
 
 		if (opercnt != 0) {
 			oper = serviceOper.get(resNum);
 		}
 		if (menuCnt != 0) {
-			menus = serviceMenu.getList(resNum);
+
+			menufile = serviceMenu.getMenuList(resNum);
+			menufile.setMenuCnt(serviceMenu.countMenu(resNum));
+			log.info("test menu개수count:" + serviceMenu.countMenu(resNum)); // test menu개수count:0
+			menufile.setMImgs(serviceMimg.getImgList(resNum));
+			// menus = serviceMenu.getList(resNum);
 		}
 		if (salCnt != 0) {
 			tables = serviceSal.getList(resNum);
@@ -127,8 +137,12 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("myrest", myrest);
 		model.addAttribute("oper", oper);
 		model.addAttribute("sales", tables);
-		model.addAttribute("menus", menus);
+		model.addAttribute("menus", menufile.getMenus());
+		model.addAttribute("menuCnt", menufile.getMenuCnt());
+		model.addAttribute("menuimgs", menufile.getMImgs());
+		model.addAttribute("upath", uploaFolder);
 
+		log.info("test : 보낼 menu개수:" + menufile.getMenuCnt());
 	}
 
 	// reginfo-영업정보 페이지
@@ -222,51 +236,29 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	public void menulist(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("메뉴리스트 get() 실행-------" + resNum);
 		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
+		menus.setMenuCnt(serviceMenu.countMenu(resNum));
+		menus.setMImgs(serviceMimg.getImgList(resNum));
+		// String uploaFolder = "D:\\upload\\";
 		model.addAttribute("menus", menus.getMenus());
 		model.addAttribute("menuCnt", menus.getMenuCnt());
+		model.addAttribute("menuimgs", menus.getMImgs());
+		// model.addAttribute("upath", uploaFolder);
 	}
 
-	// 메뉴등록 페이지(단일메뉴) -페이지 연결
+	// 메뉴등록 페이지(단일메뉴) -페이지 연결---**이미지 파일 없는 버전
 	@GetMapping("/regmenu")
 	public void regmenu() {
 		log.info("단일메뉴등록 get() 실행-------");
 	}
 
-	// 메뉴등록 페이지(단일메뉴-이미지 등록 포함) -페이지 연결 **0925
-	@GetMapping("/regmenufile")
-	public void regmenufile() {
-		log.info("단일메뉴 이미지등록 get() 실행-------");
-	}
-
-	// 메뉴이미지 미리보기 불러오기
-	@GetMapping("/preimgview")
-	@ResponseBody
-	public ResponseEntity<byte[]> getPreview(String fileName) {
-		log.info("파일명:" + fileName);
-		String uploaFolder = "D:\\upload";
-		File file = new File(uploaFolder + fileName);
-		log.info("전체 파일경로 : " + file);
-
-		ResponseEntity<byte[]> result = null;
-
-		try {
-			HttpHeaders header = new HttpHeaders();
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		} catch (IOException e) {
-			log.error(e.getMessage());
-			// e.printStackTrace();
-		}
-		return result;
-	}
-
-	// 메뉴 상세보기 페이지
+	// 메뉴 상세보기 페이지---**이미지 파일 없는 버전
 	@GetMapping("/getmenu")
 	public void getmenu(@RequestParam("menuNum") int menuNum, Model model) {
 		log.info("메뉴상세보기 실행-------" + menuNum);
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 	}
 
-	// 메뉴 수정
+	// 메뉴 수정 ---**이미지 파일 없는 버전 -->사용안함
 	@PostMapping("/modmenu")
 	public String modifyMenu(MenuVO menu, RedirectAttributes rttr) {
 		log.info("메뉴수정하기 실행-------" + menu);
@@ -280,7 +272,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return "redirect:/restaurant/myrestaurant";
 	}
 
-	// 메뉴삭제
+	// 메뉴삭제 ---**이미지 파일 없는 버전-->사용안함
 	@PostMapping("/delmenu")
 	public String deleteMenu(MenuVO menu, RedirectAttributes rttr) {
 		log.info("메뉴삭제하기 실행-------" + menu);
@@ -294,6 +286,18 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return "redirect:/restaurant/myrestaurant";
 	}
 
-	
+	// 메뉴등록 페이지(단일메뉴-이미지 등록 포함) -페이지 연결 **0925
+	@GetMapping("/regmenufile")
+	public void regmenufile() {
+		log.info("단일메뉴 이미지등록 get() 실행-------");
+	}
+
+	// 메뉴 상세보기 페이지---**0929 이미지 파일 포함
+	@GetMapping("/getmenufile")
+	public void getmenufile(@RequestParam("menuNum") int menuNum, Model model) {
+		log.info("메뉴상세보기 실행-------" + menuNum);
+		model.addAttribute("menu", serviceMenu.get(menuNum));
+		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
+	}
 
 }

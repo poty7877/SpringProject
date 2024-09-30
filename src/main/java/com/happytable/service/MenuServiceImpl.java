@@ -59,23 +59,22 @@ public class MenuServiceImpl implements MenuService {
 		log.info("개별메뉴 삭제 서비스 실행.....");
 		String resNum = menu.getResNum();
 		int menuNum = menu.getMenuNum();
-		int mcnt = mappme.delete(menuNum); // 메뉴삭제
-		int imgcnt = mappMimg.delete(menuNum); // 이미지 삭제
+		int mcnt = mappme.delete(menuNum); // 메뉴삭제  
+		//int imgcnt = mappMimg.delete(menuNum); // 이미지 삭제 cascade로 동시삭제
 		int cnt = mappme.countMenu(resNum); // 메뉴개수 재등록
 		mappRest.updateMenuCnt(resNum, cnt);
-
-		return mcnt == imgcnt;
+		
+		return mcnt == 1;
 	}
 
 	@Transactional
 	@Override
-	public int removeAll(MenuVO menu) {// **09/27수정-rest tb에 개수 동시등록, img_tb 동시삭제
+	public int removeAll(String resNum) {// **09/27수정-rest tb에 개수 동시등록, img_tb 동시삭제
 		log.info("전체메뉴 삭제 서비스 실행.....");
-		String resNum = menu.getResNum();
 		int delCnt = mappme.deleteAll(resNum);
-		int imgcnt = mappMimg.deleteAll(resNum);
-		log.info("삭제 메뉴 개수 : " + delCnt);
-		log.info("삭제 이미지 개수 : " + imgcnt);
+		//int imgcnt = mappMimg.deleteAll(resNum); cascade로 동시삭제
+		log.info("삭제 메뉴 개수 : " + delCnt); //1
+		//log.info("삭제 이미지 개수 : " + imgcnt); //0->cascade
 		mappRest.updateMenuCnt(resNum, 0);
 
 		return delCnt;
@@ -84,13 +83,17 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public int countMenu(String resNum) {
 		log.info("MenuServiceImpl.countMenu() 서비스 실행.....");
-		return 0;
+		return mappme.countMenu(resNum);
 	}
 
 	@Override
 	public MenuPageDTO getMenuList(String resNum) {
 		log.info("DTO 활용한 리스트 넘기기 서비스 실행.....");
-		return new MenuPageDTO(mappme.countMenu(resNum), mappme.menuListByResNum(resNum));
+		MenuPageDTO setlist = new MenuPageDTO();
+		setlist.setMenuCnt(mappme.countMenu(resNum));
+		setlist.setMenus(mappme.menuListByResNum(resNum));
+		setlist.setMImgs(mappMimg.readAll(resNum)); //이미지 리스트까지 세팅
+		return setlist;
 	}
 
 }

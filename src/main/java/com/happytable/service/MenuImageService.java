@@ -1,5 +1,7 @@
 package com.happytable.service;
 
+import java.util.List;
+
 import com.happytable.domain.MenuImageVO;
 
 public interface MenuImageService {
@@ -17,6 +19,9 @@ public interface MenuImageService {
 
 	// 가져오기(다운로드)
 	public MenuImageVO getImage(int menuNum);
+	
+	//가게별 이미지 리스트
+	public List<MenuImageVO> getImgList(String resNum);
 
 	// 메뉴이미지 개수cnt(resnum별)
 	public int countImg(String resNum);

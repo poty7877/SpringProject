@@ -27,10 +27,17 @@ public class MenuServeiceTests {
 		MenuVO del = new MenuVO();
 		String resNum = "10000105tes";
 		del.setResNum(resNum);
-		int result = serMenu.removeAll(del);
+		int result = serMenu.removeAll(resNum);
 		log.info("삭제메뉴개수 : "+result); //삭제 메뉴 개수 : 10
 		log.info("rst cnt : "+serRest.get(resNum)); //cntmenu 0
 		log.info("이미지 cnt : "+serMimg.countImg(resNum)); //이미지 cnt : 0
+	}
+	
+	@Test //개수확인 테슽
+	public void countTest() {
+		String resNum ="10000105tes";
+		int rst= serMenu.countMenu(resNum);
+		log.info("------------"+resNum+" : "+ rst); //1
 	}
 
 

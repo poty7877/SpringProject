@@ -1,11 +1,14 @@
 package com.happytable.mapper;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuVO;
 
 import lombok.Setter;
@@ -17,6 +20,8 @@ import lombok.extern.log4j.Log4j2;
 public class MenuMapperTests {
 	@Setter(onMethod_ = @Autowired)
 	private MenuMapper mappMenu;
+	@Setter(onMethod_ = @Autowired)
+	private MenuImageMapper mappMImg;
 	
 	
 	
@@ -43,6 +48,24 @@ public class MenuMapperTests {
 		int resultNum = menu.getMenuNum();
 		log.info("----------메뉴등록 후 받은 menuNUM:"+resultNum);
 		
+		
+	}
+	
+	@Test //메뉴 개수 확인
+	public void countTest() {
+		String resNum ="10000105tes";
+		int rst= mappMenu.countMenu(resNum);
+		log.info("------------"+resNum+" : "+ rst); //1
+	}
+	
+	@Test //리스트 정렬 확인(이미지 동시확인)
+	public void getList() {
+		String resNum ="10000105tes";
+		List<MenuVO> menu = mappMenu.menuListByResNum(resNum);
+		List<MenuImageVO> menuImg = mappMImg.readAll(resNum);
+		
+		log.info("------------menu리스트:"+menu);
+		log.info("------------menu이미지 리스트:"+menuImg);
 		
 	}
 

@@ -3,15 +3,19 @@ package com.happytable.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -222,27 +227,30 @@ public class RestaurantController {
 		log.info("업로드 파일명 : " + menuImg.getOriginalFilename());
 		log.info("업로드 파일크기 : " + menuImg.getSize());
 		log.info("업로드 메뉴객체 : " + menu);
-		//String rstURI = ""; //최종경로
+		// String rstURI = ""; //최종경로
 
-		int cnt = serviceMenu.register(menu); // menunum 획득위한 menu 선등록
-		log.info("업로드 menu : " + menu);
-		if (cnt != 1) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-		// 파일처리
-		MenuImageVO imgvo = makeNewName(menuImg.getOriginalFilename()); // DB 등록을 위한 객체(이름처리 완료)
-		String uploaFolder = "D:\\upload";
-		String uploadFolderPath = getFolder();
+		// 파일처리 -저장파일명 획득-> menu 삽입-> menunun 획득하여 img에 삽입
+		String uploaFolder = "D:\\upload"; // common
+		String catefolder = "menu_img";
+		String uploadFolderPath = getMyFolder(menu.getResNum(), catefolder);
 		// 저장폴더준비
 		File uploadPath = new File(uploaFolder, uploadFolderPath);
 		if (uploadPath.exists() == false) {
 			uploadPath.mkdirs();
 		}
+		MenuImageVO imgvo = makeNewName(menuImg.getOriginalFilename()); // DB 등록을 위한 객체(이름처리 완료)
+		// String src = uploadFolderPath+imgvo.getSaveName();
+		menu.setMenuImg(imgvo.getSaveName()); // 저장 파일명을 삽입
+
+		int cnt = serviceMenu.register(menu); // menunum 획득위한 menu 선등록
+		log.info("업로드 menu : " + menu);
+		if (cnt != 1) { // 메뉴등록 실패시 되돌아가기
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		// 객체준비
 		imgvo.setMenuNum(menu.getMenuNum());
 		imgvo.setResNum(menu.getResNum());
-		imgvo.setUploadPath(uploadFolderPath);
+		imgvo.setFolderName(catefolder);
 		int imgcnt = 0; // db등록결과 받을 변수
 
 		try {
@@ -260,32 +268,136 @@ public class RestaurantController {
 		}
 
 		if (imgcnt == 1) {
-			return new ResponseEntity<>("success",HttpStatus.OK);
+			return new ResponseEntity<>("success", HttpStatus.OK);
 		} else {
+			serviceMenu.remove(menu); // 이미지 등록 실패시 등록한 메뉴 다시 지우기
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 
-	// 중복파일 방지 : 년/월/일 폴더생성
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	// 메뉴이미지 미리보기 불러오기--**09/29완료
+	@GetMapping(value = "/displaythumb")
+	@ResponseBody
+	public ResponseEntity<byte[]> getPreviewthumb(String fileName) {
+		log.info("파일명:" + fileName);
+		String uploaFolder = "D:\\upload\\"; // common
+		File file = new File(uploaFolder + fileName);
+		log.info("전체 파일경로 : " + file);
+
+		ResponseEntity<byte[]> result = null;
+
+		try {
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			// e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 메뉴수정(이미지+내용 동시 수정)--**09/29완료
+	@RequestMapping(method = { RequestMethod.PUT,
+			RequestMethod.PATCH }, value = "/modmenufile", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> modmenuFile(@RequestPart MultipartFile menuImg, @RequestPart MenuVO menu) {
+		log.info("------------------------");
+		log.info("수정이미지 파일명 : " + menuImg.getOriginalFilename());
+		log.info("수정 메뉴객체 : " + menu);
+
+		// 파일처리 -저장파일명 획득-> menu 삽입-> menunun 획득하여 img에 삽입
+		String uploaFolder = "D:\\upload"; // common
+		String catefolder = "menu_img";
+		String uploadFolderPath = getFolder(catefolder);
+		// 저장폴더준비
+		File uploadPath = new File(uploaFolder, uploadFolderPath);
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		MenuImageVO imgvo = makeNewName(menuImg.getOriginalFilename()); // DB 등록을 위한 객체(이름처리 완료)
+		// String src = uploadFolderPath+imgvo.getSaveName();
+		menu.setMenuImg(imgvo.getSaveName()); // 저장 파일명을 삽입
+
+		boolean menuRst = serviceMenu.modify(menu);
+		log.info(" menu 수정결과: " + menuRst);
+		if (!menuRst) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		// 객체준비
+		imgvo.setMenuNum(menu.getMenuNum());
+		imgvo.setResNum(menu.getResNum());
+		imgvo.setFolderName(catefolder);
+		int imgcnt = 0; // db등록결과 받을 변수
+
+		try {
+			// 파일저장->db등록
+			File saveFile = new File(uploadPath, imgvo.getSaveName());
+			menuImg.transferTo(saveFile);
+			imgcnt = serviceMimg.modify(imgvo);
+
+			// 섬네일 제작
+			FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + imgvo.getSaveName()));
+			Thumbnailator.createThumbnail(menuImg.getInputStream(), thumbnail, 100, 100);
+			thumbnail.close();
+		} catch (IllegalStateException | IOException e) {
+			log.error(e.getMessage());
+		}
+
+		if (imgcnt == 1) {
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} else {
+			serviceMenu.remove(menu);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	//메뉴수정(only data)--**09/30완료
+	@RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/modmenudata", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> modMenuData(@RequestBody MenuVO menu){
+		log.info("----------메뉴데이터 수정 프로세스 실행"+menu);
+		boolean rst = serviceMenu.modify(menu);
+		return rst? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
+	}
+	
+	//메뉴수정(only data)--**09/30완료(cascade로 img tb 내용 함께 삭제)
+	@DeleteMapping(value = "/delmenudata")
+	public ResponseEntity<String> delMenuData(@RequestBody MenuVO menu){
+		log.info("----------메뉴데이터  삭제 프로세스 실행"+menu);
+		boolean rst = serviceMenu.remove(menu);
+		return rst? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);		
+	}
+	
+	
+	// 중복파일 방지 : 년/월/일 폴더생성-->**09/30 resNum별 관리로 사용안함
+	private String getFolder(String catefolder) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMdd");
 		Date date = new Date();
 		String str = sdf.format(date);
+		String folder = catefolder + "-" + str;
 
-		return str.replace("-", File.separator);
+		return folder.replace("-", File.separator);
+	}
+
+	// 중복파일 방지(new) : **09/30 resNum별 관리(resNum / catefolder/filename)
+	private String getMyFolder(String resNum, String catefolder) {
+		String folder = resNum + "-" + catefolder;
+		return folder.replace("-", File.separator);
 	}
 
 	// 중복파일 방지 : 저장파일명 생성
 	private MenuImageVO makeNewName(String originName) {
 		MenuImageVO img = new MenuImageVO();
-		String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
-		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+		//String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
+		String now = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		String fname = originName;
 		img.setUuid(now);
 		img.setOriginName(originName);
-		img.setSaveName(now + ext);
+		img.setSaveName(now + "_" + fname); // yyyyMMdd_fisho.jpg
 		return img;
-
 	}
 
 }

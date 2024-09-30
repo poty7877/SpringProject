@@ -22,7 +22,7 @@ public interface MenuService {
 	public boolean remove(MenuVO menu);
 	
 	//d: delete all - 매장전체 메뉴 삭제(회원탈퇴)
-	public int removeAll(MenuVO menu);
+	public int removeAll(String resNum);
 	
 	//매장별 등록 메뉴개수 산출
 	public int countMenu(String resNum);
