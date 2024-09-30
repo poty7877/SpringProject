@@ -10,6 +10,11 @@ create table tb_member(
 	pw			varchar2(50) not null
 );
 
+alter table tb_member add point number(30);
+UPDATE tb_member SET point = 0;  -- 적절한 값으로 업데이트
+ALTER TABLE tb_member MODIFY point NUMBER(30) NOT NULL;
+
+
 select * from tb_member;
 
 delete from tb_member;
@@ -19,7 +24,7 @@ alter table tb_member add constraint pk_member
 primary key (memUno);
 
 create sequence seq_member;
-drop sequence tb_mno_sequence;
+drop sequence seq_member;
 
 
 insert into tb_member(mno, name, phone, email, birth, nickName, pw)
@@ -68,6 +73,8 @@ BEGIN
 
     :NEW.memUno := v_random;
 END;
+
+delete trigger trg_memUno_insert_tb_member;
 
 ALTER SEQUENCE seq_member_Uno RESTART START WITH 10000000;
 SELECT * FROM user_sequences WHERE sequence_name = 'SEQ_MEMBER_UNO';
@@ -174,12 +181,31 @@ select * from tb_sales;
 select * from tb_menu;
 
 insert into tb_restaurant (resId, resPw, resName, resAddr, co_num, certify, summary, resphone) 
-values ('test1', 'test1', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
+values ('admin4', 'admin4', 'test1', 'test1', '11111', 'test1', 'test1', 'test1');
 
 insert into  tb_sales values ('10000002tes',3,'4인용',3);
 
 insert into tb_menu values (seq_menu.nextVal, '10000002tes', 'test1', 'test1', 'test1', 4, 50000, 'test1');
-select * from tb_menu where resNum = '10000002tes';
+
+116 비빔국수
+117 콩국수
+118 포장만두
+
+update tb_menu set menuimg = '/resources/images/exam1/194.jpg' where menunum = 194;
+update tb_menu set menuimg = '/resources/images/exam1/195.jpg' where menunum = 195;
+update tb_menu set menuimg = '/resources/images/exam1/196.jpg' where menunum = 196;
+
+update tb_menu set menuimg = '/resources/images/exam1/192.jpg' where menunum = 192;
+update tb_menu set menuimg = '/resources/images/exam1/193.jpg' where menunum = 193;
+
+update tb_menu set menuimg = '/resources/images/exam1/187.png' where menunum = 187;
+
+update tb_menu set menuimg = '/resources/images/exam1/소양념갈비.png' where menunum = 133;
+update tb_menu set menuimg = '/resources/images/exam1/한우꽃등심.png' where menunum = 134;
+select * from tb_restaurant;
+select * from tb_menu where resNum = '10000141adm';
+
+
 select sequence from happy;
 
 SELECT *
@@ -226,8 +252,15 @@ insert into tb_reply (rno, resNum, reply, replyer)
 		insert into tb_reply (rno, resNum, reply, replyer)
 		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
 		
+		
+insert into tb_reply (rno, resNum, reply, replyer, rating) values (seq_reply.nextval, '10000118adm', '새우가 톡쏘고 살짝 매콤한게 아주 맛있어요', '새우 알레르기', 5);
+update tb_reply set reply = '도미솥밥 맛있어요' where rno = 92;
+update tb_reply set replyer = '문지현' where rno = 92;
+select * from tb_reply;
+update tb_reply set rating = 5 where rno = 82;
+delete from tb_reply where rno = 95
 
-		select * from tb_reply;
+select * from tb_reply;
 		
 		alter table tb_reply add rating number(2) default 0;
 		
@@ -239,4 +272,166 @@ create table tb_like(
 alter table tb_like add constraint fk_tb_like foreign key (resNum) references tb_restaurant (resNum); 
 
 select * from tb_like;
+
+select * from tb_restaurant;
+select * from tb_oper;
+select * from tb_sales;
+select * from tb_menu;
+select * from tb_appointment;
+select * from tb_A_menu;
+sele
+select * from tb_member;
+
+delete from tb_restaurant;
+
+
+delete from tb_menu where menunum = 141;
+
+SELECT sequence_name, last_number, increment_by, min_value, max_value from user_sequences;
+select table from user;
+
+
+
+
+
+
+create table tb_guest_alr(
+
+memUno	varchar2(100),
+count   number(10)
+
+
+);
+
+
+create table tb_res_alr(
+
+resNum varchar2(50),
+count number(10)
+
+);
+
+
+drop table tb_guest_alr;
+select * from tb_res_alr;
+alter table tb_guest_alr add constraint fk_tb_guest_alr foreign key (memUno) references tb_member (memUno); 
+
+
+
+tb_reply_
+
+
+CREATE OR REPLACE TRIGGER res_alr_trigger
+AFTER INSERT ON tb_appointment
+FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+    -- resNum이 이미 존재하는지 확인
+    SELECT count(*) INTO v_count
+    FROM tb_res_alr
+    WHERE resNum = :NEW.resNum;
+
+    IF v_count IS NOT NULL THEN
+        -- 이미 존재하는 경우 count를 증가시킴
+        UPDATE tb_res_alr
+        SET count = count + 1
+        WHERE resNum = :NEW.resNum;
+    ELSE
+        -- 존재하지 않는 경우 새로 삽입
+        INSERT INTO tb_res_alr (resNum, count) 
+        VALUES (:NEW.resNum, 0);  -- 첫 번째로 삽입하므로 count는 1
+    END IF;
+EXCEPTION
+   WHEN OTHERS THEN
+        RAISE;
+END;
+/
+
+
+
+CREATE OR REPLACE TRIGGER res_alr_trigger
+AFTER INSERT ON tb_appointment
+FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+    -- resNum이 이미 존재하는지 확인
+    SELECT COUNT(*) INTO v_count
+    FROM tb_res_alr
+    WHERE resNum = :NEW.resNum;
+
+    IF v_count > 0 THEN
+        -- 이미 존재하는 경우 count를 증가시킴
+        UPDATE tb_res_alr
+        SET count = count + 1
+        WHERE resNum = :NEW.resNum;
+    ELSE
+        -- 존재하지 않는 경우 새로 삽입
+        INSERT INTO tb_res_alr (resNum, count) 
+        VALUES (:NEW.resNum, 1);  -- 첫 번째로 삽입하므로 count는 1
+    END IF;
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE;
+END;
+
+
+
+
+drop trigger res_alr_trigger
+
+CREATE OR REPLACE TRIGGER guest_alr_trigger
+AFTER INSERT ON tb_appointment
+FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+    -- resNum이 이미 존재하는지 확인
+    SELECT count(*) INTO v_count
+    FROM tb_guest_alr
+    WHERE memUno = :NEW.memUno;
+
+    IF v_count > 0 THEN
+        -- 이미 존재하는 경우 count를 증가시킴
+        UPDATE tb_guest_alr
+        SET count = count
+        WHERE memUno = :NEW.memUno;
+    ELSE
+        -- 존재하지 않는 경우 새로 삽입
+        INSERT INTO tb_guest_alr (memUno, count) 
+        VALUES (:NEW.memUno, 0);  -- 첫 번째로 삽입하므로 count는 1
+    END IF;
+EXCEPTION
+   WHEN OTHERS THEN
+        RAISE;
+END;
+
+
+
+CREATE OR REPLACE TRIGGER guest_update_trigger
+AFTER UPDATE OF A_status ON tb_appointment
+FOR EACH ROW
+WHEN (NEW.A_status IN ('예약 확정', '예약 취소'))
+BEGIN
+    UPDATE tb_guest_alr
+    SET count = count + 1
+    WHERE memUno = :NEW.memUno;
+END;
+
+
+ALTER TRIGGER guest_update_trigger COMPILE;
+/
+select * from tb_guest_alr;
+delete from tb_res_alr where count is null;
+select * from tb_guest_alr;
+select * from tb_res_alr;
+
+drop trigger guest_update_trigger
+
+ALTER TRIGGER HAPPY.GUEST_ALR_TRIGGER COMPILE;
+
+select * from tb_restaurant;
+
+
 

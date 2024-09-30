@@ -3,15 +3,16 @@ $(document).ready(
 	function() {
 
 		checkModal(mno, result1);
-		console.log(result1);
-		console.log(mno);
-		function checkModal(mno, result1) {
-			if (result1 === '') {
+		function checkModal(mno, result1) { // Controller에서 보낸 mno와 result를 받아서 실행
+			if (result1 === '') { // result값이 null이면 return
 				return;
 			}
-			if (parseInt(mno) > 0) {
-				$(".modal-body").html(result1 + "님 회원가입을 축하드립니다.");
+			if (parseInt(mno) > 0) { // mno값이 0보다 크면
+				// Controller에서 받아온 result값을 이용해 modal-body의 내용을 변경
+				$(".modal-body").html(result1 + "님 회원가입을 축하드립니다.\n" + "가입선물로 500포인트 지급해드립니다.");
+				
 			}
+			// Modal창 띄움
 			$("#myModal").modal("show");
 		}
 
@@ -76,15 +77,45 @@ $(document).ready(
 			}
 			$("#myModal").modal("show");
 		}
+
+
 		A_Modal(a_result);
 		console.log(a_result);
 		function A_Modal(a_result) {
-			if (a_result > 0) {
-				$(".modal-body").html(
-					"예약에 성공하였습니다.");
-			} else {
+			if (a_result === "") {
 				return;
+			} else {
+				$(".modal-body").html(a_result);
+
 			}
 			$("#myModal").modal("show");
 		}
+
+
+		console.log(result7);
+		delRest(result7);
+		function delRest(result7) {
+			if (result7 === "") {
+				return;
+			} else {
+				$(".modal-body").html("회원탈퇴가 완료되었습니다.\n 감사합니다");
+				$("#myModal").modal("show");
+			}
+			$("#myModal").modal("show");
+		}
+	
+		
+		loginModal2(result8);
+		console.log(result8);
+		function loginModal2(result8) {
+			if (result8 === '') {
+				return;
+			} else {
+				$(".modal-body").html(result8 + " 사장님 환영합니다.");
+			}
+			$("#myModal").modal("show");
+		}
+
+
+
 	});

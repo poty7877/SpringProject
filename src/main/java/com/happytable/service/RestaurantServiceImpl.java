@@ -18,12 +18,13 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 @AllArgsConstructor
+
 public class RestaurantServiceImpl implements RestaurantService {
 
-    private RestaurantMapper mappr;
-    private OperationsMapper mappOper;
-    private SalesMapper mappSales;
-    private MenuMapper mappMenu;
+	private RestaurantMapper mappr;
+	private OperationsMapper mappOper;
+	private SalesMapper mappSales;
+	private MenuMapper mappMenu;
 
 	@Override
 	public int register(RestaurantVO rest) {

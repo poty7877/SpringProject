@@ -103,3 +103,12 @@ delete from tb_sales where headcount=3;
 
 select * from tb_restaurant;
 select * from tb_oper;
+
+select * from tb_member;
+
+select count(*) from tb_appointment where memUno = 56446272 and A_Status = '';
+
+update tb_member set point = 600 where memUno = 56394734;
+
+
+										

@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>HappyTable=예약조회</title>
+<style>
+.heading span {
+  font-size: 45px;
+  color: #067087;
+  font-weight: 600;
+}
+</style>
 </head>
 <body>
 	<section id="contact-us">
@@ -16,18 +23,18 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="block">
-						<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
-							data-wow-delay="300ms">
-							<span>예약 현황 페이지에 어서오세요</span>
+						<h1 class="heading">
+							<span>예약 확인 페이지 - 관리자</span>
 						</h1>
 
 					</div>
 						<div class="panel-body">
-							<table class="table table-striped table-bordered table-hover">
+							<table class="table table-striped table-bordered" >
 								<thead>
 									<tr>
-										<th width='20%'>예약 날짜</th>
-										<th width='20%'>예약 회원 닉네임</th>
+										<th width='15%'>예약 날짜</th>
+										<th width='15%'>예약 회원 닉네임</th>
+										<th width='10%'>예약이행율</th>
 										<th width='10%'>예약 인원</th>
 										<th width='15%'>예약 상태</th>
 										<th width='15%'>예약 번호</th>
@@ -40,6 +47,8 @@
 										<td><c:out value="${reservation.a_Date}" /></td>
 
 										<td><c:out value="${reservation.userName}" /></td>
+										
+										<td><c:out value="${reservation.reservation_Success}%" /></td>
 
 										<td><c:out value="${reservation.a_NOP}" /></td>
 

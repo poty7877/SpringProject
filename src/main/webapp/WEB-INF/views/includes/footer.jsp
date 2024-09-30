@@ -4,34 +4,88 @@
 <!--
     footer-bottom  start
     ============================= -->
+<!--
+    footer  start
+    ============================= -->
+
+</style>
+<section id="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="block wow fadeInLeft" data-wow-delay="200ms">
+					<h3>
+						홈페이지 <span>정보</span>
+					</h3>
+					<div class="info">
+						<ul>
+							<li>
+								<h4>
+									<i class="fa fa-phone"></i><a>Telefone</a>
+								</h4>
+								<p>010-4254-4442</p>
+
+							</li>
+							<li>
+								<h4>
+									<i class="fa fa-map-marker"></i><a>Address</a>
+								</h4>
+								<p>수원시 팔달구</p>
+							</li>
+							<li>
+								<h4>
+									<i class="fa fa-envelope"></i><a>E mail</a>
+								</h4>
+								<p>kuc00623@gmail.com</p>
+
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- .col-md-4 close -->
+			<div class="col-md-6">
+				<div class="block wow fadeInLeft" data-wow-delay="700ms">
+					<h3>
+						홈페이지 <span>제작자</span>
+					</h3>
+					<div class="blog">
+						<ul>
+							<li>
+								<h4>
+									<a>조장</a>
+								</h4>
+								<a href="https://github.com/poty7877/SpringProject" style="font-size:20px; color:black;">용상엽</a>
+							</li>
+							<li>
+								<h4>
+									<a>조원</a>
+								</h4>
+								<a href="https://github.com/jsKim-prog"  style="font-size:20px; color:black;">김지선</a>
+								<a href="https://github.com/moonji-hyun"  style="font-size:20px; color:black;">문지현</a>
+								<a href="https://github.com/hopepu"  style="font-size:20px; color:black;">조용재</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- .row close -->
+	</div>
+	<!-- .containe close -->
+</section>
+<!-- #footer close -->
+<!--
+    footer-bottom  start
+    ============================= -->
 <footer id="footer-bottom">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-sm-12">
 				<div class="block">
-					<div class="footer-info">
-						<div class="footer-item">
-							<h4>
-								<i class="fa fa-phone"></i> Telefone
-							</h4>
-							<span>010-1234-5678</span>
-						</div>
-						<div class="footer-item">
-							<h4>
-								<i class="fa fa-map-marker"></i> Address
-							</h4>
-							<span>경기 수원시 팔달구 덕영대로 899 3층</span>
-						</div>
-						<div class="footer-item">
-							<h4>
-								<i class="fa fa-envelope"></i> E-mail
-							</h4>
-							<span>mbcAcademy@mbc.com</span>
-						</div>
-					</div>
-
 					<p>
-						Copyright &copy; 2014 - All Rights Reserved. Design and Developed
+						Copyright &copy; 2024 - All Rights Reserved.Design and Developed
 						By <a href="http://www.themefisher.com">Themefisher</a>
 					</p>
 				</div>
@@ -39,21 +93,3 @@
 		</div>
 	</div>
 </footer>
-
-<style>
-.footer-info {
-	display: flex; /* Flexbox로 설정하여 가로로 배치 */
-	justify-content: space-between; /* 각 항목 사이 간격을 자동으로 맞춤 */
-	flex-wrap: wrap; /* 화면 크기가 작아질 때 자동으로 줄 바꿈 */
-}
-
-.footer-item {
-	flex: 1; /* 각 항목이 동일한 크기를 가짐 */
-	padding: 10px; /* 각 항목에 여백 추가 */
-	max-width: 300px; /* 항목의 최대 너비 */
-}
-
-.footer-item h4 {
-	margin-bottom: 5px; /* 제목과 내용 사이의 간격 */
-}
-</style>

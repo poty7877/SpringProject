@@ -36,21 +36,21 @@
 									style="display: flex; justify-content: center; margin: 20px;">
 									<input type="hidden" name="mno" value=${ loginMember.getMno() } />
 									<input type="text" class="form-control" placeholder="이메일"
-										aria-label="이메일" name="email" id="email"
-										style="display: inline-block; width: 400px; margin-right: 10px;"
-										required> <input type="password" class="form-control"
-										placeholder="비밀번호" aria-label="비밀번호" name="pw" id="pw"
-										style="display: inline-block; width: 400px;" required>
+										aria-label="이메일" name="email" id="email" style="width: 600px;"
+										required>
 								</div>
 								<div class="input-group mb-3"
-									style="display: flex; justify-content: center; margin-left: 600px;">
-									<button type="submit" id="delBtn"
-										class="btn btn-primary btn-lg wow bounceIn"
-										data-wow-duration="500ms" data-wow-delay="1300ms"
-										style="margin-right: 10px;">회원 탈퇴</button>
-									<button type="button" onclick="location.href='/'"
-										class="btn btn-default btn-lg wow bounceIn"
-										data-wow-duration="500ms" data-wow-delay="1300ms">home</button>
+									style="display: flex; justify-content: center; margin: 20px;">
+									<input type="password" class="form-control" placeholder="비밀번호"
+										aria-label="비밀번호" name="pw" id="pw" style="width: 600px;"
+										required>
+								</div>
+								<div class="input-group mb-3"
+									style="display: flex; justify-content: center; margin: 20px;">
+									<input type="submit" id="delBtn" class="btn btn-primary"
+										style="background: none; color: #FF4F02; border: 1px solid #FF4F02; width: 600px;"
+										value="회원 탈퇴">
+
 								</div>
 							</div>
 						</form>
@@ -70,13 +70,16 @@
 	<!-- #contact-us close -->
 	<script type="text/javascript">
 		$(document).ready(function() {
+			// delBtn이라는 id를 가지고있는 버튼 클릭시 실행
 			$("#delBtn").on("click", function(e) {
 				e.preventDefault(); // 기본 버튼 동작 방지
-				var form = $("#delForm");
+				var form = $("#delForm"); // delForm을 변수에 저장
+				// confirm - 확인창("띄울 메시지");
 				var confirmation = confirm("정말 삭제하시겠습니까?");
+				// confirm창을 띄우고 사용자가 "확인"을 클릭했을 경우
 				if (confirmation) {
-					// 사용자가 "확인"을 클릭했을 경우
-					form.attr("action", "/member/remove").submit(); // 확인 대화상자 표시
+					// form의 action을 /member/remove로 변경하고 제출
+					form.attr("action", "/member/remove").submit();
 				} else {
 					return;
 				}

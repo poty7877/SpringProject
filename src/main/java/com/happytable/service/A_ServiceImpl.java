@@ -45,6 +45,18 @@ public class A_ServiceImpl implements A_Service{
 		log.info("delete...." + A_no);
 		return mapper.delete(A_no) == 1;
 	}
+
+	@Override
+	public int count(A_VO appoint) {
+		log.info("count.....");
+		return mapper.count(appoint);
+	}
+
+	@Override
+	public int count_Select(A_VO appoint) {
+		log.info("count.....");
+		return mapper.countSelect(appoint);
+	}
 	
 
 

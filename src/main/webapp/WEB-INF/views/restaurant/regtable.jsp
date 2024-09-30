@@ -14,52 +14,54 @@
 
 <!-- .row close -->
 <div class="row" style="margin-top: 50px;">
-<form id="regiTableForm" method="post" action="/estaurant/regtable"
-	onsubmit="return valForm(this)">
-	<input type="hidden" id="sales_resNum" name="resNum" value="${resNum}">
+<form id="regiTableForm" method="post" action="/restaurant/regtable" >
+	<input type="hidden" id="tables" name="tables" >
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-info">
-			<div class="panel-heading">테이블 운영정보    <span class="left cleafix"><button class="btn btn-success btn-sm" id="plusBtn">테이블 추가</button></span>
-			</div>
+			<div class="panel-heading">테이블 운영정보</div>
 			<!-- panel-heading -->
 			<div class="panel-body">
 			<div class="table-responsive">
 				<table class="table " >
 					<thead>
-						<tr>
-							<th width="10%">#</th>
-							<th width="30%">운영타입</th>
-							<th width="30%">최대 수용인원</th>
-							<th width="30%">관리</th>
+						<tr id=''>
+							<th width="15%">#</th>
+							<th width="35%">운영타입</th>
+							<th width="35%">최대 수용인원</th>
+							<th width="15%">삭제</th>
 						</tr>
 					</thead>
 					<tbody id="table-body">
 						<tr>
-							<td><input class="form-control" id="vrNum" name="tableNum" type="number" value="1" readonly="readonly"></td>
+							<td><input class="index form-control" type="number" value="" readonly="readonly"></td>
 							<td>
-							<select class="form-control" id="tableType" name="tableType">
+							<select class="form-control" name="tableType">
 							<option value="room">룸타입</option>
 							<option value="table">홀타입</option>
 							</select>
 							</td>
 							<td><div class="input-group">
-							<input class="form-control"  type="text" id="headCount" name="headCount" /><span class="input-group-addon">명</span></div></td>
-							<td></td>
+							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
+							<td><input  class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
+							</td>
 						</tr>
 					</tbody>
-				</table>
-				<!-- /.table-responsive -->
+				</table><!-- /.table-responsive -->
 				</div><!--.table-responsive  -->
+				<div class="pull-right">
+				<input class="btn btn-info" id="plusBtn" data-oper="trplus"  value=" + 입력란 추가" ></div>
 			</div>
 			<!-- panel-body -->
 			<div class="panel-footer">
-				<button type="submit" class="btn btn-primary btn-lg btn-block">저장하기</button>
+				<button  class="btn btn-primary btn-lg btn-block" id="submitBtn" type="submit" >저장하기</button>
 			</div>
 		</div>
 		<!--panel panel-info  -->
 	</div>
 	<!-- .col-md-12 close -->
 </form>
-</div>
-<!-- .row -->
+</div><!-- .row -->
+<!-- resnum 전송위한 hidden -->
+<input type="hidden" id="sales_resNum" name="resNum" value="${loginResNum}">
+<script type="text/javascript" src="/resources/js/restregtable.js"></script>
 <%@ include file="../includes/footer2.jsp"%>

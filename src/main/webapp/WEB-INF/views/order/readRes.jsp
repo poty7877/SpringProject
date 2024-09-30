@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.heading span {
+  font-size: 45px;
+  color: #067087;
+  font-weight: 600;
+}
+</style>
 </head>
 <body>
 	<section id="contact-us">
@@ -18,10 +25,10 @@
 					<div class="block">
 						<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
 							data-wow-delay="300ms">
-							<span>예약 현황 페이지에 어서오세요</span>
+							<span>예약 확인 페이지 - 관리자</span>
 						</h1>
 					</div>
-					<form role="form" action="/order/read" method="get">
+					<form role="form" action="/order/readRes" method="get">
 						<div class="panel-body">
 							<table class="table table-striped table-bordered table-hover">
 								<thead>
@@ -50,10 +57,10 @@
 										<th>예약 상태</th>
 										<td>
 										<select class="form-control" name='a_Status'>
-											<option value="예약 중"> 예약 중 </option>
-											<option value="예약 확인 중"> 예약 확인 중 </option>
+											<option value="예약 중"> 예약 중 </option>											
 											<option value="예약 확정"> 예약 확정 </option>
 											<option value="예약 취소"> 예약 취소 </option>
+											<option value="노쇼"> No Show </option>
 										</select>
 										</td>
 									</tr>
@@ -67,7 +74,7 @@
 									<tr>
 									<td colspan="2" align="center">
 										<input type='hidden' name='a_No' value='<c:out value="${appoint[0].a_No}"/>'>
-										<input type='hidden' name='a_Note' value='<c:out value="${appoint[0].a_Note}"/>'>
+										<input type='hidden' name='memUno' value='<c:out value="${appoint[0].memUno}"/>'>
 											<button type="submit" data-oper='update'
 												class="btn btn-default">예약 수정</button>
 											<button type="submit" data-oper='delete'

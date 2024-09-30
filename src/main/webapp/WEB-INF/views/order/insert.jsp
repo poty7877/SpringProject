@@ -39,9 +39,10 @@
 								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
 								type='hidden' name='a_Status' value='예약 중' />
 
-
+			<p style="margin-left:140px; color:red;">당일 예약은 불가합니다.</p>
 							<table width='100%'>
 								<tr>
+								
 									<th>예약일</th>
 									<th>
 									<%-- <input type="date" class="form-control" name="date" required="required" min="${s_Date}" max="${e_Date}"> --%>
@@ -69,10 +70,10 @@
 									
 									<th>요청테이블</th>
 									<th>
-									<c:forEach var="i" begin="0" end="${fn:length(resVO.salList)-1}">
-									<input type="checkbox" class="check" value="${resVO.salList[i].tableType}" name="table"/>
-									<label for="${resVO.salList[i].tableType}">
-									<c:out value="${resVO.salList[i].tableType}"/>
+									<c:forEach var="i" begin="0" end="${fn:length(table_kind)-1}">
+									<input type="checkbox" class="check" value="${table_kind[i]}" name="table"/>
+									<label for="${table_kind[i]}">
+									<c:out value="${table_kind[i]}"/>
 									</label>
 									</c:forEach>
 									</th>					
@@ -132,37 +133,29 @@
 		
 	
 		var loggedIn =	<%=loggedInStr%>;
-		if (!loggedIn) {
-			$("#myModal").modal("show");
+
+		
+		
+		if (!loggedIn) { // 로그인 상태가 아니면
+			$("#myModal").modal("show"); // 로그인 필수 모달창 띄움
 			$("#myModal").on("hidden.bs.modal", function() {
-				window.location.href = "/";
+				window.location.href = "/"; // 모달창 꺼지면 홈으로 이동
 			});
 		}
-
-		$(document).ready(
-				function() {
-
-					var formObj = $("form");
-
-					$('button').on(
-							"click",
-							function(e) {
-
-								e.preventDefault();
-
-								var operation = $(this).data("oper");
-
-								console.log(operation);
-								if (operation === 'appoint') {
-									formObj.attr("action", "/order/insert")
-											.attr("method", "post");
-									formObj.submit();
-								} else if (operation === 'modal') {
-									formObj.attr("action", "/").attr("method",
-											"get")
-									formObj.submit();
-								} 
-							});
+		$(document).ready(function() {
+			var formObj = $("form"); // form 찾아서 변수에저장
+			$('button').on("click",function(e) { // 버튼 클릭시
+			e.preventDefault(); // 기본 동작멈춤
+			var operation = $(this).data("oper"); //data-oper의 정보를 받아 저장
+			if (operation === 'appoint') { // appoint이면,
+			formObj.attr("action", "/order/insert") // action변경
+			.attr("method", "post"); // method는 post로
+			formObj.submit(); // 폼 제출
+			} else if (operation === 'modal') { // modal이면
+			formObj.attr("action", "/") // action홈으로 변경
+			.attr("method","get") // method는 get으로
+			formObj.submit();} // 폼 제출
+			});
 					
 					$(".check").click(function(){  // 여기서 .click은 체크박스의 체크를 뜻한다.
 

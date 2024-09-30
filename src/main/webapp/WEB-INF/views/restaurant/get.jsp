@@ -8,7 +8,15 @@
 <html>
 
 <head>
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi_KIWm0eoBsfdB7XjvcrID6Bu3itMH0M&callback=initMap"></script>
+
 <style>
+#map {
+	height: 400px;
+	width: 100%;
+}
+
 .comment-content {
 	padding: 10px; /* 댓글의 패딩 조정 */
 	border-bottom: 1px solid #ddd; /* 각 댓글 구분을 위한 하단 경계선 */
@@ -29,6 +37,26 @@
 .left.clearfix {
 	margin-bottom: 20px; /* 댓글 간의 간격 조정 */
 }
+
+.menu-list {
+	display: flex; /* Flexbox로 설정 */
+	flex-wrap: wrap; /* 화면 크기에 맞춰 메뉴가 줄 바꿈 가능 */
+	gap: 30px; /* 각 메뉴 간격 */
+	list-style-type: none; /* 리스트 스타일 제거 */
+	padding: 0;
+	margin: 0;
+}
+
+.menu-item {
+	flex: 1 1 250px; /* 각 메뉴 항목이 최소 200px 너비를 가지며 크기에 맞춰 확장 */
+	max-width: 250px; /* 각 메뉴 항목의 최대 너비 */
+	text-align: center; /* 중앙 정렬 */
+}
+
+.item img {
+	max-width: 100%; /* 이미지가 아이템 크기에 맞게 조절 */
+	height: 250px;
+}
 </style>
 <meta charset="UTF-8">
 <title>HappyTable</title>
@@ -48,8 +76,11 @@
 							alt="cooker-img">
 						<h1 class="heading wow fadeInUp" data-wow-duration="400ms"
 							data-wow-delay="500ms">
-							<span>${ resVO.resName }</span></br> ${ resVO.summary }
+							<!-- 컨트롤러에서 가져온 정보 사용  -->
+							<span>${ resVO.resName }</span>
 						</h1>
+						</br>
+						<h3>${ resVO.summary }</h3>
 					</div>
 				</div>
 			</div>
@@ -57,7 +88,94 @@
 
 	</section>
 	<!-- #call-to-action close -->
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="block wow fadeInLeft" data-wow-delay="200ms">
+						<h3>
+							식당 <span>정보</span>
+						</h3>
+						<div class="info">
+							<ul>
+								<li>
+									<h4>
+										<i class="fa fa-phone"></i><a>전화</a>
+									</h4>
+									<p>${ resVO.resPhone }</p>
 
+								</li>
+								<li>
+									<h4>
+										<i class="fa fa-map-marker"></i><a>주소</a>
+									</h4>
+									<p id="address">${ resVO.resAddr }</p>
+								</li>
+								<li>
+									<h4>
+										<i class="fa fa-align-justify"></i><a>사업자번호</a>
+									</h4>
+									<p>${ resVO.co_Num }</p>
+
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- .col-md-4 close -->
+				<div class="col-md-6">
+					<div class="block wow fadeInLeft" data-wow-delay="700ms">
+						<h3>
+							영업 <span>정보</span>
+						</h3>
+						<div class="blog">
+							<ul>
+								<li>
+									<h4>
+										<a>오픈</a>
+									</h4>
+									<p>${ operVO.openTime }</p> <!-- 컨트롤러에서 가져온 정보 사용 -->
+								</li>
+								<li>
+									<h4>
+										<a>마감</a>
+									</h4>
+									<p>${ operVO.endTime }</p>
+								</li>
+								<li>
+									<h4>
+										<a>브레이크타임</a>
+									</h4>
+									<p id="breakTime">${ operVO.breakTime_start }~${ operVO.breakTime_end }</p>
+								</li>
+								<li>
+									<h4>
+										<a>휴일</a>
+									</h4>
+									<p id="cate" style="display: inline;">${ operVO.dayoff_cate }</p>
+									<p id="week" style="display: inline;">${ operVO.dayoff_weekCnt }째주</p>
+									<p id="day" style="display: inline;">${ operVO.dayoff_Day }요일</p>
+								</li>
+								<li>
+									<h4>
+										<a>예약금 정보</a>
+									</h4>
+									<p id="cond" style="display: inline;">${ operVO.adPayCond }명이상예약시</p>
+									<p id="pay" style="display: inline;">${ operVO.adPay }원선불</p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- .col-md-4 close -->
+
+				<!-- .col-md-4 close -->
+			</div>
+			<!-- .row close -->
+		</div>
+		<!-- .containe close -->
+
+	</section>
 	<!--
     price start
     ============================ -->
@@ -79,15 +197,14 @@
 								</h3>
 							</div>
 							<ul class="menu-list">
+								<!-- 컨트롤러에서 보낸 menuList를 변수 menu로 사용 -->
 								<c:forEach items="${ menuList }" var="menu">
 									<li class="menu-item">
 										<div class="item">
 											<div>
-												<img class="img-responsive"
-													src="/resources/images/slider/slider-img-1.jpg" alt="">
-												<h2>
-													${ menu.menuName } </a>
-												</h2>
+												<img class="img-responsive" src="${ menu.menuImg }" alt="">
+												</br>
+												<h3>${ menu.menuName }</h3>
 												<div class="border-bottom"></div>
 												<span>${ menu.unitCost } 원</span></br> <span>주재료 : ${ menu.mainIngredient }
 												</span></br> <span>${ menu.serving }인분</span>
@@ -97,7 +214,10 @@
 									</li>
 								</c:forEach>
 							</ul>
-							<button class="btn btn-primary">예약하기</button>
+							<div id="map"></div>
+							<button class="btn btn-primary"
+								onclick="location.href='/order/insert?resNum=${resVO.resNum}'"
+								style="margin-left: 430px; margin-top: 50px;">예약하기</button>
 						</div>
 
 					</div>
@@ -105,27 +225,7 @@
 			</div>
 		</div>
 	</section>
-	<style>
-.menu-list {
-	display: flex; /* Flexbox로 설정 */
-	flex-wrap: wrap; /* 화면 크기에 맞춰 메뉴가 줄 바꿈 가능 */
-	gap: 30px; /* 각 메뉴 간격 */
-	list-style-type: none; /* 리스트 스타일 제거 */
-	padding: 0;
-	margin: 0;
-}
 
-.menu-item {
-	flex: 1 1 250px; /* 각 메뉴 항목이 최소 200px 너비를 가지며 크기에 맞춰 확장 */
-	max-width: 250px; /* 각 메뉴 항목의 최대 너비 */
-	text-align: center; /* 중앙 정렬 */
-}
-
-.item img {
-	max-width: 100%; /* 이미지가 아이템 크기에 맞게 조절 */
-	height: auto;
-}
-</style>
 	<!-- #price close -->
 	<div class='row'>
 		<div class="col-lg-12">
@@ -137,8 +237,8 @@
 
 				<div class="panel-heading">
 					<i class="fa fa-comments fa-fw">Reply</i>
-					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>New
-						Reply</button>
+					<button id='addReplyBtn' class='btn btn-primary btn-xs pull-right'>리뷰
+						작성</button>
 				</div>
 
 				<!-- /.panel-heading -->
@@ -183,12 +283,12 @@
 				<!-- class="modal-header" end -->
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Reply</label> <input class="form-control" name='reply'
-							value="NewReply!!!!">
+						<label>내용</label> <input class="form-control" name='reply'>
 					</div>
 					<div class="form-group">
-						<label>Replyer</label> <input class="form-control" name="replyer"
-							value='Replyer'>
+						<label>작성자</label> <input class="form-control" name="replyer"
+							value="${loginMember.nickName}" readonly>
+
 					</div>
 					<div class="form-group">
 						<label for="rating">평점(1~5)</label> <input class="form-control"
@@ -196,18 +296,18 @@
 
 					</div>
 					<div class="form-group">
-						<label>Reply Date</label> <input class="form-control"
-							name='replyDate' value='2018-01-01 13:13'>
+						<label>작성일</label> <input class="form-control" name='replyDate'
+							value='2018-01-01 13:13'>
 					</div>
 				</div>
 				<!-- class="modal-body" end -->
 				<div class="modal-footer">
-					<button id='modalModBtn' type="button" class="btn btn-warning">Modify</button>
-					<button id='modalRemoveBtn' type="button" class="btn btn-danger">Remove</button>
+					<button id='modalModBtn' type="button" class="btn btn-warning">수정</button>
+					<button id='modalRemoveBtn' type="button" class="btn btn-danger">삭제</button>
 					<button id='modalRegisterBtn' type="button" class="btn btn-primary"
-						data-dismiss="modal">Register</button>
+						data-dismiss="modal">등록</button>
 					<button id='modalCloseBtn' type="button" class="btn btn-default"
-						data-dismiss="modal">Close</button>
+						data-dismiss="modal">취소</button>
 
 				</div>
 				<!-- class="modal-footer end -->
@@ -217,99 +317,34 @@
 		<!-- class="modal-dialog end -->
 	</div>
 	<!-- modal end -->
-	<section id="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="block wow fadeInLeft" data-wow-delay="200ms">
-						<h3>
-							page <span>info</span>
-						</h3>
-						<div class="info">
-							<ul>
-								<li>
-									<h4>
-										<i class="fa fa-phone"></i>Telefone
-									</h4>
-									<p>${ resVO.resPhone }</p>
 
-								</li>
-								<li>
-									<h4>
-										<i class="fa fa-map-marker"></i>Address
-									</h4>
-									<p>${ resVO.resAddr }</p>
-								</li>
-								<li>
-									<h4>
-										<i class="fa fa-envelope"></i>E mail
-									</h4>
-									<p>mbc@mbc.com</p>
+	<script type="text/javascript">
+        var map;
+        function initMap() {
+        	var address = $("#address").text();
+        	console.log("주소 : " + address);
+            var geocoder = new google.maps.Geocoder();
 
-								</li>
-								<li>
-									<h4>
-										<i class="fa fa-align-justify"></i>coNum
-									</h4>
-									<p>${ resVO.co_Num }</p>
+            geocoder.geocode({ address: address }, (results, status) => {
+                if (status === "OK") {
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: results[0].geometry.location,
+                        zoom: 18,
+                    });
+                    new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        map: map,
+                    });
+                } else {
+                    alert("주소를 찾을 수 없습니다: " + status);
+                }
+            });
+        }
+    </script>
 
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- .col-md-4 close -->
-				<div class="col-md-6">
-					<div class="block wow fadeInLeft" data-wow-delay="700ms">
-						<h3>
-							restaurant <span>info</span>
-						</h3>
-						<div class="blog">
-							<ul>
-								<li>
-									<h4>
-										<a>open</a>
-									</h4>
-									<p>${ operVO.openTime }</p>
-								</li>
-								<li>
-									<h4>
-										<a>close</a>
-									</h4>
-									<p>${ operVO.endTime }</p>
-								</li>
-								<li>
-									<h4>
-										<a>break</a>
-									</h4>
-									<p>${ operVO.breakTime_start }~${ operVO.breakTime_end }</p>
-								</li>
-								<li>
-									<h4>
-										<a>rest</a>
-									</h4>
-									<p>${ operVO.dayoff_cate }${ operVO.dayoff_weekCnt }${ operVO.dayoff_Day }</p>
-								</li>
-								<li>
-									<h4>
-										<a>pay</a>
-									</h4>
-									<p>${ operVO.adPayCond }명이상예약시</p>
-									<p>${ operVO.adPay }원선불</p>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- .col-md-4 close -->
-
-				<!-- .col-md-4 close -->
-			</div>
-			<!-- .row close -->
-		</div>
-		<!-- .containe close -->
-
-	</section>
+	<script type="text/javascript">
+		
+	</script>
 	<script>
 		document.getElementById('rating').addEventListener('input',
 				function(e) {
@@ -325,14 +360,15 @@
 		include용 */
 	</script>
 
+
 	<script>
 		$(document)
 				.ready(
 						function() {
-
+							var loginMemberNickName = "${ loginMember.getNickName() }";
 							var resNumValue = "${resVO.resNum}";
 							var replyUL = $(".chat");
-
+							console.log(loginMemberNickName);
 							showList(1);
 
 							var modal = $(".modal");
@@ -349,27 +385,43 @@
 							var modalRemoveBtn = $("#modalRemoveBtn");
 							var modalRegisterBtn = $("#modalRegisterBtn");
 
+							var loggedIn =
+	<%=loggedInStr%>
+		;
+
+							if (!loggedIn) {
+								$("#addReplyBtn").on("click", function() {
+									alert("로그인 후 댓글 작성 가능합니다.");
+									return;
+								});
+
+							} else {
+								$("#addReplyBtn")
+										.on(
+												"click",
+												function(e) {
+													modalInputRating.val(1);
+													modalInputReply.val("");
+													modalInputReplyer.val(loginMemberNickName);
+													modalInputReplyDate
+															.closest("div")
+															.hide();
+													modal
+															.find(
+																	"button[id !='modalCloseBtn']")
+															.hide();
+
+													modalRegisterBtn.show();
+
+													$(".modal").modal("show");
+
+												});
+							}
+
 							$("#modalCloseBtn").on("click", function(e) {
 
 								modal.modal('hide');
 							});
-
-							$("#addReplyBtn").on(
-									"click",
-									function(e) {
-
-										modal.find("input").val("");
-										modalInputReplyDate.closest("div")
-												.hide();
-										modal.find(
-												"button[id !='modalCloseBtn']")
-												.hide();
-
-										modalRegisterBtn.show();
-
-										$(".modal").modal("show");
-
-									});
 
 							modalRegisterBtn.on("click", function(e) {
 
@@ -394,6 +446,7 @@
 							});
 
 							//댓글 조회 클릭 이벤트 처리 
+
 							$(".chat")
 									.on(
 											"click",
@@ -424,19 +477,30 @@
 																			.data(
 																					"rno",
 																					reply.rno);
+																	console
+																			.log("로그인멤버닉네임 "
+																					+ loginMemberNickName);
+																	console
+																			.log("모달 닉네임 : "
+																					+ reply.replyer);
+																	if (loginMemberNickName === reply.replyer) {
 
-																	modal
-																			.find(
-																					"button[id !='modalCloseBtn']")
-																			.hide();
-																	modalModBtn
-																			.show();
-																	modalRemoveBtn
-																			.show();
+																		modal
+																				.find(
+																						"button[id !='modalCloseBtn']")
+																				.hide();
+																		modalModBtn
+																				.show();
+																		modalRemoveBtn
+																				.show();
+																		$(
+																				".modal")
+																				.modal(
+																						"show");
 
-																	$(".modal")
-																			.modal(
-																					"show");
+																	} else {
+																		alert("본인 리뷰만 수정, 삭제가 가능합니다.");
+																	}
 
 																});
 											});
@@ -637,7 +701,46 @@
 
 						});
 	</script>
+	<script type="text/javascript">
+$(document).ready(function(){
+	
+	var breakTime_start = "${operVO.breakTime_start}";
+	var breakTime_end = "${operVO.breakTime_end}";
+	
+	var dayoff_cate = "${operVO.dayoff_cate}";
+	var dayoff_weekCnt = "${operVO.dayoff_weekCnt}";
+	var dayoff_day = "${operVO.dayoff_Day}";
+	
+	var adpaysel = "${operVO.adPaySel}";
+	var adPayCond = "${operVO.adPayCond}";
+	var adPay = "${operVO.adPay}";
+	
+	console.log("adpaysel : " + adpaysel);
+	console.log("브레이크 타임 : " +breakTime_start)
+	
+	if(breakTime_start === "--:--") {
+		$("#breakTime").text("없음");
+	}
+	
+	if(dayoff_cate === "연중무휴") {
+		$("#week").hide();
+		$("#day").hide();
+	}
+	
+	if(dayoff_cate === "매주")	{
+		$("#week").hide();
+	}
+	
+	if(adpaysel === "false") {
+		$("#cond").hide();
+		$("#pay").text("예약금 없음");
+	}
+	
+	
+	
+});
 
+</script>
 	<%@ include file="../includes/getFooter.jsp"%>
 </body>
 

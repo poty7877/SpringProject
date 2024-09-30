@@ -31,6 +31,7 @@ public interface RestaurantService {
 	// 로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가)
 	public int loginChech(String resID, String resPW);
 
+
 	// 마이페이지 불러오기
 	public MyResturantDTO getAllInfo(String resNum);
 

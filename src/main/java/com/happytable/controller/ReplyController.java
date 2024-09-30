@@ -32,15 +32,16 @@ public class ReplyController {
 
 	private ReplyService service;
 
+	// URL : http://localhost/replies/new
 	@PostMapping(value = "/new", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo, Model model) {
-		
+		// 프론트에서 입력한 값을 vo에 저장
 		log.info("ReplyVO 객체 json 입력 값 : " + vo);
-
+		// 댓글 등록 메서드 실행, 성공시 결과값 1
 		int insertCount = service.register(vo);
 
 		log.info("서비스 +  매퍼 처리 결과 : " + insertCount);
-
+		// 결과가 1이면 success를 보냄, 아니면 500 error표시
 		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

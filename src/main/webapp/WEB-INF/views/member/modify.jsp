@@ -19,6 +19,11 @@
 	background: #ff530a;
 	color: #fff;
 }
+
+#modify:disabled:hover {
+	background: #ff530a;
+	color: #fff;
+}
 </style>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
@@ -57,15 +62,9 @@
 							</div>
 
 							<div class="form-group">
-								<label for="pw">비밀번호</label> <input type="password" id="pw"
-									class="form-control" name="pw" value="${ loginMember.getPw() }"
-									required maxlength="16">
-							</div>
-
-							<div class="form-group">
-								<label for="pw">비밀번호확인</label> <input type="password" id="cpw"
-									class="form-control" name="cpw"
-									value="${ loginMember.getPw() }" required>
+								<label>비밀번호</label> <input type="button" id="changeBtn"
+									class="form-control" name="changeBtn" value="비밀번호 변경"
+									style="background: none; color: #FF4F02; border: 1px solid #FF4F02;">
 							</div>
 
 							<div class="form-group">
@@ -78,6 +77,12 @@
 								<label for="nickName">닉네임(2~10글자)</label> <input type="text"
 									id="nickName" class="form-control" name="nickName"
 									value="${ loginMember.getNickName() }" required maxlength="10">
+							</div>
+							
+							<div class="form-group">
+								<label for="point">내 포인트</label> <input type="text"
+									id="point" class="form-control" name="point"
+									value="${ loginMember.getPoint() }" readonly>
 							</div>
 
 							<div class="form-group">
@@ -108,11 +113,10 @@
 								aria-hidden="true">&times;</button>
 							<h4 class="modal-title" id="myModalLabel">로그인 필요</h4>
 						</div>
-						<div class="modal-body">로그인 후에 회원정보를 수정 할 수 있습니다. 홈으로 돌아갑니다.</div>
+						<div class="modal-body">로그인 후에 회원정보를 수정 할 수 있습니다</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
-
 						</div>
 					</div>
 					<!-- /.modal-content -->
@@ -120,6 +124,47 @@
 				<!-- /.modal-dialog -->
 			</div>
 			<!-- /.modal -->
+
+			<!-- Modal -->
+			<div class="modal fade" id="psModal" tabindex="-1" role="dialog"
+				aria-labelledby="psModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="psModalLabel">비밀번호변경</h4>
+						</div>
+						<!-- class="modal-header" end -->
+						<div class="modal-body">
+							<div class="form-group">
+								<label>현재 비밀번호</label> <input type="password"
+									class="form-control" id="pw" name='pw'>
+							</div>
+							<div class="form-group">
+								<label>새 비밀번호</label> <input type="password"
+									class="form-control" id="cpw" name="cpw">
+
+							</div>
+							<div class="form-group">
+								<label>새 비밀번호 확인</label> <input type="password"
+									class="form-control" id="cpw2" name="cpw2">
+							</div>
+						</div>
+						<!-- class="modal-body" end -->
+						<div class="modal-footer">
+							<button id='modalRegisterBtn' type="button"
+								class="btn btn-primary" data-dismiss="modal">확인</button>
+							<button id='modalCloseBtn' type="button" class="btn btn-default"
+								data-dismiss="modal">취소</button>
+						</div>
+						<!-- class="modal-footer end -->
+					</div>
+					<!-- class="modal-content  end -->
+				</div>
+				<!-- class="modal-dialog end -->
+			</div>
+			<!-- modal end -->
 
 		</div>
 
@@ -137,6 +182,36 @@
 		;
 	</script>
 	<script src="/resources/js/modify.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var modal = $("#psModal");
+			var modalInputPw = modal.find("input[name='pw']");
+			var modalInputCpw = modal.find("input[name='cpw']");
+			var modalInputCpw2 = modal.find("input[name='cpw2']");
+			var modalRegisterBtn = $("#modalRegisterBtn");
+
+			$("#changeBtn").on("click", function(e) {
+				modal.find("input").val("");
+				modal.modal("show");
+			});
+
+			modalRegisterBtn.on("click", function(e) {
+				var member = {
+					pw : modalInputPw.val(),
+					cpw : modalInputCpw.val(),
+					cpw2 : modalInputCpw2.val()
+				};
+
+				pwService.modify(member, function(result) {
+					alert(result.message);
+					modal.find("input").val("");
+					modal.modal("hide");
+				});
+			});
+		});
+	</script>
+
+
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

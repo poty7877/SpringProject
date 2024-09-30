@@ -9,7 +9,9 @@ public interface A_Mapper {
 	//C
 	public int insert(A_VO appoint);
 	//R
-	public List<A_VO> read(A_VO appoint);	
+	public List<A_VO> read(A_VO appoint);
+	public int count(A_VO appoint);
+	public int countSelect(A_VO appoint);
 	//U
 	public int update(A_VO appoint);
 	//D

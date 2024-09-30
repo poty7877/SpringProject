@@ -38,5 +38,10 @@ public interface MemberService {
 
 	// pw찾기
 	public MemberVO findPW(MemberVO memberVO);
+	
+	// 비밀번호 변경
+	public int changePw(Long mno, String pw);
+	
+	public int point(MemberVO memberVO);
 
 }

@@ -3,62 +3,88 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header2.jsp"%>
-			<div class="row">
-				<div class="col-md-12">
-					<h1 class="heading wow fadeInUp" data-wow-duration="500ms"
-						data-wow-delay="300ms">
-						<span>Restaurant 메뉴등록</span>
-					</h1>
-				</div>
-				<!-- .col-md-12 close -->
-			</div>
+<div class="row">
+	<div class="col-md-12">
+		<h1 class="heading">
+			<span>Restaurant 메뉴등록</span>
+		</h1>
+	</div>
+	<!-- .col-md-12 close -->
+</div>
 
-			<!-- .row close -->
-			<form id="regiForm" method="post" action="restaurant/register" onsubmit="return valForm(this)">
-			<input type="hidden" name="resNum" value ="${rest.resNum}">
-				
-				<div class="col-md-12">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							메뉴 입력
-							<button>메뉴 추가</button>
-						</div>
-						<!-- panel-heading -->
-						<div class="panel-body">
-							<table width="80%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
-								<thead>
-									<tr>
-										<th>메뉴명</th>
-										<th>메뉴소개</th>
-										<th>주재료</th>
-										<th>구성*</th>
-										<th>가격</th>
-										<th>이미지 파일</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><input type="text" id="menuName" name="menuName" /></td>
-										<td><textarea rows="2" placeholder="메뉴의 소개문구(50자 이내)" id="menuAcoount" name="menuAcoount" ></textarea> </td>
-										<td><input type="text" id="mainIngredient" name="mainIngredient" /></td>
-										<td><input type="text" id="serving" name="serving" placeholder="예 : 2인분"/>인분</td>
-										<td><input type="text" id="unitCost" name="unitCost"/>원</td>
-										<td><button>파일찾기</button></td>
-									</tr>
-								</tbody>
-							</table>
-							<!-- /.table-responsive -->
-						</div>
-						<!-- panel-body -->
-						<div class="panel-footer">
-							<button type="submit" class="btn btn-primary btn-lg btn-block">저장하기</button>
+<div class="row" style="margin-top: 50px;">
+	<input type="hidden" id="tables" name="tables">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="panel panel-info">
+			<div class="panel-heading">메뉴등록</div>
+			<!-- .panel-heading -->
+			<div class="panel-body">
+				<!-- resnum 전송위한 hidden -->				
+				<input type="hidden" id="menu_resNum" name="resNum"
+					value="${loginResNum}">
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="menuName">메뉴명</label><input type="text"
+							class="form-control" id="menuName" name="menuName" required/>
+					</div>
+				</div>
+				<!--.row  -->
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="mainIngredient">주재료</label><input type="text"
+							class="form-control" id="mainIngredient" name="mainIngredient" required/>
+					</div>
+				</div>
+				<!--.row  -->
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="menuAcoount">메뉴소개</label>
+						<textarea rows="2" class="form-control" id="menuAcoount"
+							name="menuAcoount" placeholder="20자 이내의 짧은 소개문구" required></textarea>
+					</div>
+				</div>
+				<!--.row  -->
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="unitCost">가격</label>
+						<div class="input-group">
+							<input type="number" class="form-control" id="unitCost"
+								name="unitCost" required/> <span class="input-group-addon">원</span>
 						</div>
 					</div>
-					<!--panel panel-info  -->
 				</div>
-				<!-- .col-md-12 close -->
-			</form>
+				<!--.row  -->
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="serving">판매단위(권장 섭취인원)</label>
+						<div class="input-group">
+							<input type="number" class="form-control" id="serving"
+								name="serving" required/> <span class="input-group-addon">인분</span>
+						</div>
+					</div>
+				</div>
+				<!--.row  -->
+				<div class="row" style="width: 90%; margin-left: 20px;">
+					<div class="form-group">
+						<label for="menuImg">이미지파일(선택사항-구현중)</label> <input type="file"
+							id="menuImg" name="menuImg">
+					</div>
+				</div>
+				<!--.row  -->
+			</div>
+			<!-- .panel-body -->
+			<div class="panel-footer">
+			<button type="button" class="btn btn-primary btn-lg btn-block"
+						id="saveMenuBtn">저장하기</button>
+			</div>
+			<!-- .panel-footer -->
+		</div>
+		<!--.panel panel-Info  -->
+	</div>
+	<!-- .col-md-12 close -->
+</div>
+<!-- .row -->
 
-	<%@ include file="../includes/footer2.jsp"%>
+
+<script type="text/javascript" src="/resources/js/restregmenu.js"></script>
+<%@ include file="../includes/footer2.jsp"%>
