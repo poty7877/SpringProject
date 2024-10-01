@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.A_VO;
+import com.happytable.domain.MemberVO;
 import com.happytable.domain.MyResturantDTO;
 import com.happytable.service.A_Service;
 import com.happytable.service.MemberService;
@@ -38,19 +42,51 @@ public class A_Controller {
 	private MemberService mem_Service;
 
 	@PostMapping("/insert")
-	public String insert(A_VO appoint, @RequestParam("date") String date, @RequestParam("time") String time,
-			@RequestParam("table") String table, RedirectAttributes rttr, Model model) {
+	public String insert(A_VO appoint,
+						@RequestParam("date") String date,
+						@RequestParam("time") String time,
+						@RequestParam(value="table", required = false) String table,
+						@RequestParam(value="using_point", required = false) String point,
+						RedirectAttributes rttr, Model model, HttpSession session) {
 		// date, time 값받아서 db에 저장할수있는 Date형식으로 변경
 		String a_Date = date + " " + time;
-		String a_Note = appoint.getA_Note() + "/ 요청테이블 : " + table;
+		String a_Note = appoint.getA_Note();
+		if(table!=null) {
+			a_Note = a_Note + " / 요청테이블 : " + table ; 
+		}
+		if(point!=null) {
+			a_Note = a_Note +  " / 사용포인트 : " + point ;
+		}
+		//포인트 차감
+		MemberVO member = new MemberVO();
+		member.setMemUno(appoint.getMemUno());
+		member = mem_Service.getMem(appoint.getMemUno());
+		log.info("포인트 정보 : " + member.toString());
+		Long minusPoint = Long.parseLong(point);
+		Long before = member.getPoint();
+		Long leftPoint = before - minusPoint;
+		if(leftPoint<0) {
+			
+		}
+		
+		
+		
+		log.info(leftPoint);
+		member.setPoint(leftPoint);
+		log.info("포인트 정보 : " + member.toString());
+		mem_Service.point(member);		
+			
+		
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
 		appoint.setA_Note(a_Note); // a_Note값 객체에 추가
 		// 등록 메서드 실행, 성공시 결과값 1
 		int result = a_service.insert(appoint);
 		log.info("insert result : " + result);
+		
 		if (result == 1) { // result가 1이면
 			// 홈으로 redirect할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 성공하였습니다.");
+			session.setAttribute("loginMember", member);
 			
 		} else { // result가 0이면
 			// 홈으로 redirect시 실패메시지 가져감
@@ -216,6 +252,13 @@ public class A_Controller {
 				table_kind.add(oper.getSalList().get(i).getTableType());
 			}
 		}
+		String rest_day_log = "테스트";
+		if(m_w_day != "") {
+			rest_day_log = "이번달 휴일은 " + m_w_day;
+		} else if (oper.getOper().getDayoff_cate().equals("매주")) {
+			rest_day_log = "휴일은 매주 " + oper.getOper().getDayoff_Day() +"요일";
+			
+		}
 		
 
 		model.addAttribute("resVO", oper);
@@ -225,6 +268,7 @@ public class A_Controller {
 		model.addAttribute("everyWeek_day", everyWeek_day);
 		model.addAttribute("rest_day", m_w_day);
 		model.addAttribute("table_kind", table_kind);
+		model.addAttribute("rest_day_log", rest_day_log);
 		
 
 	}
@@ -251,15 +295,63 @@ public class A_Controller {
 			appoint2.setUserName(NickName);
 			result.set(i, appoint2);
 		}
+		
+		for (int i = 0; i < result.size(); i++) {
+			A_VO appoint2 = result.get(i);
+			String status = appoint2.getA_Status();
+			double reservation_total = a_service.count(appoint2);
+			log.info("전체 예약 수 : " + reservation_total);
+			appoint2.setA_Status("노쇼");
+			double noshow_total = a_service.count_Select(appoint2);
+			log.info("노쇼 예약 수 : " + noshow_total);
+			appoint2.setA_Status("예약 취소");
+			double cancel_total = a_service.count_Select(appoint2);
+			log.info("예약 취소 수 : " + cancel_total);
+			
+			appoint2.setA_Status(status);
 
+			double Reservation = ((reservation_total - noshow_total - cancel_total) / (reservation_total - cancel_total))*100;
+			String Reservation_Success = Double.toString(Math.round(Reservation));
+			appoint2.setReservation_Success(Reservation_Success);
+			result.set(i, appoint2);
+			log.info("예약확인 : " + appoint2.toString());
+		}
+		log.info("예약정보확인 : " + result.toString());
 		model.addAttribute("appoint", result);
 
 	}
 
-	@PostMapping("/update")
+	@PostMapping({"/update", "/readRes"})
 	public String update(A_VO appoint, RedirectAttributes rttr) {
 		log.info("update 내용 : " + appoint.toString());
 		// 프론트에서 입력한 내용으로 업데이트 메서드 실행
+		log.info(appoint.getA_Status());
+		if(appoint.getA_Status().equals("예약 확정")) {
+			MemberVO member = new MemberVO();
+			member.setMemUno(appoint.getMemUno());
+			member = mem_Service.getMem(appoint.getMemUno());
+			log.info("포인트 정보 : " + member.toString());
+			Long before = member.getPoint()+100;
+			log.info(before);
+			member.setPoint(before);
+			log.info("포인트 정보 : " + member.toString());
+			mem_Service.point(member);
+		} 
+		
+		if(appoint.getA_Status().equals("노쇼")) {
+			MemberVO member = new MemberVO();
+			member.setMemUno(appoint.getMemUno());
+			member = mem_Service.getMem(appoint.getMemUno()); 
+			Long before = member.getPoint()-200;
+			if(before < 0) {
+				before = Long.valueOf(0);
+			}
+			log.info(before);
+			member.setPoint(before);
+			log.info("포인트 정보 : " + member.toString());
+			mem_Service.point(member);
+		} 
+		
 		if (a_service.update(appoint)) {
 			// 성공시 홈으로 redirect 할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "변경되었습니다.");

@@ -41,7 +41,7 @@ drop sequence seq_member_Uno;
 
 alter table tb_member add pw varchar2(50) not null;
 
-
+select* from tb_menuimg;
 
 
 

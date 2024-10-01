@@ -3,26 +3,33 @@
  */
 
 $(document).ready(function() {
-	//가상번호 생성	
-	let trCount = $("#table-body tr").length;
-	let originCnt = countRegTR();
+	//추가시 넣을 빈객체 준비
+	let tempTR = $("#table-body").clone();
+	let table = $("#table-body");
+	//tr 정보 담을 변수
+	let totalTR; //전체 tr row 수
+	let originTR; //최초 불러온(등록된) tr row 수
 
-	console.log("test trcount:" + trCount);
-	console.log("test originTrCnt:" + originCnt);
-	setting.changeVrNum(trCount, originCnt);
+	totalTR = $("#table-body").length;
+	originTR = $("#table-body").length;
 
-	//추가버튼 클릭(reg)
+	console.log("test totalTR:" + totalTR);
+	console.log("test originTR:" + originTR);
+	tableSet.changeVrNum(totalTR, originTR);
+
+	//추가버튼 클릭(reg:신규등록)
 	$("#plusBtn").on("click", function() {
-		trCount++;
-		setting.addnewTR(trCount);
+		totalTR++;
+		tableSet.addnewTR(totalTR);
+		tableSet.changeVrNum(totalTR, originTR);
 	});
 
-	//추가버튼 클릭(get)
+	//추가버튼 클릭(get:기등록+추가등록)
 	$("#plusNewBtn").on("click", function() {
 		trCount++;
 		originCnt = countRegTR();
 		setting.addTR(trCount, originCnt);
-		
+
 	});
 
 
@@ -102,11 +109,11 @@ $(document).ready(function() {
 
 }); //-- $(document).ready
 
-function countRegTR(){
-	var originTrCnt = $("#table-body").find("tr").not(function(){
+function countRegTR() {
+	var originTrCnt = $("#table-body").find("tr").not(function() {
 		return $(this).attr("class") && $(this).attr("class").includes("insertbtn");
 	}).length;
-	
+
 	return originTrCnt;
 }
 
@@ -164,7 +171,7 @@ function showTables(originTrCnt) {
 	console.log("showtable실행" + originTrCnt);
 	//var targetID = setting.checkArea(originTrCnt);
 	//console.log("targetTRID: " + targetID)
-	var target = $("#table-body").find("tr").filter(function(){
+	var target = $("#table-body").find("tr").filter(function() {
 		return $(this).attr("class") && $(this).attr("class").includes("insertbtn");
 	});
 	//var newArea = $("#table-body");
@@ -190,8 +197,8 @@ function showTables(originTrCnt) {
 			$("#table-body").html(str).add(target);   //****추후수정 */
 			console.log("test target: " + target);
 			//console.log("test oldArea: " + oldArea);
-			
-			var trCount = $("#table-body tr").length;			
+
+			var trCount = $("#table-body tr").length;
 			setting.changeVrNum(trCount, tableCnt);
 			console.log("test trCount: " + trCount);
 		} else {
@@ -205,14 +212,14 @@ function showTables(originTrCnt) {
 
 
 //화면계산, 세팅용 서비스
-var setting = (function() {
+var tableSet = (function() {
 	//등록된 내용 tr 영역 설정(새 리스트 덮을 공간)--새로 추가된 행 시작점 찾기 
 	function checkArea(originTrCnt) {
 		//var targetTR = "";
 		var targetTRID = "";
 		console.log("test:checkArea 실행");
 		$("#table-body tr").each(function(index, item) {
-			if (index === originTrCnt-1) {
+			if (index === originTrCnt - 1) {
 				//targetTR=$(item);
 				targetTRID = $(item).attr("id");
 				console.log("targetID:" + targetTRID);
@@ -223,14 +230,14 @@ var setting = (function() {
 
 	}
 
-	//자동인덱싱
+	//자동인덱싱-인덱스 번호+버튼 메서드에 번호 넣기
 	function changeVrNum(trCount, originTrCnt) { //tr 개수만큼 index 번호를 자동으로 넣어줌
-		if (trCount > 1) {
+		if (trCount >= 1) {
 			$("#table-body tr").each(function(index, item) {
 				var indexNum = index + 1;
 				var typeTag = $(item).find(".tableTypeVal:hidden");
 				var taglength = typeTag.length;
-				$(item).attr("id", "tr" + indexNum);
+				//$(item).attr("id", "tr" + indexNum);
 				$(item).find(".index").attr("value", indexNum);
 				if ($(item).find(".insertbtn").length > 0) {
 					$(item).find(".insertbtn").attr("onclick", "insertTR(" + indexNum + ", " + originTrCnt + ")");
@@ -246,15 +253,15 @@ var setting = (function() {
 
 			});
 		} else {
-			$("#table-body tr").attr("id", "tr" + trCount);
+			//$("#table-body tr").attr("id", "tr" + trCount);
 			$("#table-body tr").find(".index").attr("value", trCount);
 			$("#table-body tr").find(".delbtn").attr("onclick", "deleteTR(" + trCount + ")");
 		}
 	}
-	
+
 	//행추가(gettable.jsp)
-	function addTR(trCount, originTrCnt){
-		var clonetr = "<tr id=''><td>"
+	function addTR(trCount, originTrCnt) {
+		var clonetr = "<tr><td>"
 			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
 			+ "<td><select class='form-control' name='tableType'>"
 			+ "<option value='room'>룸타입</option>"
@@ -267,10 +274,10 @@ var setting = (function() {
 		$("#table-body").append(clonetr);
 		setting.changeVrNum(trCount, originTrCnt);
 	}
-	
+
 	//행추가(regtable.jsp)
-	function addnewTR(trCount){
-		var clonetr = "<tr id=''><td>"
+	function addnewTR(trCount) {
+		var clonetr = "<tr><td>"
 			+ "<input class='index form-control' type='number' value='' readonly='readonly'></td>"
 			+ "<td><select class='form-control' name='tableType'>"
 			+ "<option value='room'>룸타입</option>"
@@ -287,8 +294,8 @@ var setting = (function() {
 	return {
 		checkArea: checkArea,
 		changeVrNum: changeVrNum,
-		addnewTR:addnewTR,
-		addTR:addTR
+		addnewTR: addnewTR,
+		addTR: addTR
 	};
 })();
 

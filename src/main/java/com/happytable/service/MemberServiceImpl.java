@@ -97,5 +97,11 @@ public class MemberServiceImpl implements MemberService {
 	public int changePw(Long mno, String pw) {
 		return mapper.updatePw(mno, pw);
 	}
+	
+	@Override
+	public int point(MemberVO memberVO) {
+		log.info("MemberServiceImpl.point() 메서드 실행");
+		return mapper.point(memberVO);
+	}
 
 }

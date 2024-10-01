@@ -16,9 +16,12 @@
 				<div class="well"><p align="center">[메뉴추가] 버튼을 클릭하여 메뉴를 등록하세요.</p></div></c:when>
 				<c:when test="${menuCnt ne 0}">
 				<ul class="chat">
-				<c:forEach items="${menus}" var="menu">				
-				<li class='left clearfix'  data-mno="${menu.menuNum}"><a href="/restaurant/getmenu?menuNum=${menu.menuNum }"><div class='header'><strong class='primary-font'>${menu.menuName}</strong><strong class='pull-right text-muted'>${menu.unitCost} 원</strong></div></a>
-				<p>${menu.menuAcoount}</p></li>
+				<c:forEach var="menu" items="${menus}" varStatus="status">				
+				<li class='left clearfix'  data-mno="${menu.menuNum}">
+				<div class="chat-body clearfix">
+				<a href="/restaurant/getmenu?menuNum=${menu.menuNum}"><div class='header'><strong class='primary-font'>${menu.menuName}</strong>
+				<strong class='pull-right text-muted'>${menu.unitCost} 원</strong></div></a>
+				<p>${menu.menuAcoount}</p></div></li>
 				</c:forEach>
 				</ul></c:when>
 				</c:choose>
@@ -33,4 +36,3 @@
 	<!-- .col-md-12 close -->
 
 <script type="text/javascript" src="/resources/js/restmenulist.js"></script>
-

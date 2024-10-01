@@ -14,7 +14,7 @@
 		</selectKey> <!-- insert 전에 번호를 미리 만들어 놓음 -->
 			<![CDATA[
 			insert into tb_member (mno, name, phone, email, birth, nickName, pw, point)
-			values(#{mno}, #{name}, #{phone}, #{email}, #{birth}, #{nickName}, #{pw}, 500)
+			values(#{mno}, #{name}, #{phone}, #{email}, #{birth}, #{nickName}, #{pw}, 1000)
 			]]>
 	</insert>
 
@@ -27,6 +27,12 @@
 	<update id="update">
 	<![CDATA[
 		update tb_member set birth = #{birth}, phone = #{phone}, email = #{email}, nickName = #{nickName} where mno = #{mno}
+	]]>
+	</update>
+	
+	<update id="point"><!-- 예약 확정 시 포인트 추가 2024-09-30 조용재 추가-->
+	<![CDATA[
+		update tb_member set point = #{point} where memUno = #{memUno}
 	]]>
 	</update>
 

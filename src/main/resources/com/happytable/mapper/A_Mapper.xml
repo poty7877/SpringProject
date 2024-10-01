@@ -22,6 +22,20 @@
 	 								order by A_Date ASC
 	]]>	
 	</select>
+	
+	<select id="count" resultType="int">
+	<![CDATA[
+	select count(*) from tb_appointment where memUno = #{memUno, jdbcType=VARCHAR}
+	]]>		
+	</select>
+	
+	<select id="countSelect" resultType="int">
+	<![CDATA[
+	select count(*) from tb_appointment where memUno = #{memUno, jdbcType=VARCHAR}
+									and A_Status = #{a_Status}
+	]]>		
+	</select>
+	
 
 <!-- U -->
 	<update id="update">

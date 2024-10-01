@@ -42,4 +42,6 @@ public interface MemberService {
 	// 비밀번호 변경
 	public int changePw(Long mno, String pw);
 
+	// 포인트 변경
+	public int point(MemberVO memberVO);
 }

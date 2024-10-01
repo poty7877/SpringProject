@@ -36,7 +36,7 @@
 		<beans:property name="maxUploadSizePerFile" value="20971520"></beans:property>
 		
 		<!-- 업로드 저장 경로 d:\upload\tmp -> maxInMemorySize를 초과하는 크기의 파일이 넘어오면 임시로 보관 -->
-		<beans:property name="uploadTempDir" value="file:/C:/upload/tmp"></beans:property>
+		<beans:property name="uploadTempDir" value="file:/D:/upload/tmp"></beans:property>
 		
 		<!-- 업로드시 버퍼용량 maxUploadSize보다 커야 함 -->
 		<beans:property name="maxInMemorySize" value="1048575600"></beans:property>

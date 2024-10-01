@@ -5,13 +5,13 @@
 <mapper namespace="com.happytable.mapper.MenuImageMapper">
 <insert id="insert">
 	<![CDATA[
-	insert into tb_menuimg(resNum, menuNum, originName, saveName, uploadPath) values (#{resNum}, #{menuNum}, #{originName}, #{saveName}, #{uploadPath})
+	insert into tb_menuimg(resNum, menuNum, originName, uuid, saveName, folderName) values (#{resNum}, #{menuNum}, #{originName}, #{uuid}, #{saveName}, #{folderName})
 	]]>
 </insert>
 
 <update id="update">
 	<![CDATA[
-	update tb_menuimg set originName= #{originName}, saveName = #{saveName}, uploadPath = #{uploadPath}, moddate = sysdate where menuNum = #{menuNum}
+	update tb_menuimg set originName= #{originName}, uuid = #{uuid}, saveName = #{saveName}, folderName = #{folderName}, moddate = sysdate where menuNum = #{menuNum}
 	]]>
 </update>
 
@@ -30,6 +30,19 @@
 <select id="read" resultType="com.happytable.domain.MenuImageVO">
 	<![CDATA[
 	select * from tb_menuimg where menuNum = #{menuNum}
+	]]>
+</select>
+
+<select id="countImg" resultType="int">
+	<![CDATA[
+	select count(*) from tb_menuimg where resNum = #{resNum}
+	]]>
+</select>
+
+
+<select id="readAll" resultType="com.happytable.domain.MenuImageVO">
+	<![CDATA[
+	select * from tb_menuimg where resNum = #{resNum} order by menuNum
 	]]>
 </select>
 

@@ -23,7 +23,7 @@ select * from tb_menu where menuNum = #{menuNum}
 <!--r_all : 메뉴 리스트  -->
 <select id="menuListByResNum" resultType="com.happytable.domain.MenuVO">
 <![CDATA[
-select * from tb_menu where resNum = #{resNum}
+select * from tb_menu where resNum = #{resNum} order by menuNum
 ]]>
 </select>
 
@@ -51,7 +51,7 @@ delete from tb_menu where resNum = #{resNum}
 <!-- //매장별 메뉴개수 -->
 <select id="countMenu" resultType="int">
 <![CDATA[
-select count(menuNum) from tb_menu where resNum = #{resNum}
+select count(*) from tb_menu where resNum = #{resNum}
 ]]>
 </select>
 </mapper>  

@@ -13,8 +13,9 @@ public class A_VO {
 	private String a_No;		// 예약 고유 번호
 	private String a_Note;	// 주의사항 및 요청사항 기입
 	private int a_AdPay;		// 예약 시 예약선불금
-	private String resName;
-	private String userName;
+	private String resName;		// 식당 이름
+	private String userName;	// 회원 이름
+	private String reservation_Success;
 		
 		
 }
