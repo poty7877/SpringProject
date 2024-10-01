@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.happytable.mapper.LikesMapper">
+
+	<!-- 회원이 새로운 가게에 접속시 좋아요가 0 값으로 데이터 삽입 -->
+	<insert id="insertLikes">
+		INSERT INTO heart_like(likes, resNum, memUno) VALUES(#{likes}, #{resNum},
+		#{memUno})
+	</insert>
+
+	<!-- 회원이 기존에 들렷단 가게라면 좋아요 값 받아오기 -->
+	<select id="selectLikes" resultType="com.happytable.domain.LikesVO">
+		SELECT * FROM heart_like WHERE resNum=#{resNum} AND memUno=#{memUno}
+	</select>
+
+	<!-- 가게 번호와 좋아요 1값으로 total 좋아요 갯수 확인 -->
+	<select id="countLikes" resultType="int">
+		select count(*) from heart_like where resNum = #{resNum} and likes = 1
+	</select>
+
+	<!-- 좋아요 누를시 likes 데이터값이 1로 좋아요 해제시 likes 데이터값이 0 -->
+	<update id="updateLikes">
+		update heart_like set likes = #{likes} where resNum=#{resNum} AND
+		memUno=#{memUno}
+	</update>
+</mapper>
