@@ -32,6 +32,7 @@ import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
 import com.happytable.domain.RestaurantVO;
 import com.happytable.domain.SalesVO;
+import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
 import com.happytable.service.RestAlrService;
@@ -53,6 +54,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	private OperationsService serviceOper;
 	private SalesService serviceSal;
 	private MenuService serviceMenu;
+	private MenuImageService serviceMimg;
 
 	@GetMapping({ "/register", "/delrest" }) // http://localhost/restaurant/register
 	public void register() {
@@ -105,7 +107,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		log.info("RestaurantController.restlogin() 실행-------");
 	}
 
-	// 레스토랑 로그인->마이페이지
+	// 레스토랑 로그인->마이페이지 **09/28 파일추가로 수정
 	@GetMapping("/myrestaurant")
 	public void getPostAllInfo(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("test : 받은 resnum:" + resNum);
@@ -114,14 +116,24 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		int salCnt = myrest.getCntTable();
 		int menuCnt = myrest.getCntMenu();
 		OperationsVO oper = null;
-		List<MenuVO> menus = null;
+		MenuPageDTO menufile = new MenuPageDTO();// 일단 빈객체로 세팅
+		menufile.setMenus(null);
+		menufile.setMImgs(null);
+		menufile.setMenuCnt(0);
+		// List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
+		String uploaFolder = "D:\\upload\\";
 
 		if (opercnt != 0) {
 			oper = serviceOper.get(resNum);
 		}
 		if (menuCnt != 0) {
-			menus = serviceMenu.getList(resNum);
+
+			menufile = serviceMenu.getMenuList(resNum);
+			menufile.setMenuCnt(serviceMenu.countMenu(resNum));
+			log.info("test menu개수count:" + serviceMenu.countMenu(resNum)); // test menu개수count:0
+			menufile.setMImgs(serviceMimg.getImgList(resNum));
+			// menus = serviceMenu.getList(resNum);
 		}
 		if (salCnt != 0) {
 			tables = serviceSal.getList(resNum);
@@ -130,8 +142,12 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("myrest", myrest);
 		model.addAttribute("oper", oper);
 		model.addAttribute("sales", tables);
-		model.addAttribute("menus", menus);
+		model.addAttribute("menus", menufile.getMenus());
+		model.addAttribute("menuCnt", menufile.getMenuCnt());
+		model.addAttribute("menuimgs", menufile.getMImgs());
+		model.addAttribute("upath", uploaFolder);
 
+		log.info("test : 보낼 menu개수:" + menufile.getMenuCnt());
 	}
 
 	// reginfo-영업정보 페이지
@@ -170,137 +186,6 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		String resNum = table.getResNum();
 		model.addAttribute("sales", serviceSal.getList(resNum));
 		return "redirect:/restaurant/myrestaurant";
-	}
-
-	// 메뉴등록 페이지(리스트)
-	@GetMapping("/menulist") // http://localhost/restaurant/menulist
-	public void menulist(@ModelAttribute("loginResNum") String resNum, Model model) {
-		log.info("메뉴리스트 get() 실행-------" + resNum);
-		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
-		model.addAttribute("menus", menus.getMenus());
-		model.addAttribute("menuCnt", menus.getMenuCnt());
-	}
-
-	// 메뉴등록 페이지(단일메뉴) -페이지 연결
-	@GetMapping("/regmenu")
-	public void regmenu() {
-		log.info("단일메뉴등록 get() 실행-------");
-	}
-
-	// 메뉴 상세보기 페이지
-	@GetMapping("/getmenu")
-	public void getmenu(@RequestParam("menuNum") int menuNum, Model model) {
-		log.info("메뉴상세보기 실행-------" + menuNum);
-		model.addAttribute("menu", serviceMenu.get(menuNum));
-	}
-
-	@PostMapping("/modmenu")
-	public String modifyMenu(MenuVO menu, RedirectAttributes rttr) {
-		log.info("메뉴수정하기 실행-------" + menu);
-
-		if (serviceMenu.modify(menu)) {
-			rttr.addFlashAttribute("result", "success");
-		} else {
-			rttr.addFlashAttribute("result", "error");
-		}
-
-		return "redirect:/restaurant/myrestaurant";
-	}
-
-	// 메뉴삭제
-	@PostMapping("/delmenu")
-	public String deleteMenu(MenuVO menu, RedirectAttributes rttr) {
-		log.info("메뉴삭제하기 실행-------" + menu);
-		boolean rst = serviceMenu.remove(menu.getMenuNum());
-		if (rst) {
-			rttr.addFlashAttribute("result", "delsuccess");
-		} else {
-			rttr.addFlashAttribute("result", "error");
-		}
-
-		return "redirect:/restaurant/myrestaurant";
-	}
-
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-
-		return str.replace("-", File.separator);
-	}
-
-	// 중복파일 방지 : 저장파일명 생성
-	private String makeNewName(String originName) {
-		String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
-		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
-		return now + ext;
-
-	}
-
-	@PostMapping("/preimgsave")
-	public void previewSave(MultipartFile preview, Model model) {
-		String uploaFolder = "D:\\upload";
-		log.info("------------------------");
-		log.info("업로드 파일명 : " + preview.getOriginalFilename());
-		log.info("업로드 파일크기 : " + preview.getSize());
-
-		try {
-			File savePreview = new File(uploaFolder, preview.getOriginalFilename());
-			preview.transferTo(savePreview);
-		} catch (IllegalStateException | IOException e) {
-			log.error(e.getMessage());
-			// e.printStackTrace();
-		}
-	}
-
-	@GetMapping("/preimgview")
-	@ResponseBody
-	public ResponseEntity<byte[]> getPreview(String fileName) {
-		log.info("파일명:" + fileName);
-		String uploaFolder = "D:\\upload";
-		File file = new File(uploaFolder + fileName);
-		log.info("전체 파일경로 : " + file);
-
-		ResponseEntity<byte[]> result = null;
-
-		try {
-			HttpHeaders header = new HttpHeaders();
-			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		} catch (IOException e) {
-			log.error(e.getMessage());
-			// e.printStackTrace();
-		}
-		return result;
-	}
-
-	@PostMapping("/regmenufile")
-	public void regmenuFile(@RequestParam("menuImg") MultipartFile menuImg, @RequestParam("menu") MultipartFile menu) {
-		MenuImageVO imgvo = new MenuImageVO(); // DB 등록을 위한 객체
-		MenuVO menuvo = new MenuVO();
-
-		// 파일처리
-		log.info("------------------------");
-		log.info("업로드 파일명 : " + menuImg.getOriginalFilename());
-		log.info("업로드 파일크기 : " + menuImg.getSize());
-		String uploaFolder = "D:\\upload";
-		String uploadFolderPath = getFolder();
-
-		File uploadPath = new File(uploaFolder, uploadFolderPath);
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
-		String fileName = makeNewName(menuImg.getOriginalFilename()); // 날짜넣은 저장용 파일이름 만들기
-		try {
-			File saveFile = new File(uploaFolder, fileName);
-			menuImg.transferTo(saveFile);
-
-			// 섬네일 제작
-			FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + fileName));
-			Thumbnailator.createThumbnail(menuImg.getInputStream(), thumbnail, 100, 100);
-			thumbnail.close();
-		} catch (IllegalStateException | IOException e) {
-			log.error(e.getMessage());
-		}
 	}
 
 	// U-기본정보 변경
@@ -350,22 +235,145 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 
 		return "redirect:/restaurant/myrestaurant";
 	}
+
+	// 메뉴등록 페이지(리스트)
+	@GetMapping("/menulist") // http://localhost/restaurant/menulist
+	public void menulist(@ModelAttribute("loginResNum") String resNum, Model model) {
+		log.info("메뉴리스트 get() 실행-------" + resNum);
+		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
+		menus.setMenuCnt(serviceMenu.countMenu(resNum));
+		menus.setMImgs(serviceMimg.getImgList(resNum));
+		// String uploaFolder = "D:\\upload\\";
+		model.addAttribute("menus", menus.getMenus());
+		model.addAttribute("menuCnt", menus.getMenuCnt());
+		model.addAttribute("menuimgs", menus.getMImgs());
+		// model.addAttribute("upath", uploaFolder);
+	}
+
+	// 메뉴등록 페이지(단일메뉴) -페이지 연결
+	@GetMapping("/regmenu")
+	public void regmenu() {
+		log.info("단일메뉴등록 get() 실행-------");
+	}
+
+	// 메뉴 상세보기 페이지---**이미지 파일 없는 버전
+	@GetMapping("/getmenu")
+	public void getmenu(@RequestParam("menuNum") int menuNum, Model model) {
+		log.info("메뉴상세보기 실행-------" + menuNum);
+		model.addAttribute("menu", serviceMenu.get(menuNum));
+	}
+
+	// 메뉴 수정 ---**이미지 파일 없는 버전 -->사용안함
+	@PostMapping("/modmenu")
+	public String modifyMenu(MenuVO menu, RedirectAttributes rttr) {
+		log.info("메뉴수정하기 실행-------" + menu);
+
+		if (serviceMenu.modify(menu)) {
+			rttr.addFlashAttribute("result", "success");
+		} else {
+			rttr.addFlashAttribute("result", "error");
+		}
+
+		return "redirect:/restaurant/myrestaurant";
+	}
+
+	// 메뉴삭제 ---**이미지 파일 없는 버전-->사용안함
+	@PostMapping("/delmenu")
+	public String deleteMenu(MenuVO menu, RedirectAttributes rttr) {
+		log.info("메뉴삭제하기 실행-------" + menu);
+		boolean rst = serviceMenu.remove(menu);
+		if (rst) {
+			rttr.addFlashAttribute("result", "delsuccess");
+		} else {
+			rttr.addFlashAttribute("result", "error");
+		}
+
+		return "redirect:/restaurant/myrestaurant";
+	}
+
+	// 메뉴등록 페이지(단일메뉴-이미지 등록 포함) -페이지 연결 **0925
+	@GetMapping("/regmenufile")
+	public void regmenufile() {
+		log.info("단일메뉴 이미지등록 get() 실행-------");
+	}
+
+	// 메뉴이미지 미리보기 불러오기
+	@GetMapping("/preimgview")
+	@ResponseBody
+	public ResponseEntity<byte[]> getPreview(String fileName) {
+		log.info("파일명:" + fileName);
+		String uploaFolder = "D:\\upload";
+		File file = new File(uploaFolder + fileName);
+		log.info("전체 파일경로 : " + file);
+
+		ResponseEntity<byte[]> result = null;
+
+		try {
+			HttpHeaders header = new HttpHeaders();
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			// e.printStackTrace();
+		}
+		return result;
+	}
+
+	// 중복파일 방지 : 저장파일명 생성
+	private String makeNewName(String originName) {
+		String ext = originName.substring(originName.lastIndexOf(".")); // 확장자
+		String now = new SimpleDateFormat("yyyyMMdd_HmsS").format(new Date());
+		return now + ext;
+
+	}
+
+	@PostMapping("/preimgsave")
+	public void previewSave(MultipartFile preview, Model model) {
+		String uploaFolder = "D:\\upload";
+		log.info("------------------------");
+		log.info("업로드 파일명 : " + preview.getOriginalFilename());
+		log.info("업로드 파일크기 : " + preview.getSize());
+
+		try {
+			File savePreview = new File(uploaFolder, preview.getOriginalFilename());
+			preview.transferTo(savePreview);
+		} catch (IllegalStateException | IOException e) {
+			log.error(e.getMessage());
+			// e.printStackTrace();
+		}
+	}
+
+	// 메뉴 상세보기 페이지---**0929 이미지 파일 포함
+	@GetMapping("/getmenufile")
+	public void getmenufile(@RequestParam("menuNum") int menuNum, Model model) {
+		log.info("메뉴상세보기 실행-------" + menuNum);
+		model.addAttribute("menu", serviceMenu.get(menuNum));
+		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
+	}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@GetMapping("/get")
 	// URL : http://localhost:/restaurant/get?resNum=
 	public void get(@RequestParam("resNum") String resNum, Model model) {
 		log.info(resNum);
+		MenuPageDTO menufile = new MenuPageDTO();// 일단 빈객체로 세팅
+		menufile = serviceMenu.getMenuList(resNum);
+		menufile.setMenuCnt(serviceMenu.countMenu(resNum));
+		log.info("test menu개수count:" + serviceMenu.countMenu(resNum)); // test menu개수count:0
+		menufile.setMImgs(serviceMimg.getImgList(resNum));
 		// 모델영역에 식당기본정보, 가게정보, 메뉴리스트 저장
 		model.addAttribute("resVO", serviceRest.get(resNum));
 		model.addAttribute("operVO", serviceOper.get(resNum));
-		model.addAttribute("menuList", serviceMenu.getList(resNum));
+		model.addAttribute("menus", menufile.getMenus());
+		model.addAttribute("menuCnt", menufile.getMenuCnt());
+		model.addAttribute("menuimgs", menufile.getMImgs());
+		
 	}
 
 	// 2024-09-24 용상엽 추가
 	@PostMapping("/delrest")
 	public String delrest(HttpSession session, @RequestParam("resID") String resID, @RequestParam("resPW") String resPW,
-			@RequestParam("co_Num") String co_Num, RedirectAttributes rttr, Model model) {
+			@RequestParam("co_Num") String co_Num, RedirectAttributes rttr, Model model, MenuVO menu) {
 
 		RestaurantVO resVO = (RestaurantVO) session.getAttribute("loginMember2");
 		String resNum = resVO.getResNum();
@@ -374,6 +382,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		String num = resVO.getCo_Num();
 
 		if (id.equals(resID) && pw.equals(resPW) && num.equals(co_Num)) {
+			;
 
 			serviceMenu.removeAll(resNum);
 			serviceOper.remove(resNum);

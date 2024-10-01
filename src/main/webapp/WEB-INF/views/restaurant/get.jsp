@@ -198,12 +198,25 @@
 							</div>
 							<ul class="menu-list">
 								<!-- 컨트롤러에서 보낸 menuList를 변수 menu로 사용 -->
-								<c:forEach items="${ menuList }" var="menu">
+
+								<c:forEach items="${ menus }" var="menu">
 									<li class="menu-item">
 										<div class="item">
 											<div>
-												<img class="img-responsive" src="${ menu.menuImg }" alt="">
-												</br>
+												<c:forEach var="menuimgs" items="${menuimgs}">
+													<div class="imagebox" id="imageBox"
+														style="height: 230px; display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom:50px;">
+														<div class="inbox" id="preview" style="height: 100%;">
+															<div class="hasimg">
+																<input type="hidden" id="menu_resNum" name="resNum"
+																	value="${resVO.resNum}"> <input type="hidden"
+																	class="filedata" data-path="${menuimgs.folderName}"
+																	data-fname="${menuimgs.saveName}">
+															</div>
+														</div>
+													</div>
+												</c:forEach>
+												<!-- preview: 미리보기 이미지 보이는 공간 -->
 												<h3>${ menu.menuName }</h3>
 												<div class="border-bottom"></div>
 												<span>${ menu.unitCost } 원</span></br> <span>주재료 : ${ menu.mainIngredient }
@@ -342,9 +355,9 @@
         }
     </script>
 
-	<script type="text/javascript">
-		
-	</script>
+	
+
+
 	<script>
 		document.getElementById('rating').addEventListener('input',
 				function(e) {
@@ -356,6 +369,11 @@
 				});
 	</script>
 	<script type="text/javascript" src="../resources/js/reply.js">
+		/* 외부파일
+		include용 */
+	</script>
+	
+	<script type="text/javascript" src="../resources/js/get.js">
 		/* 외부파일
 		include용 */
 	</script>
@@ -741,6 +759,7 @@ $(document).ready(function(){
 });
 
 </script>
+
 	<%@ include file="../includes/getFooter.jsp"%>
 </body>
 

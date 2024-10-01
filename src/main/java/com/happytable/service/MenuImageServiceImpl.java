@@ -1,5 +1,7 @@
 package com.happytable.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,18 @@ public class MenuImageServiceImpl implements MenuImageService{
 	public MenuImageVO getImage(int menuNum) {
 		log.info("메뉴이미지 가져오기 서비스 실행.....");
 		return mappImg.read(menuNum);
+	}
+
+	@Override
+	public int countImg(String resNum) {
+		log.info("가게별 이미지 개수 확인 서비스 실행.....");
+		return mappImg.countImg(resNum);
+	}
+
+	@Override
+	public List<MenuImageVO> getImgList(String resNum) {
+		log.info("가게별 메뉴이미지 리스트 가져오기 서비스 실행.....");
+		return mappImg.readAll(resNum);
 	}
 
 }

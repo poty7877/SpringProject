@@ -39,8 +39,8 @@
 								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
 								type='hidden' name='a_Status' value='예약 중' />
 
-			<p style="margin-left:140px; color:red;">당일 예약은 불가합니다.</p>
-							<table width='100%'>
+								<p style="margin-left:70px; color:red;">당일 예약은 불가합니다. ${rest_day_log}입니다.</p>
+							<table style="margin-left:70px;" width="90%">
 								<tr>
 								
 									<th>예약일</th>
@@ -48,7 +48,7 @@
 									<%-- <input type="date" class="form-control" name="date" required="required" min="${s_Date}" max="${e_Date}"> --%>
 									<input type="text" id="datePicker" name="date" class="form-control">
 									</th>
-									<th>예약시간</th>
+									<th style="text-align:center;">예약시간</th>
 									<th><select class="form-control" name="time">
 											<c:forEach var="i" begin="${open}" end="${close}">
 												<option value="${i}:00">
@@ -68,7 +68,7 @@
 											</c:forEach>
 									</select></th>
 									
-									<th>요청테이블</th>
+									<th style="text-align:center;">요청테이블</th>
 									<th>
 									<c:forEach var="i" begin="0" end="${fn:length(table_kind)-1}">
 									<input type="checkbox" class="check" value="${table_kind[i]}" name="table"/>
@@ -76,11 +76,20 @@
 									<c:out value="${table_kind[i]}"/>
 									</label>
 									</c:forEach>
-									</th>					
-									
-
-
+									</th>
 								</tr>
+								
+								<tr>
+									<th> 마일리지 사용 </th>
+									<th>
+									<input class="form-control" type="number" name="point" style="margin-bottom:10px;"/>
+									</th>
+									<th colspan="2">
+									<p style="margin-left:100px; color:red;"> ${loginMember.getNickName()}님의 마일리지는 ${loginMember.getPoint()}입니다. </p>
+									</th>
+								
+								</tr>
+								
 								<tr>
 									<th>문의사항</th>
 									<th colspan='5'><textarea class="form-control" rows="3"

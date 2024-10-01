@@ -41,7 +41,7 @@ drop sequence seq_member_Uno;
 
 alter table tb_member add pw varchar2(50) not null;
 
-
+select* from tb_menuimg;
 
 
 
@@ -430,8 +430,6 @@ select * from tb_res_alr;
 drop trigger guest_update_trigger
 
 ALTER TRIGGER HAPPY.GUEST_ALR_TRIGGER COMPILE;
-
-select * from tb_restaurant;
 
 
 

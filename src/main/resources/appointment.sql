@@ -108,7 +108,10 @@ select * from tb_member;
 
 select count(*) from tb_appointment where memUno = 56446272 and A_Status = '';
 
-update tb_member set point = 600 where memUno = 56394734;
+update tb_member set point = 10000 where nickname="noshow";
+
+select * from tb_giftcard;
+
 
 
 										

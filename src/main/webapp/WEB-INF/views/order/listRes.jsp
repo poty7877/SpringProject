@@ -29,12 +29,11 @@
 
 					</div>
 						<div class="panel-body">
-							<table class="table table-striped table-bordered" >
+							<table class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr>
-										<th width='15%'>예약 날짜</th>
-										<th width='15%'>예약 회원 닉네임</th>
-										<th width='10%'>예약이행율</th>
+										<th width='20%'>예약 날짜</th>
+										<th width='20%'>예약 회원 닉네임</th>
 										<th width='10%'>예약 인원</th>
 										<th width='15%'>예약 상태</th>
 										<th width='15%'>예약 번호</th>
@@ -47,8 +46,6 @@
 										<td><c:out value="${reservation.a_Date}" /></td>
 
 										<td><c:out value="${reservation.userName}" /></td>
-										
-										<td><c:out value="${reservation.reservation_Success}%" /></td>
 
 										<td><c:out value="${reservation.a_NOP}" /></td>
 

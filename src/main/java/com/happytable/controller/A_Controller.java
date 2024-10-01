@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,19 +41,52 @@ public class A_Controller {
 	private MemberService mem_Service;
 
 	@PostMapping("/insert")
-	public String insert(A_VO appoint, @RequestParam("date") String date, @RequestParam("time") String time,
-			@RequestParam(value="table", required = false) String table, RedirectAttributes rttr, Model model) {
-		// date, time 값받아서 db에 저장할수있는 Date형식으로 변경
+	public String insert(A_VO appoint,
+			@RequestParam("date") String date,
+			@RequestParam("time") String time,
+			@RequestParam(value="table", required = false) String table,
+			@RequestParam(value="point", required = false) String point,
+			RedirectAttributes rttr, Model model, HttpSession session) {
+// date, time 값받아서 db에 저장할수있는 Date형식으로 변경
 		String a_Date = date + " " + time;
-		String a_Note = appoint.getA_Note() + "/ 요청테이블 : " + table;
+		String a_Note = appoint.getA_Note();
+		if(table!=null) {
+			a_Note = a_Note + " / 요청테이블 : " + table ; 
+		}
+		if(point!=null) {
+			a_Note = a_Note +  " / 사용포인트 : " + point ;
+		}
+		//포인트 차감
+		MemberVO member = new MemberVO();
+		member.setMemUno(appoint.getMemUno());
+		member = mem_Service.getMem(appoint.getMemUno());
+		log.info("포인트 정보 : " + member.toString());
+		log.info("마이너스 포인트 : " + point);
+		Long minusPoint = Long.parseLong(point);
+		Long before = member.getPoint();
+		Long leftPoint = before - minusPoint;
+		if(leftPoint<0) {
+			leftPoint = Long.valueOf(0);
+		}
+		
+		
+		
+		log.info(leftPoint);
+		member.setPoint(leftPoint);
+		log.info("포인트 정보 : " + member.toString());
+		mem_Service.point(member);		
+			
+		
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
 		appoint.setA_Note(a_Note); // a_Note값 객체에 추가
 		// 등록 메서드 실행, 성공시 결과값 1
 		int result = a_service.insert(appoint);
 		log.info("insert result : " + result);
+		
 		if (result == 1) { // result가 1이면
 			// 홈으로 redirect할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 성공하였습니다.");
+			session.setAttribute("loginMember", member);
 			
 		} else { // result가 0이면
 			// 홈으로 redirect시 실패메시지 가져감
@@ -218,6 +253,15 @@ public class A_Controller {
 			}
 		}
 		
+		String rest_day_log = "테스트";
+		if(m_w_day != "") {
+			rest_day_log = "이번달 휴일은 " + m_w_day;
+		} else if (oper.getOper().getDayoff_cate().equals("매주")) {
+			rest_day_log = "휴일은 매주 " + oper.getOper().getDayoff_Day() +"요일";
+			
+		}
+		
+		
 
 		model.addAttribute("resVO", oper);
 		model.addAttribute("open", open);
@@ -226,6 +270,7 @@ public class A_Controller {
 		model.addAttribute("everyWeek_day", everyWeek_day);
 		model.addAttribute("rest_day", m_w_day);
 		model.addAttribute("table_kind", table_kind);
+		model.addAttribute("rest_day_log", rest_day_log);
 		
 
 	}

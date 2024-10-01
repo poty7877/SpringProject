@@ -14,7 +14,7 @@
 		</selectKey> <!-- insert 전에 번호를 미리 만들어 놓음 -->
 			<![CDATA[
 			insert into tb_member (mno, name, phone, email, birth, nickName, pw, point)
-			values(#{mno}, #{name}, #{phone}, #{email}, #{birth}, #{nickName}, #{pw}, 500)
+			values(#{mno}, #{name}, #{phone}, #{email}, #{birth}, #{nickName}, #{pw}, 1000)
 			]]>
 	</insert>
 

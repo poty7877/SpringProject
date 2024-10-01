@@ -40,10 +40,10 @@ public interface MemberMapper {
 
 	// 멤버 고유번호로 정보 출력(조용재 삽입)
 	public MemberVO readMem(String memUno);
-	
+
 	// 포인트 추가(조용재 삽입)
-	public int point(MemberVO memberVO);			
-	
+	public int point(MemberVO memberVO);
+
 	// 멤버 번호로 비밀번호만 수정
 	public int updatePw(@Param("mno") Long mno, @Param("pw") String pw);
 
