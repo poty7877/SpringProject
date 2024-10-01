@@ -142,14 +142,14 @@ resNum varchar2(20),
 gcNum varchar2(100) primary key,
 gcName varchar2(100),
 gcType varchar2(50),
-dicount number,
+amount number,
 service varchar2(100),
 needMile number
 );
 
 select * from tb_giftcard;
 alter table tb_giftcard add constraint gc_resnum_fk foreign key (resNum) references tb_restaurant (resNum);
-
+alter table tb_giftcard rename column dicount to amount;
 
 --gcNum  sequence **09/30
 CREATE SEQUENCE seq_gcNum
@@ -161,7 +161,6 @@ CYCLE
 CACHE 20;
 
 --drop sequence seq_gcNum;
-
 
 
 

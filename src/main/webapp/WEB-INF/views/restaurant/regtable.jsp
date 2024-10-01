@@ -42,7 +42,7 @@
 							</td>
 							<td><div class="input-group">
 							<input class="form-control"  type="number" name="headCount" value="0"/><span class="input-group-addon">명</span></div></td>
-							<td><input  class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
+							<td><input class="delbtn btn btn-default btn-sm"  value="삭제" onclick="" style="width: 50%">
 							</td>
 						</tr>
 					</tbody>

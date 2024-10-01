@@ -299,8 +299,7 @@ public class RestaurantController {
 	}
 
 	// 메뉴수정(이미지+내용 동시 수정)--**09/29완료
-	@RequestMapping(method = { RequestMethod.PUT,
-			RequestMethod.PATCH }, value = "/modmenufile", produces = MediaType.TEXT_PLAIN_VALUE)
+	@RequestMapping(method = {RequestMethod.POST}, value = "/modmenufile", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> modmenuFile(@RequestPart MultipartFile menuImg, @RequestPart MenuVO menu) {
 		log.info("------------------------");
 		log.info("수정이미지 파일명 : " + menuImg.getOriginalFilename());
@@ -309,7 +308,7 @@ public class RestaurantController {
 		// 파일처리 -저장파일명 획득-> menu 삽입-> menunun 획득하여 img에 삽입
 		String uploaFolder = "D:\\upload"; // common
 		String catefolder = "menu_img";
-		String uploadFolderPath = getFolder(catefolder);
+		String uploadFolderPath = getMyFolder(menu.getResNum(), catefolder);
 		// 저장폴더준비
 		File uploadPath = new File(uploaFolder, uploadFolderPath);
 		if (uploadPath.exists() == false) {
