@@ -6,7 +6,7 @@
 <mapper namespace="com.happytable.mapper.AdminMapper">
 
 	<insert id="insert">
-	  insert into resNum values #{resNum}
+	  insert into tb_resNum values #{resNum}
 	</insert>
 
 
@@ -18,7 +18,7 @@
     FROM tb_restaurant r
     WHERE NOT EXISTS (
         SELECT 1
-        FROM resNum rn
+        FROM tb_resNum rn
         WHERE r.resNum = rn.resNum
     )
     ORDER BY r.resNum DESC
@@ -26,6 +26,6 @@
 	</select>
 	
 	<delete id="delete">
-		delete from resNum where resNum = #{resNum}
+		delete from resNum where tb_resNum = #{resNum}
 	</delete>
 </mapper>

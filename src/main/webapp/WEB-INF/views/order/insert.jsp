@@ -39,17 +39,20 @@
 								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
 								type='hidden' name='a_Status' value='예약 중' />
 
-								<p style="text-align:center; color:red;">당일 예약은 불가합니다. ${rest_day_log}입니다.</p>
-							<table style="margin-left:70px; margin-top:20px; width:90%;" >
+							<p style="text-align: center; color: red;">당일 예약은 불가합니다.
+								${rest_day_log}입니다.</p>
+							<table style="margin-left: 70px; margin-top: 20px; width: 90%;">
 								<tr>
-								
+
 									<th>예약일</th>
 									<th>
-									<%-- <input type="date" class="form-control" name="date" required="required" min="${s_Date}" max="${e_Date}"> --%>
-									<input type="text" id="datePicker" name="date" class="form-control">
+										<%-- <input type="date" class="form-control" name="date" required="required" min="${s_Date}" max="${e_Date}"> --%>
+										<input type="text" id="datePicker" name="date"
+										class="form-control" style="text-align: center;">
 									</th>
-									<th style="text-align:center;">예약시간</th>
-									<th><select class="form-control" name="time">
+									<th style="text-align: center;">예약시간</th>
+									<th><select class="form-control" name="time"
+										style="text-align: center;">
 											<c:forEach var="i" begin="${open}" end="${close}">
 												<option value="${i}:00">
 													<c:out value="${i}:00" />
@@ -59,38 +62,55 @@
 								</tr>
 								<tr>
 									<th>예약인수</th>
-									<th><select class="form-control" name="a_NOP">
-											<c:forEach var="j" begin="1"
-												end="${p_Cnt}">
+									<th><select class="form-control" name="a_NOP" id="a_NOP"
+										style="text-align: center;">
+											<c:forEach var="j" begin="1" end="${p_Cnt}">
 												<option value="${j}">
 													<c:out value="${j}명" />
 												</option>
 											</c:forEach>
 									</select></th>
-									
-									<th style="text-align:center;">요청테이블</th>
+
+									<th style="text-align: center;">요청테이블</th>
+									<th><c:forEach var="i" begin="0"
+											end="${fn:length(table_kind)-1}">
+											<input type="checkbox" class="check" value="${table_kind[i]}"
+												name="table" />
+											<label for="${table_kind[i]}"> <c:out
+													value="${table_kind[i]}" />
+											</label>
+										</c:forEach></th>
+								</tr>
+								<tr id="a_AdPay" style="display: none;">
+									<th>예약금액</th>
+									<th><input class="form-control" value="${a_AdPay}" id="adpay" name="adpay"
+										readonly="readonly"
+										style="margin-bottom: 10px; text-align: center;" /></th>
+									<th><span id="beforePay" style="color: red; text-align: left; display:flex;">원
+											예약금이 필요합니다.</span>
+										<span id="afterPay" style="color: red; text-align: left; display:none;">원
+											예약금을 입금하셨습니다.</span></th>
 									<th>
-									<c:forEach var="i" begin="0" end="${fn:length(table_kind)-1}">
-									<input type="checkbox" class="check" value="${table_kind[i]}" name="table"/>
-									<label for="${table_kind[i]}">
-									<c:out value="${table_kind[i]}"/>
-									</label>
-									</c:forEach>
+										<button class="form-control" type="button" id="pay">결제하기</button>
 									</th>
 								</tr>
-								
+
+
 								<tr>
-									<th> 마일리지 사용 </th>
-									<th>
-									<input class="form-control" type="number" name="point" id="point" style="margin-bottom:10px;"/>
+									<th>마일리지 사용</th>
+									<th><input class="form-control" type="number" name="point"
+										id="point" style="margin-bottom: 10px; text-align: center;" />
 									</th>
 									<th colspan="2">
-									<p style="margin-left:100px; color:red;"> ${loginMember.getNickName()}님의 마일리지는 ${loginMember.getPoint()}입니다. </p>
-									<span id="pointError" style="display:none; color:red; margin-left:100px;">마일리지가 부족합니다.</span>
+										<p style="margin-left: 100px; color: red;">
+											${loginMember.getNickName()}님의 마일리지는
+											${loginMember.getPoint()}입니다.</p> <span id="pointError"
+										style="display: none; color: red; margin-left: 100px;">마일리지가
+											부족합니다.</span>
 									</th>
-								
+
 								</tr>
-								
+
 								<tr>
 									<th>문의사항</th>
 									<th colspan='5'><textarea class="form-control" rows="3"
@@ -99,7 +119,8 @@
 								<tr>
 									<th></th>
 									<th colspan='5'>
-										<button class="form-control" style="margin-top:10px;" type="submit" id="subBtn"data-oper='appoint'>예약</button>
+										<button class="form-control" style="margin-top: 10px;"
+											type="button" id="subBtn" data-oper='appoint'>예약</button>
 									</th>
 								</tr>
 
@@ -143,8 +164,6 @@
 		
 	
 		var loggedIn =	<%=loggedInStr%>;
-
-		
 		
 		if (!loggedIn) { // 로그인 상태가 아니면
 			$("#myModal").modal("show"); // 로그인 필수 모달창 띄움
@@ -159,13 +178,14 @@
 			e.preventDefault(); // 기본 동작멈춤
 			var operation = $(this).data("oper"); //data-oper의 정보를 받아 저장
 			if (operation === 'appoint') { // appoint이면,
-			formObj.attr("action", "/order/insert") // action변경
-			.attr("method", "post"); // method는 post로
-			formObj.submit(); // 폼 제출
+				formObj.attr("action", "/order/insert") // action변경
+						.attr("method", "post"); // method는 post로
+				formObj.submit(); // 폼 제출
 			} else if (operation === 'modal') { // modal이면
-			formObj.attr("action", "/") // action홈으로 변경
-			.attr("method","get") // method는 get으로
-			formObj.submit();}// 폼 제출
+				formObj.attr("action", "/") // action홈으로 변경
+						.attr("method","get") // method는 get으로
+				formObj.submit();// 폼 제출
+			} 
 				
 			});
 					
@@ -190,13 +210,25 @@
 		
 		
 	</script>
-	
+
 	<script type="text/javascript">
 	$(document).ready(function() {
 	var pointValid = false;
 	var pointInput = $("#point");
 	var pointError = $("#pointError");
 	var $subBtn = $("#subBtn");
+	
+	function updateSubmitButtonState() { // 버튼 활성화하는 기능
+		
+		if (pointValid) { // 이메일, 닉네임값이 중복체크를 통과하면
+			$subBtn.prop("disabled", false); // 버튼 활성화
+		} else {// 아니면
+			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
+		}
+	}
+	
+	
+	
 	$("#point").on("blur", function(){
 		console.log("포인트 테스트 작동한다.");
 		var point = pointInput.val();
@@ -228,19 +260,64 @@
 			}					
 		});
 		
-		function updateSubmitButtonState() { // 버튼 활성화하는 기능
-			
-			if (pointValid) { // 이메일, 닉네임값이 중복체크를 통과하면
-				$subBtn.prop("disabled", false); // 버튼 활성화
-			} else {// 아니면
-				$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
-			}
-		}
+		
 	});	
 	
+	var a_NOP = $("#a_NOP");
+	var a_AdPay = $("#a_AdPay");
+	$("#a_NOP").on("click", function(){
+		console.log("인원수에 따른 기능 추가");
+		var person = a_NOP.val();
+		var adPayCond = ${resVO.oper.adPayCond};
+		console.log(person);
+		console.log(adPayCond);
+		
+		$.ajax({
+			url : "/order/person",
+			type : "get",
+			data : {
+				person : person,
+				adPayCond : adPayCond
+			},
+			dataType : "json",
+			success: function(response){
+				if(response.status === "success"){
+					a_AdPay.css("display", "");
+					console.log("사람 수에 따라 작동.");
+					pointValid = false;
+				} else if (response.status === "error"){
+					a_AdPay.css("display", "none");
+					pointValid = true;
+				}
+				updateSubmitButtonState();
+			},
+			error:function(xhr, status, error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				pointValid = false;
+				updateSubmitButtonState();
+			}
+			
 	});
-</script>
+		
+	});
 	
+	var beforePay = $("#beforePay");
+	var afterPay = $("#afterPay");	
+	$("#pay").on("click", function(){
+		console.log("결제 시스템 작동")
+		
+		beforePay.css("display", "none");
+		afterPay.css("display", "flex");		
+		pointValid = true;
+		updateSubmitButtonState();
+		
+	}); 
+	
+		
+	
+	});
+	</script>
+
 	<script>
 	
 	
@@ -265,11 +342,11 @@
 	});//ready end
 	
 	
-</script>
+	</script>
 
 
 
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 
-</html>
+</html> 

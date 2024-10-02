@@ -46,6 +46,7 @@ public class A_Controller {
 			@RequestParam("time") String time,
 			@RequestParam(value="table", required = false) String table,
 			@RequestParam(value="point", required = false) String point,
+			@RequestParam(value="adpay", required = false) String pay,
 			RedirectAttributes rttr, Model model, HttpSession session) {
 // date, time 값받아서 db에 저장할수있는 Date형식으로 변경
 		String a_Date = date + " " + time;
@@ -58,6 +59,11 @@ public class A_Controller {
 		log.info(point);
 		if(point!=null & point !="") {
 			a_Note = a_Note +  " / 사용포인트 : " + point ;
+			
+		log.info(pay);
+		if(pay!= null & pay!="") {
+			a_Note = a_Note + " / 예약금 : " + pay ;
+		}
 		
 		//포인트 차감
 		
@@ -81,8 +87,18 @@ public class A_Controller {
 			
 		}
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
-		appoint.setA_Note(a_Note); // a_Note값 객체에 추가
+		appoint.setA_Note(a_Note); // a_Note값 객체에 추가		 
 		// 등록 메서드 실행, 성공시 결과값 1
+		
+		// 예약 인원수가 기준 인원수보다 많을 경우 예약금 삽입		
+		
+		int A_NOP_Base = res_Service.getAllInfo(appoint.getResNum()).getOper().getAdPayCond();
+		int a_NOP_input = appoint.getA_NOP(); 
+		
+		if(a_NOP_input>=A_NOP_Base) {
+		int a_AdPay = Integer.valueOf(pay);
+		appoint.setA_AdPay(a_AdPay);
+		}
 		int result = a_service.insert(appoint);
 		log.info("insert result : " + result);
 		
@@ -106,6 +122,7 @@ public class A_Controller {
 		oper = res_Service.getAllInfo(resNum);
 		String openTime = oper.getOper().getOpenTime().substring(0, 2); //openTime의 앞2자리 추출
 		String closeTime = oper.getOper().getEndTime().substring(0, 2); //closeTime의 앞2자리 추출
+		int a_AdPay = oper.getOper().getAdPay();
 		int open = Integer.parseInt(openTime); // int로 변환
 		int close = Integer.parseInt(closeTime); // int로 변환
 		// 가게 허용 총인원
@@ -274,6 +291,7 @@ public class A_Controller {
 		model.addAttribute("rest_day", m_w_day);
 		model.addAttribute("table_kind", table_kind);
 		model.addAttribute("rest_day_log", rest_day_log);
+		model.addAttribute("a_AdPay", a_AdPay);
 		
 
 	}

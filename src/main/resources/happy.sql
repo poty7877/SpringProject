@@ -44,7 +44,7 @@ alter table tb_member add pw varchar2(50) not null;
 select* from tb_menuimg;
 
 
-
+ALTER TABLE resNum RENAME TO tb_resNum;
 
 CREATE SEQUENCE seq_member_Uno
 START WITH 10000000
@@ -414,7 +414,7 @@ END;
 CREATE OR REPLACE TRIGGER guest_update_trigger
 AFTER UPDATE OF A_status ON tb_appointment
 FOR EACH ROW
-WHEN (NEW.A_status IN ('예약 확정', '예약 취소'))
+WHEN (NEW.A_status IN ('예약 확정', '예약 취소', '노쇼'))
 BEGIN
     UPDATE tb_guest_alr
     SET count = count + 1

@@ -39,7 +39,31 @@ public class A_RestController {
 		}
 
 		return response;
-
+		
+	}
+	
+	@GetMapping(value="/person", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> person(
+				@RequestParam("person") String person,
+				@RequestParam("adPayCond") String adPayCond) {
+		Map<String, Object> response = new HashMap<>();
+		
+		int personB = Integer.valueOf(adPayCond);
+		log.info("식당 예약금 기준 사람 수 : " + personB);
+		int personC = Integer.valueOf(person);
+		log.info("식당 예약 사람 수 : " + personC);
+		
+		boolean possible = (personC - personB)>=0;
+		
+		if( possible ) {
+			response.put("status",  "success");
+			response.put("message", "사용 가능");
+		} else {
+			response.put("status",  "error");
+			response.put("message", "보유하신 포인트 내에서 입력해주세요");
+		}	
+		
+		return response;
 	}
 
 }

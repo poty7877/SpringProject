@@ -121,7 +121,7 @@
         tb_restaurant r
       where
       EXISTS (
-      	SELECT * from resNum rnn where r.resNum = rnn.resNum
+      	SELECT * from tb_resNum rnn where r.resNum = rnn.resNum
       ) 
   ]]>
 
