@@ -12,6 +12,7 @@ public interface A_Mapper {
 	public List<A_VO> read(A_VO appoint);
 	public int count(A_VO appoint);
 	public int countSelect(A_VO appoint);
+	public List<A_VO> readSelect(A_VO appoint);
 	//U
 	public int update(A_VO appoint);
 	//D

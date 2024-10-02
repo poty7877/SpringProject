@@ -11,6 +11,9 @@ String loggedInStr = (loggedIn != null && loggedIn) ? "true" : "false";
 // 사업자회원 로그인 값
 Boolean loggedIn2 = (Boolean) session.getAttribute("loggedIn2");
 String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
+
+Boolean loggedIn3 = (Boolean) session.getAttribute("loggedIn3");
+String loggedInStr3 = (loggedIn3 != null && loggedIn3) ? "true" : "false";
 %>
 <!DOCTYPE html>
 <head>
@@ -100,6 +103,10 @@ body {
 	font-weight: 400;
 	font-style: normal;
 }
+
+.modal {
+	z-index: 100000;
+}
 </style>
 <!--
 	header-img start 
@@ -154,7 +161,8 @@ body {
 										</ul></li> -->
 									<li id="login"><a href="/member/login">로그인</a></li>
 									<li id="logout"><a href="/member/logout">로그아웃</a></li>
-									<li><a href="/joinType">회원가입</a></li>
+									<li id="join"><a href="/joinType">회원가입</a></li>
+									<li id="register"><a href="/admin/register">매장관리</a></li>
 									<li class="dropdown" id="dropdown"><a href="#"
 										class="dropdown-toggle" data-toggle="dropdown" role="button"
 										aria-haspopup="true" aria-expanded="false"><i
@@ -193,6 +201,7 @@ body {
 						$("#dropdown").hide();
 						$("#GA").hide();
 						$("#RA").hide();
+						$("#register").hide();
 						// 로그인 상태를 확인하는 함수
 						var loggedIn =
 <%=loggedInStr%>
@@ -200,18 +209,27 @@ body {
 						var loggedIn2 =
 <%=loggedInStr2%>
 	; // 관리자
+	var loggedIn3 = <%=loggedInStr3%>;
+	
 						console.log(loggedIn);
 						console.log(loggedIn2);
+						
 
-						if (loggedIn || loggedIn2) { // 로그인 상태면
+						if (loggedIn || loggedIn2) {// 로그인 상태면
 							$("#dropdown").show();
 							$('#login').hide(); // 로그인 버튼 숨기기
 							$('#logout').show(); // 로그아웃 버튼 보이기
-						} else if (!loggedIn || !loggedIn2) { // 로그아웃 상태면
+							$("#join").hide();
+							if(loggedIn3){
+								$("#register").show();
+							}
+						} else if (!loggedIn || !loggedIn2 || !loggedIn3) { // 로그아웃 상태면
 							$("#dropdown").hide();
 							$('#login').show(); // 로그인 버튼 보이기
 							$('#logout').hide(); // 로그아웃 버튼 숨기기
 							$("#page").hide();
+							$("#join").show();
+							$("#register").hide();
 						}
 						if (loggedIn) { // 일반사용자 로그인시
 							// 예약조회 버튼의, href를 아래와 같이 변경
@@ -228,13 +246,15 @@ body {
 																			+ " 개의 예약상태가 변경되었습니다.");
 													$(".note-num").html(
 															data.gcount).show();
-													  $("#GA").data("hasData", true)
+													$("#GA").data("hasData",
+															true)
 												} else {
 													$("#GA").html(
 															"변경된 예약 상태가 없습니다.");
 													$(".note-num").hide();
-													$("#GA").data("hasData", false)
-												
+													$("#GA").data("hasData",
+															false)
+
 												}
 											}
 										});
@@ -271,13 +291,15 @@ body {
 																			+ " 개의 새로운 예약이 있습니다.");
 													$(".note-num").html(
 															data.rcount).show();
-													$("#RA").data("hasData", true)
+													$("#RA").data("hasData",
+															true)
 												} else {
 													$("#RA").html(
 															"새로운 예약이 없습니다.");
 													$(".note-num").hide();
-													$("#RA").data("hasData", false)
-													
+													$("#RA").data("hasData",
+															false)
+
 												}
 											}
 										});
@@ -297,22 +319,21 @@ body {
 									.attr("href",
 											"/restaurant/myrestaurant/?resNum=${ loginResNum }");
 							$("#myInfo").html("가게정보");
-							$("#RA").show();			
+							$("#RA").show();
 							$("#GA").hide();
 						}
 
 					});
 </script>
 <script type="text/javascript">
-
 	$("#GA")
 			.on(
 					"click",
 					function(e) {
 						e.preventDefault();
-						 if (!$("#GA").data("hasData")) {
-						        return; // 아무 동작도 하지 않음
-						    }
+						if (!$("#GA").data("hasData")) {
+							return; // 아무 동작도 하지 않음
+						}
 						$
 								.ajax({
 									url : "/member/delGcount",
@@ -332,9 +353,9 @@ body {
 					});
 	$("#RA").on("click", function(e) {
 		e.preventDefault();
-		 if (!$("#RA").data("hasData")) {
-		        return; // 아무 동작도 하지 않음
-		    }
+		if (!$("#RA").data("hasData")) {
+			return; // 아무 동작도 하지 않음
+		}
 		$.ajax({
 			url : "/member/delRcount",
 			method : "DELETE",
@@ -344,5 +365,4 @@ body {
 			}
 		})
 	});
-
 </script>

@@ -23,4 +23,6 @@ public interface ReplyService {
 	
 	public double getRatingAverage(String resNum);
 	
+	public int allRemove(String resNum);
+	
 }

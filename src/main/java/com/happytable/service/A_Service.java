@@ -18,4 +18,6 @@ public interface A_Service {
 	//예약 수정
 	public boolean delete(String A_no);
 	//예약 삭제
+	public List<A_VO> readSelect(A_VO appoint);
+	//예약 종류별로 조회
 }	

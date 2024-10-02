@@ -101,4 +101,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		// TODO Auto-generated method stub
 		return mappr.getTotalCount(cri);
 	}
+	
+	
 }

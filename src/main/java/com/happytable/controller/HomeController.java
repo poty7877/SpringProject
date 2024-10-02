@@ -2,6 +2,7 @@ package com.happytable.controller;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -52,7 +53,7 @@ public class HomeController {
 		List<RestaurantVO> result = new ArrayList<RestaurantVO>();
 		result = serviceRest.getList(cri);
 		
-		for(int i = 0; i<serviceRest.getList(cri).size(); i++) {
+		for(int i = 0; i<result.size(); i++) {
 			RestaurantVO res = new RestaurantVO();
 			res = serviceRest.getList(cri).get(i);
 			String resNum = res.getResNum();
@@ -60,6 +61,8 @@ public class HomeController {
 			res.setAve(ave);
 			result.set(i, res);
 		}
+		
+		result.sort(Comparator.comparingDouble(RestaurantVO::getAve).reversed());
 		
 		model.addAttribute("list", result); 
 

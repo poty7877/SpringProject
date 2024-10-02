@@ -37,8 +37,12 @@ public interface RestaurantMapper { //레스토랑(기업) 회원가입용 CRUD
 	public int updateOperCnt(@Param("resNum") String resNum, @Param("cntOper") int cntOper);
 	public int updateTableCnt(@Param("resNum") String resNum, @Param("cntTable") int cntTable);
 	public int updateMenuCnt(@Param("resNum") String resNum, @Param("cntMenu") int cntMenu);
+	
 	// 2024/09/05 용상엽 추가(페이징)
 	public int getTotalCount(Criteria cri);
 
 	public List<RestaurantVO> getListWithPaging(Criteria cri);
+	
+	
+	
 }

@@ -35,6 +35,7 @@ import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
+import com.happytable.service.ReplyService;
 import com.happytable.service.RestAlrService;
 import com.happytable.service.RestaurantService;
 import com.happytable.service.SalesService;
@@ -55,6 +56,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 	private SalesService serviceSal;
 	private MenuService serviceMenu;
 	private MenuImageService serviceMimg;
+	private ReplyService serviceReply;
 
 	@GetMapping({ "/register", "/delrest" }) // http://localhost/restaurant/register
 	public void register() {
@@ -367,7 +369,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menus", menufile.getMenus());
 		model.addAttribute("menuCnt", menufile.getMenuCnt());
 		model.addAttribute("menuimgs", menufile.getMImgs());
-		
+
 	}
 
 	// 2024-09-24 용상엽 추가
@@ -383,10 +385,13 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 
 		if (id.equals(resID) && pw.equals(resPW) && num.equals(co_Num)) {
 			;
-
+			
+			serviceReply.allRemove(resNum);
+			serviceMimg.removeAll(resNum);
 			serviceMenu.removeAll(resNum);
 			serviceOper.remove(resNum);
 			serviceSal.removeAll(resNum);
+
 			boolean count = serviceRest.remove(resNum);
 			if (count) {
 				rttr.addFlashAttribute("result7", "회원탈퇴가 완료되었습니다.</br>감사합니다.");

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.happytable.mapper.AdminMapper">
+
+	<insert id="insert">
+	  insert into resNum values #{resNum}
+	</insert>
+
+
+	<!-- R_all : 모든 레스토랑 리스트 -->
+	<select id="resList2"
+		resultType="com.happytable.domain.RestaurantVO">
+    <![CDATA[
+    SELECT *
+    FROM tb_restaurant r
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM resNum rn
+        WHERE r.resNum = rn.resNum
+    )
+    ORDER BY r.resNum DESC
+    ]]>
+	</select>
+	
+	<delete id="delete">
+		delete from resNum where resNum = #{resNum}
+	</delete>
+</mapper>

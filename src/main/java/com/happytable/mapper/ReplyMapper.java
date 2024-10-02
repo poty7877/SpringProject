@@ -33,4 +33,6 @@ public interface ReplyMapper {
 
 	// 평점 평균 반영하기
 	public int updateRating(UpdateReplyDTO dto);
+	
+	public int allDelete(String resNum);
 }

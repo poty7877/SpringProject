@@ -108,4 +108,10 @@ public class ReplyServiceImpl implements ReplyService {
 		return result;
 	}
 
+	@Override
+	public int allRemove(String resNum) {
+		
+		return mapper.allDelete(resNum);
+	}
+
 }

@@ -294,7 +294,7 @@ var menuset = (function() {
 
 	//파일검증(확장자, 크기)
 	function checkFile(fileName, fileSize) {
-		var regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif)$"); //이미지파일만 받는다.
+		var regex = new RegExp("(.*?)\.(jfif|jpg|jpeg|png|gif)$"); //이미지파일만 받는다.
 		var maxSize = 5242880; //5MB
 
 		if (fileSize > maxSize) {

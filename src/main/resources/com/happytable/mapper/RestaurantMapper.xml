@@ -109,18 +109,20 @@
 		</trim>
 	</sql>
 
-	<select id="getListWithPaging"
-		resultType="com.happytable.domain.RestaurantVO">
+	<select id="getListWithPaging" resultType="com.happytable.domain.RestaurantVO">
   <![CDATA[
   select 
     resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate, resPhone
   from 
       (
       select /*+INDEX_DESC(tb_restaurant pk_restaurant) */
-        rownum rn, resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate, resPhone
+        rownum rn, r.resID, r.resPW, r.resNum, r.resName, r.resAddr, r.co_Num, r.certify, r.summary, r.regDate, r.resPhone
       from 
-        tb_restaurant
-      where 
+        tb_restaurant r
+      where
+      EXISTS (
+      	SELECT * from resNum rnn where r.resNum = rnn.resNum
+      ) 
   ]]>
 
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
@@ -142,10 +144,15 @@
 		</trim>
      
   <![CDATA[    
-      rownum <= #{pageNum} * #{amount}
+       and rownum <= #{pageNum} * #{amount}
       )
-  where rn > (#{pageNum} -1) * #{amount}   
+  where rn > (#{pageNum} -1) * #{amount} 
   ]]>
-	</select>
+   
+</select>
+
+ 
+
+
 
 </mapper>
