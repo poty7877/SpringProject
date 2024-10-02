@@ -1,30 +1,20 @@
 package com.happytable.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuPageDTO;
 import com.happytable.domain.MenuVO;
 import com.happytable.domain.OperationsVO;
@@ -38,7 +28,6 @@ import com.happytable.service.SalesService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 
 @Controller
 @Log4j2
@@ -132,6 +121,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		}
 		if (salCnt != 0) {
 			tables = serviceSal.getList(resNum);
+			model.addAttribute("tbLen", serviceSal.countTable(resNum)); //**10/01 추가
 		}
 
 		model.addAttribute("myrest", myrest);

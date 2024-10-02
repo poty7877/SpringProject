@@ -35,13 +35,13 @@ $(document).ready(function() {
 		$("#phone_f").val(phones[0]);
 		$("#phone_m").val(phones[1]);
 		$("#phone_l").val(phones[2]);
-		console.log(phones);
+		//console.log(phones);
 
 		var conums = co_num.split("-");
 		$("#conum_f").val(conums[0]);
 		$("#conum_m").val(conums[1]);
 		$("#conum_l").val(conums[2]);
-		console.log(conums);
+		//console.log(conums);
 	}
 
 	var divNum = $("input[name='divNum']");
@@ -56,8 +56,8 @@ $(document).ready(function() {
 		var resCoNum = frontcN + "-" + midcN + "-" + lastcN;
 		$("#resPhone").val(resPhone);
 		$("#co_Num").val(resCoNum);
-		console.log("test:" + resCoNum);
-		console.log("test:" + resPhone);
+		//console.log("test:" + resCoNum);
+		//console.log("test:" + resPhone);
 	});
 
 	//tab : 미등록상태 -> 모달-> 링크연결(resnum 함께 전송)**메뉴는 미등록 리스트 보이기

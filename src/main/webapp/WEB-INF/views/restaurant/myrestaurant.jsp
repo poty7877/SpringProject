@@ -20,7 +20,7 @@
 			<li class="active"><a href="#myRest" data-toggle="tab">기본정보관리</a></li>
 			<c:choose>
 				<c:when test="${oper eq null}">
-					<li id="nonOper"><a href="#myModal" data-toggle="modal">영업정보관리(미등록)</a></li>
+					<li id="nonOper"><a href="#myrestModal" data-toggle="modal">영업정보관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${oper ne null}">
 					<li><a href="#myoper" data-toggle="tab">영업정보관리</a></li>
@@ -28,7 +28,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${sales eq null}">
-					<li id="nonSales"><a href="#myModal" data-toggle="modal">테이블운영정보관리(미등록)</a></li>
+					<li id="nonSales"><a href="#myrestModal" data-toggle="modal">테이블운영정보관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${sales ne null}">
 					<li><a href="#mysales" data-toggle="tab">테이블운영정보관리</a></li>
@@ -36,7 +36,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${menus eq null}">
-					<li id="nonMenu"><a href="#myModal" data-toggle="modal">메뉴관리(미등록)</a></li>
+					<li id="nonMenu"><a href="#myrestModal" data-toggle="modal">메뉴관리(미등록)</a></li>
 				</c:when>
 				<c:when test="${menus ne null}">
 					<li><a href="#mymenu" data-toggle="tab">메뉴관리</a></li>
@@ -182,8 +182,8 @@
 <!-- .row -->
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-	aria-labelledby="myModal" aria-hidden="true">
+<div class="modal fade" id="myrestModal" tabindex="-1" role="dialog"
+	aria-labelledby="myrestModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

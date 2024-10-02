@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -122,12 +121,14 @@ public class RestaurantController {
 
 	}
 
-	// 테이블 등록(건별-수정페이지에서)
-	@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> regOneTable(@RequestBody SalesVO table) {
+	// 테이블 등록(건별-수정페이지에서) --**10/01수정
+	@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<SalesVO> regOneTable(@RequestBody SalesVO table) {
 		log.info("test 받은 data:" + table);
 		int result = serviceSal.register(table);
-		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		//rttr.addFlashAttribute("newTable", table);
+		log.info("-------test 등록한 table:" + table);
+		return result == 1 ? new ResponseEntity<>(table, HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -171,7 +172,7 @@ public class RestaurantController {
 	}
 
 	// D-테이블 삭제(단일테이블 삭제)
-	@DeleteMapping(value = "/restaurant/deltable", produces = { MediaType.TEXT_PLAIN_VALUE })
+	@DeleteMapping(value = "/deltable", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> delTable(@RequestBody SalesVO table) {
 		log.info("test 삭제할 테이블 :" + table);
 		int result = serviceSal.remove(table.getResNum(), table.getTableNum());
@@ -181,7 +182,7 @@ public class RestaurantController {
 	}
 
 	// D-테이블 일괄삭제
-	@DeleteMapping(value = "/restaurant/delall/{resNum}", produces = { MediaType.TEXT_PLAIN_VALUE })
+	@DeleteMapping(value = "/delalltables/{resNum}", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> delTableAll(@PathVariable("resNum") String resNum) {
 		log.info("test 전체삭제할 테이블resNum :" + resNum);
 		int originCnt = serviceSal.countTable(resNum);
@@ -372,14 +373,13 @@ public class RestaurantController {
 	
 	
 	// 중복파일 방지 : 년/월/일 폴더생성-->**09/30 resNum별 관리로 사용안함
-	private String getFolder(String catefolder) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MMdd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		String folder = catefolder + "-" + str;
-
-		return folder.replace("-", File.separator);
-	}
+	/*
+	 * private String getFolder(String catefolder) { SimpleDateFormat sdf = new
+	 * SimpleDateFormat("yyyy-MMdd"); Date date = new Date(); String str =
+	 * sdf.format(date); String folder = catefolder + "-" + str;
+	 * 
+	 * return folder.replace("-", File.separator); }
+	 */
 
 	// 중복파일 방지(new) : **09/30 resNum별 관리(resNum / catefolder/filename)
 	private String getMyFolder(String resNum, String catefolder) {
