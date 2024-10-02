@@ -106,7 +106,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		menufile.setMenuCnt(0);
 		// List<MenuVO> menus = null;
 		List<SalesVO> tables = null;
-		String uploaFolder = "D:\\upload\\";
+		//String uploaFolder = "D:\\upload\\";
 
 		if (opercnt != 0) {
 			oper = serviceOper.get(resNum);
@@ -130,7 +130,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menus", menufile.getMenus());
 		model.addAttribute("menuCnt", menufile.getMenuCnt());
 		model.addAttribute("menuimgs", menufile.getMImgs());
-		model.addAttribute("upath", uploaFolder);
+		//model.addAttribute("upath", uploaFolder);
 
 		log.info("test : 보낼 menu개수:" + menufile.getMenuCnt());
 	}

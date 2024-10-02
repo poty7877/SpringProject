@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.happytable.domain.MenuImageVO;
 import com.happytable.domain.MenuVO;
@@ -37,6 +36,7 @@ import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
+import com.happytable.service.PortingResnumService;
 import com.happytable.service.RestaurantService;
 import com.happytable.service.SalesService;
 
@@ -59,6 +59,8 @@ public class RestaurantController {
 	private MenuService serviceMenu;
 	@Setter(onMethod_ = @Autowired)
 	private MenuImageService serviceMimg;
+	@Setter(onMethod_ = @Autowired)
+	private PortingResnumService serPorting;
 
 	// 아이디 중복체크
 	@PostMapping(value = "/idcheck", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -397,6 +399,32 @@ public class RestaurantController {
 		img.setOriginName(originName);
 		img.setSaveName(now + "_" + fname); // yyyyMMdd_fisho.jpg
 		return img;
+	}
+	
+	
+	//--------**10/02추가 : tb_resnum(porting)
+	//포팅 - 서비스 사이트 등록
+	@GetMapping(value = "/porting/{resNum}")  
+	public ResponseEntity<String> porting(@PathVariable("resNum") String resNum){
+		boolean result = serPorting.porting(resNum);
+		return result? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//삭제 - 서비스 사이트에서 내리기
+	@DeleteMapping(value = "/stopservice/{resNum}")
+	public ResponseEntity<String> stopService(@PathVariable("resNum") String resNum){
+		boolean result = serPorting.remove(resNum);
+		return result? new ResponseEntity<>("success", HttpStatus.OK):
+			new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	//서비스사이트 등록조회
+	@GetMapping(value = "/checkservice/{resNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> checkService(@PathVariable("resNum") String resNum){
+		int result = serPorting.checkResNum(resNum);
+		log.info("========= resnum 등록 개수 조회결과 : " + result);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 }

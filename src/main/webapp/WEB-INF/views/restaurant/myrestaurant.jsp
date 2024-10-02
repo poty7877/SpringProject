@@ -6,14 +6,18 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<h1 class="heading">
-			<span>myRestaurant</span>
-		</h1>
+		<h1 class="heading"><span>myRestaurant</span></h1>
 	</div>
 	<!-- .col-md-12 close -->
 </div>
+<div class="row col-md-8 col-md-offset-2">
+	<div class="porting pull-right">
+	<span class="text-danger" id="portingGuide">홈페이지 등록이 완료되어야 홈페이지에서 확인이 가능합니다. </span>
+	<button data-oper = "porting" id="portingBtn" class="btn btn-warning">홈페이지 등록</button>
+	</div>
+</div>
 <!-- .row close -->
-<div class="row" style="margin-top: 50px;">
+<div class="row">
 	<!-- Nav tabs -->
 	<div class="col-md-8 col-md-offset-2">
 		<ul class="nav nav-tabs">
