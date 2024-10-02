@@ -57,6 +57,12 @@ public class A_ServiceImpl implements A_Service{
 		log.info("count.....");
 		return mapper.countSelect(appoint);
 	}
+
+	@Override
+	public List<A_VO> readSelect(A_VO appoint) {
+		log.info("read......." + appoint.getA_No() + " | " + appoint.getResNum() + " | " + appoint.getMemUno() + " | " + appoint.getA_Status());
+		return mapper.readSelect(appoint);
+	}
 	
 
 

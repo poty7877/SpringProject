@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +23,8 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/order")
 public class A_RestController {
 	
-	@PostMapping(value = "/checkPoint", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> checkPoint(@RequestParam("using_point") String using_point, HttpSession session) {
+	@GetMapping(value = "/point", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> point(@RequestParam("point") String using_point, HttpSession session) {
 		Map<String, Object> response = new HashMap<>();		
 		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
 		

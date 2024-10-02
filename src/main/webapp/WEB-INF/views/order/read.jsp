@@ -30,36 +30,36 @@
 							<table class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr>
-										<th width='20%' align='center'>예약 날짜</th>
-										<td width='80%'>
+										<th width='20%' style="text-align:center; vertical-align:middle;">예약 날짜</th>
+										<td width='80%' >
 										<input class="form-control" name='a_Date'
 										value='<c:out value="${appoint[0].a_Date }"/>' readonly="readonly">
 										</td>
 									</tr>
 									<tr>
-										<th>레스토랑 이름</th>
+										<th style="text-align:center; vertical-align:middle;">레스토랑 이름</th>
 										<td>
 										<input class="form-control" name='resName'
 										value='<c:out value="${appoint[0].resName }"/>' readonly="readonly">
 										</td>
 									</tr>
 									<tr>
-										<th>예약 인원</th>
+										<th style="text-align:center; vertical-align:middle;">예약 인원</th>
 										<td>
 										<input class="form-control" name='a_NOP'
 										value='<c:out value="${appoint[0].a_NOP }"/>' readonly="readonly">
 										</td>
 									</tr>
 									<tr>
-										<th>예약 상태</th>
+										<th style="text-align:center; vertical-align:middle;">예약 상태</th>
 										<td>
 										<input class="form-control" name='a_Status'	value='<c:out value="${appoint[0].a_Status }"/>' readonly="readonly">
 										</td>
 									</tr>
 									<tr>
-										<th>요청 사항</th>
+										<th style="text-align:center; vertical-align:middle;">요청 사항</th>
 										<td>
-										<textarea rows="3" cols='100' name='a_Note'>${appoint[0].a_Note }</textarea>
+										<textarea class="form-control" name='a_Note'>${appoint[0].a_Note }</textarea>
 										</td>
 										
 									</tr>

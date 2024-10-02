@@ -53,11 +53,14 @@ public class A_Controller {
 		if(table!=null) {
 			a_Note = a_Note + " / 요청테이블 : " + table ; 
 		}
-		if(point!=null) {
-			a_Note = a_Note +  " / 사용포인트 : " + point ;
-		}
-		//포인트 차감
+		
 		MemberVO member = new MemberVO();
+		log.info(point);
+		if(point!=null & point !="") {
+			a_Note = a_Note +  " / 사용포인트 : " + point ;
+		
+		//포인트 차감
+		
 		member.setMemUno(appoint.getMemUno());
 		member = mem_Service.getMem(appoint.getMemUno());
 		log.info("포인트 정보 : " + member.toString());
@@ -76,7 +79,7 @@ public class A_Controller {
 		log.info("포인트 정보 : " + member.toString());
 		mem_Service.point(member);		
 			
-		
+		}
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
 		appoint.setA_Note(a_Note); // a_Note값 객체에 추가
 		// 등록 메서드 실행, 성공시 결과값 1
@@ -280,8 +283,15 @@ public class A_Controller {
 	public void get(A_VO appoint, Model model) {
 		// 새로운 배열 생성
 		List<A_VO> result = new ArrayList<A_VO>();
-		// 예약 객체 result에 저장
-		result = a_service.read(appoint);
+		// 예약 객체 result에 저장	
+		log.info("appoint 내용 : " + appoint.toString());
+		if(appoint.getA_Status()!=null) {
+			result = a_service.readSelect(appoint);
+		} else {
+			result = a_service.read(appoint);
+		}				
+		
+		
 		for (int i = 0; i < result.size(); i++) {
 			String num = result.get(i).getResNum();
 			String name = res_Service.get(num).getResName();
@@ -312,7 +322,7 @@ public class A_Controller {
 			
 			appoint2.setA_Status(status);
 
-			double Reservation = ((reservation_total - noshow_total - cancel_total) / (reservation_total - cancel_total))*100;
+			double Reservation = ((noshow_total) / (reservation_total - cancel_total))*100;
 			String Reservation_Success = Double.toString(Math.round(Reservation));
 			appoint2.setReservation_Success(Reservation_Success);
 			result.set(i, appoint2);
@@ -320,7 +330,6 @@ public class A_Controller {
 		}
 		log.info("예약정보확인 : " + result.toString());
 		model.addAttribute("appoint", result);
-
 	}
 
 	@PostMapping({"/update", "/readRes"})

@@ -112,6 +112,18 @@ update tb_member set point = 10000 where nickname="noshow";
 
 select * from tb_giftcard;
 
+update tb_appointment set
+		A_NOP='2',
+		A_Status='예약 중',
+		A_note='test',
+		A_Updatedate = sysdate
+		where A_No= '78898705';
+		
+select * from tb_appointment where A_status = '예약 중' and (memUno = null
+	 								or resNum = '10000106adm' 
+	 								or A_No = null
+	 								or A_Date = null )
+	 								order by A_Date ASC ;
 
 
 										

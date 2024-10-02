@@ -26,26 +26,36 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th width='20%'>예약 날짜</th>
-									<th width='20%'>레스토랑 이름</th>
-									<th width='10%'>예약 인원</th>
-									<th width='15%'>예약 상태</th>
-									<th width='15%'>예약 번호</th>
-									<th width='20%'>요청 사항</th>
+									<th width='20%' style="text-align:center; vertical-align:middle;">예약 날짜</th>
+									<th width='20%' style="text-align:center; vertical-align:middle;">레스토랑 이름</th>
+									<th width='10%' style="text-align:center; vertical-align:middle;">예약 인원</th>
+									<th width='15%'>
+									<select name="a_Status" id="a_Status" class="form-control" onchange="changeSelect()" style="text-align:center; vertical-align:middle;">
+									<option value="">예약 상태</option>
+									<option value="전체">전체</option>
+									<option value="예약 중">예약 중</option>
+									<option value="예약 확정">예약 확정</option>
+									<option value="예약 취소">예약 취소</option>
+									<option value="노쇼">노쇼</option>
+									</select>
+									
+									</th>
+									<th width='15%' style="text-align:center; vertical-align:middle;">예약 번호</th>
+									<th width='20%' style="text-align:center; vertical-align:middle;">요청 사항</th>
 								</tr>
 							</thead>
 
 							<c:forEach items="${appoint}" var="reservation">
 								<tr>
-									<td><c:out value="${reservation.a_Date}" /></td>
+									<td style="text-align:center; vertical-align:middle;"><c:out value="${reservation.a_Date}" /></td>
 
-									<td><c:out value="${reservation.resName}" /></td>
+									<td style="text-align:center; vertical-align:middle;"><c:out value="${reservation.resName}" /></td>
 
-									<td><c:out value="${reservation.a_NOP}" /></td>
+									<td style="text-align:center; vertical-align:middle;"><c:out value="${reservation.a_NOP}" /></td>
 
-									<td><c:out value="${reservation.a_Status}" /></td>
+									<td style="text-align:center; vertical-align:middle;"><c:out value="${reservation.a_Status}" /></td>
 
-									<td><a
+									<td style="text-align:center; vertical-align:middle;"><a
 										href='/order/read?a_No=<c:out value="${reservation.a_No}"/>'>
 											<c:out value="${reservation.a_No}" />
 									</a></td>
@@ -85,6 +95,21 @@
 			</div>
 	</section>
 	<!-- #contact-us close -->
+	<script type="text/javascript">
+		function changeSelect() {
+			var a_StatusSelect = document.getElementById("a_Status");
+			var a_StatusValue = a_StatusSelect.options[a_StatusSelect.selectedIndex].value;
+			var memUno = '${loginMember.getMemUno()}';
+			
+			if(a_StatusValue=="전체"){
+				location.href="/order/list?memUno="+memUno;
+			} else {
+				location.href="/order/list?memUno="+memUno+"&a_Status="+a_StatusValue;	
+			}
+			
+		}
+	
+	</script>
 
 	<script type="text/javascript">
 		var loggedIn =

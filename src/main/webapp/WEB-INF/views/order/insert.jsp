@@ -39,8 +39,8 @@
 								value='<c:out value="${resVO.salList[0].headCount}"/>' /> <input
 								type='hidden' name='a_Status' value='예약 중' />
 
-								<p style="margin-left:70px; color:red;">당일 예약은 불가합니다. ${rest_day_log}입니다.</p>
-							<table style="margin-left:70px;" width="90%">
+								<p style="text-align:center; color:red;">당일 예약은 불가합니다. ${rest_day_log}입니다.</p>
+							<table style="margin-left:70px; margin-top:20px; width:90%;" >
 								<tr>
 								
 									<th>예약일</th>
@@ -82,10 +82,11 @@
 								<tr>
 									<th> 마일리지 사용 </th>
 									<th>
-									<input class="form-control" type="number" name="point" style="margin-bottom:10px;"/>
+									<input class="form-control" type="number" name="point" id="point" style="margin-bottom:10px;"/>
 									</th>
 									<th colspan="2">
 									<p style="margin-left:100px; color:red;"> ${loginMember.getNickName()}님의 마일리지는 ${loginMember.getPoint()}입니다. </p>
+									<span id="pointError" style="display:none; color:red; margin-left:100px;">마일리지가 부족합니다.</span>
 									</th>
 								
 								</tr>
@@ -98,7 +99,7 @@
 								<tr>
 									<th></th>
 									<th colspan='5'>
-										<button class="form-control" type="submit" data-oper='appoint'>예약</button>
+										<button class="form-control" style="margin-top:10px;" type="submit" id="subBtn"data-oper='appoint'>예약</button>
 									</th>
 								</tr>
 
@@ -151,6 +152,7 @@
 				window.location.href = "/"; // 모달창 꺼지면 홈으로 이동
 			});
 		}
+			
 		$(document).ready(function() {
 			var formObj = $("form"); // form 찾아서 변수에저장
 			$('button').on("click",function(e) { // 버튼 클릭시
@@ -163,7 +165,8 @@
 			} else if (operation === 'modal') { // modal이면
 			formObj.attr("action", "/") // action홈으로 변경
 			.attr("method","get") // method는 get으로
-			formObj.submit();} // 폼 제출
+			formObj.submit();}// 폼 제출
+				
 			});
 					
 					$(".check").click(function(){  // 여기서 .click은 체크박스의 체크를 뜻한다.
@@ -187,6 +190,56 @@
 		
 		
 	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+	var pointValid = false;
+	var pointInput = $("#point");
+	var pointError = $("#pointError");
+	var $subBtn = $("#subBtn");
+	$("#point").on("blur", function(){
+		console.log("포인트 테스트 작동한다.");
+		var point = pointInput.val();
+		console.log(point);
+		$.ajax({
+			url : "/order/point",
+			type : "get",
+			data : {
+				point : point							
+			},
+			dataType : "json",
+			success: function(response){
+				if(response.status === "error"){
+					pointValid = false;
+					pointInput.css("border-color", "red");
+					pointError.css("display", "block");
+					console.log("포인트 테스트 에러한다.");
+				} else if (response.status === "success"){
+					pointValid = true;
+					pointInput.css("border-color", "");
+					pointError.css("display", "none");
+				}
+				updateSubmitButtonState();
+			},
+			error:function(xhr, status, error){
+				console.error("AJAX Error: ", status, error);
+				pointValid = false;
+				updateSubmitButtonState();
+			}					
+		});
+		
+		function updateSubmitButtonState() { // 버튼 활성화하는 기능
+			
+			if (pointValid) { // 이메일, 닉네임값이 중복체크를 통과하면
+				$subBtn.prop("disabled", false); // 버튼 활성화
+			} else {// 아니면
+				$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
+			}
+		}
+	});	
+	
+	});
+</script>
 	
 	<script>
 	

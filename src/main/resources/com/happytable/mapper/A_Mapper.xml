@@ -23,6 +23,17 @@
 	]]>	
 	</select>
 	
+	<select id="readSelect" resultType="com.happytable.domain.A_VO">
+	<![CDATA[
+	select * from tb_appointment where A_Status = #{a_Status} 
+									and ( resNum = #{resNum, jdbcType=VARCHAR}
+	 								or memUno = #{memUno, jdbcType=VARCHAR}
+	 								or A_No = #{a_No, jdbcType=VARCHAR}
+	 								or A_Date = #{a_Date, jdbcType=VARCHAR}	)
+	 								order by A_Date ASC 
+	]]>	
+	</select>
+	
 	<select id="count" resultType="int">
 	<![CDATA[
 	select count(*) from tb_appointment where memUno = #{memUno, jdbcType=VARCHAR}
@@ -43,7 +54,8 @@
 		update tb_appointment set
 		A_NOP=#{a_NOP, jdbcType=VARCHAR},
 		A_Status=#{a_Status, jdbcType=VARCHAR},
-		A_note=#{a_Note, jdbcType=VARCHAR}
+		A_note=#{a_Note, jdbcType=VARCHAR},
+		A_Updatedate = sysdate
 		where A_No=#{a_No}
 	]]>
 	</update>
