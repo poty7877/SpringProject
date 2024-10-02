@@ -24,22 +24,8 @@ $(document).ready(function() {
 	});
 
 
-	//저장하기(reg) 클릭
-	$("#submitBtn").on("click", function(e) {
-		e.preventDefault();
-		var form = $("form[id='regiTableForm']");
-		dataSet.makenewFormList(form);
-		var tables = $("#tables").val();
-		tbService.addList(tables, function(result) {
-			if (result == "success") { //등록성공->url 전환
-				location.href = '/restaurant/myrestaurant';
-			} else {
-				alert("등록오류. 관리자에게 문의하세요.");
-			}
-		});
-	});
 
-	//변경하기
+	//일괄수정
 	$("#modtableBtn").on("click", function(e) {
 		e.preventDefault();
 		var regcheck = regCheck();

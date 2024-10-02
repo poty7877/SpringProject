@@ -114,8 +114,9 @@ var tableSet = (function() {
 		var headCount = newtable.headCount;
 		console.log("test tableType:" + tableType);
 		var clonetr = "<tr><td>"
-			+ "<input class='index form-control' type='number' value='" + originTR + "' readonly='readonly'></td>"
-			+ "<td><select class='form-control' name='tableType' value='"+tableNum+"'>"
+			+ "<input class='index form-control' type='number' value='" + originTR + "' readonly='readonly'>"
+			+ "<input type='hidden' name='tableNum' value='"+tableNum+"'></td>"
+			+ "<td><select class='form-control' name='tableType' >"
 			+ "<option value='room'>룸타입</option>"
 			+ "<option value='table'>홀타입</option>"
 			+ "</select>"

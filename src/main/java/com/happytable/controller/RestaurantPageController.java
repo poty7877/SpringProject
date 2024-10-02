@@ -3,6 +3,8 @@ package com.happytable.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -221,9 +223,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return "redirect:/restaurant/myrestaurant";
 	}
 
-	// 메뉴등록 페이지(리스트)
-	@GetMapping("/menulist") // http://localhost/restaurant/menulist
-	public void menulist(@ModelAttribute("loginResNum") String resNum, Model model) {
+	// 메뉴등록 페이지(리스트) **10/02 수정
+	@GetMapping("/menufilelist") // http://localhost/restaurant/menulist
+	public void menufilelist(@ModelAttribute("loginResNum") String resNum, Model model) {
 		log.info("메뉴리스트 get() 실행-------" + resNum);
 		MenuPageDTO menus = serviceMenu.getMenuList(resNum);
 		menus.setMenuCnt(serviceMenu.countMenu(resNum));
@@ -289,5 +291,7 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
 	}
+	
+
 
 }

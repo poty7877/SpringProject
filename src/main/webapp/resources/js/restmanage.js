@@ -128,6 +128,7 @@ $(document).ready(function() {
 		portingService.regResNum(resNum, function(regResult){
 			if(regResult=="success"){
 				alert("홈페이지 등록 성공");
+				location.href='/restaurant/myrestaurant"'
 			}else{
 				alert("등록오류. 관리자에게 문의하세요.");
 			}

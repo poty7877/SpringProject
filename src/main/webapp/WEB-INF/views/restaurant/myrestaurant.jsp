@@ -148,7 +148,7 @@
 					<div class="panel-footer ">
 						<div class="clearfix" style="text-align: right;">
 							<button data-oper="modify" class="btn btn-primary" >수정하기</button>
-							<button data-oper="delete" class="btn btn-default" >회원탈퇴(구현중)</button>
+							<button data-oper="delete" class="btn btn-default" >회원탈퇴</button>
 						</div>
 						<!-- .right clearfix -->
 					</div>
