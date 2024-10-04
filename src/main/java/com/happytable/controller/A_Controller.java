@@ -56,19 +56,23 @@ public class A_Controller {
 		}
 		
 		MemberVO member = new MemberVO();
-		log.info(point);
-		if(point!=null & point !="") {
-			a_Note = a_Note +  " / 사용포인트 : " + point ;
-			
+		member.setMemUno(appoint.getMemUno());
+		member = mem_Service.getMem(appoint.getMemUno());
+		
 		log.info(pay);
 		if(pay!= null & pay!="") {
 			a_Note = a_Note + " / 예약금 : " + pay ;
 		}
 		
+		log.info(point);
+		if(point!=null & point !="") {
+			a_Note = a_Note +  " / 사용포인트 : " + point ;
+			
+		
+		
 		//포인트 차감
 		
-		member.setMemUno(appoint.getMemUno());
-		member = mem_Service.getMem(appoint.getMemUno());
+		
 		log.info("포인트 정보 : " + member.toString());
 		log.info("마이너스 포인트 : " + point);
 		Long minusPoint = Long.parseLong(point);
@@ -86,6 +90,8 @@ public class A_Controller {
 		mem_Service.point(member);		
 			
 		}
+		
+		log.info("메모 내용 : " + a_Note);
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
 		appoint.setA_Note(a_Note); // a_Note값 객체에 추가		 
 		// 등록 메서드 실행, 성공시 결과값 1
@@ -273,7 +279,7 @@ public class A_Controller {
 			}
 		}
 		
-		String rest_day_log = "테스트";
+		String rest_day_log = "연중무휴";
 		if(m_w_day != "") {
 			rest_day_log = "이번달 휴일은 " + m_w_day;
 		} else if (oper.getOper().getDayoff_cate().equals("매주")) {

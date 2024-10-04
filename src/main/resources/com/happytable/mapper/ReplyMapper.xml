@@ -40,7 +40,7 @@
   				and rownum <=#{cri.pageNum} * #{cri.amount}
   				
   		)
-  		where rn > (#{cri.pageNum}-1) * #{cri.amount}
+  		where rn > (#{cri.pageNum}-1) * #{cri.amount} 
   	]]>
 	</select>
 
@@ -60,6 +60,10 @@
 		update tb_reply set ratingAvg = #{ratingAvg} where
 		resNum = #{resNum}
 	</update>
+
+	<delete id="allDelete">
+		delete from tb_reply where resNum = #{resNum}
+	</delete>
 
 </mapper>
 

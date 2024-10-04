@@ -49,6 +49,7 @@ public class A_RestController {
 		Map<String, Object> response = new HashMap<>();
 		
 		int personB = Integer.valueOf(adPayCond);
+		if(personB!=0) {
 		log.info("식당 예약금 기준 사람 수 : " + personB);
 		int personC = Integer.valueOf(person);
 		log.info("식당 예약 사람 수 : " + personC);
@@ -61,7 +62,10 @@ public class A_RestController {
 		} else {
 			response.put("status",  "error");
 			response.put("message", "보유하신 포인트 내에서 입력해주세요");
-		}	
+		}} else {
+			response.put("message", "제한 없음.");
+		};
+		
 		
 		return response;
 	}

@@ -181,6 +181,7 @@
 				formObj.attr("action", "/order/insert") // action변경
 						.attr("method", "post"); // method는 post로
 				formObj.submit(); // 폼 제출
+			
 			} else if (operation === 'modal') { // modal이면
 				formObj.attr("action", "/") // action홈으로 변경
 						.attr("method","get") // method는 get으로
@@ -212,18 +213,28 @@
 	</script>
 
 	<script type="text/javascript">
+	
+	
 	$(document).ready(function() {
 	var pointValid = false;
+	var dateValid =  false;
+	
 	var pointInput = $("#point");
 	var pointError = $("#pointError");
 	var $subBtn = $("#subBtn");
+	updateSubmitButtonState();
 	
 	function updateSubmitButtonState() { // 버튼 활성화하는 기능
-		
-		if (pointValid) { // 이메일, 닉네임값이 중복체크를 통과하면
+		if (dateValid){
+			$subBtn.prop("disabled", false); // 버튼 활성화
+		} else {
+			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
+		}
+	
+		if (pointValid) { 
 			$subBtn.prop("disabled", false); // 버튼 활성화
 		} else {// 아니면
-			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
+			$subBtn.prop("disabled", true);
 		}
 	}
 	
@@ -303,25 +314,20 @@
 	
 	var beforePay = $("#beforePay");
 	var afterPay = $("#afterPay");	
+	var adPay = $("#adPay");
+	var pay;
 	$("#pay").on("click", function(){
 		console.log("결제 시스템 작동")
 		
 		beforePay.css("display", "none");
 		afterPay.css("display", "flex");		
 		pointValid = true;
+		pay = adPay;
 		updateSubmitButtonState();
 		
 	}); 
 	
-		
-	
-	});
-	</script>
 
-	<script>
-	
-	
-	
 	$(function() {	
 		console.log(${rest_day});
 		$('#datePicker').datepicker({
@@ -337,13 +343,13 @@
 		    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
 		    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
 		    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-		    
 		});//datepicker end
+		dateValid = true;
 	});//ready end
+		
 	
-	
+	});
 	</script>
-
 
 
 	<%@ include file="../includes/footer.jsp"%>

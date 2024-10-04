@@ -69,6 +69,8 @@ String loggedInStr2 = (loggedIn2 != null && loggedIn2) ? "true" : "false";
 			<ul class="nav navbar-top-links navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" href="/"> 홈
 				</a>
+				<li class="dropdown"><a class="dropdown-toggle" href="/restaurant/get?resNum=${ loginResNum }"> 내 홈페이지
+				</a>
 				<li id="mypage" class="dropdown"><a class="dropdown-toggle"
 					href="/restaurant/myrestaurant?resNum=${ loginResNum }"> 내정보 </a>
 				<li id="checkrev" class="dropdown"><a class="dropdown-toggle"

@@ -19,6 +19,7 @@ import com.happytable.domain.RestaurantVO;
 import com.happytable.service.GuestAlrService;
 import com.happytable.service.MemberService;
 import com.happytable.service.RestAlrService;
+import com.happytable.service.RestaurantService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -53,6 +54,7 @@ public class MemberController {
 	}
 
 	private MemberService service;
+	
 	private GuestAlrService gaservice;
 	private RestAlrService raservice;
 
@@ -75,11 +77,16 @@ public class MemberController {
 	public String login(MemberVO memberVO, Model model, RedirectAttributes rttr, HttpSession session) {
 		MemberVO loginMember = service.login(memberVO); // 로그인 메서드 실행 (id,pw로 객체찾기)
 		if (loginMember != null) { // 일치하는 객체가 있어, loginMember가 null이 아니면,
-
+			if(loginMember.getEmail().equals("admin")) {
+				rttr.addFlashAttribute("result2", loginMember.getNickName()); // 홈으로 redirect할때 멤버의 NickName을 가져감
+				session.setAttribute("loginMember", loginMember); // 세션에 loginMember객체를 추가
+				session.setAttribute("loggedIn", true); // 세션에 로그인한 상태를 유지하는 값 추가
+				session.setAttribute("loggedIn3", true);
+			}
 			rttr.addFlashAttribute("result2", loginMember.getNickName()); // 홈으로 redirect할때 멤버의 NickName을 가져감
 			session.setAttribute("loginMember", loginMember); // 세션에 loginMember객체를 추가
 			session.setAttribute("loggedIn", true); // 세션에 로그인한 상태를 유지하는 값 추가
-
+			
 		} else { // 일치하는 객체가 없어 loginMember가 null이면
 			rttr.addFlashAttribute("loginError", "이메일,비밀번호 입력오류."); // member/login으로 redirect할때 에러메시지 가져감
 			return "redirect:/member/login"; // member/login으로 redirect
@@ -159,6 +166,7 @@ public class MemberController {
 		}
 
 	}
+	
 
 
 

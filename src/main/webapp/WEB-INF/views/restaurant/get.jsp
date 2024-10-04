@@ -198,25 +198,27 @@
 							</div>
 							<ul class="menu-list">
 								<!-- 컨트롤러에서 보낸 menuList를 변수 menu로 사용 -->
+								<c:forEach var="menuimgs" items="${menuimgs}">
 
+									<input type="hidden" id="menu_resNum" name="resNum"
+										value="${resVO.resNum}">
+									<input type="hidden" class="filedata"
+										data-path="${menuimgs.folderName}"
+										data-fname="${menuimgs.saveName}">
+
+								</c:forEach>
 								<c:forEach items="${ menus }" var="menu">
 									<li class="menu-item">
 										<div class="item">
 											<div>
-												<c:forEach var="menuimgs" items="${menuimgs}">
-													<div class="imagebox" id="imageBox"
-														style="height: 230px; display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom:50px;">
-														<div class="inbox" id="preview" style="height: 100%;">
-															<div class="hasimg">
-																<input type="hidden" id="menu_resNum" name="resNum"
-																	value="${resVO.resNum}"> <input type="hidden"
-																	class="filedata" data-path="${menuimgs.folderName}"
-																	data-fname="${menuimgs.saveName}">
-															</div>
-														</div>
+												<div class="imagebox" id="imageBox"
+													style="height: 230px; display: flex; align-items: center; justify-content: center; text-align: center; margin-bottom: 50px;">
+													<div class="inbox" id="preview" style="height: 100%;">
+														<div class="hasimg"></div>
+														<!-- preview: 미리보기 이미지 보이는 공간 -->
 													</div>
-												</c:forEach>
-												<!-- preview: 미리보기 이미지 보이는 공간 -->
+
+												</div>
 												<h3>${ menu.menuName }</h3>
 												<div class="border-bottom"></div>
 												<span>${ menu.unitCost } 원</span></br> <span>주재료 : ${ menu.mainIngredient }
@@ -355,7 +357,7 @@
         }
     </script>
 
-	
+
 
 
 	<script>
@@ -372,7 +374,7 @@
 		/* 외부파일
 		include용 */
 	</script>
-	
+
 	<script type="text/javascript" src="../resources/js/get.js">
 		/* 외부파일
 		include용 */

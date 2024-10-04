@@ -27,8 +27,8 @@ create sequence seq_member;
 drop sequence seq_member;
 
 
-insert into tb_member(mno, name, phone, email, birth, nickName, pw)
-values(seq_member.nextval, '1234', '1234', '1234@123', '1234', '1234', '1234');
+insert into tb_member(mno, name, phone, email, birth, nickName, pw, point)
+values(seq_member.nextval, '총괄관리자', '99999999999', 'admin', '961028', '총괄관리자', 'admin', 1000);
 insert into tb_member(mno, name, phone, email, birth, nickName, pw)
 values(seq_member.nextval, 'ddd', 'dddddddd', 'ddd@1234', '777777', 'dadsddd', '1234');
 insert into tb_member(mno, name, phone, email, birth, nickName, pw)
@@ -44,7 +44,7 @@ alter table tb_member add pw varchar2(50) not null;
 select* from tb_menuimg;
 
 
-
+ALTER TABLE resNum RENAME TO tb_resNum;
 
 CREATE SEQUENCE seq_member_Uno
 START WITH 10000000
@@ -252,8 +252,10 @@ insert into tb_reply (rno, resNum, reply, replyer)
 		insert into tb_reply (rno, resNum, reply, replyer)
 		values (seq_reply.nextval,  '10000002tes', '댓글6', 'kkw');
 		
+		select * from tb_restaurant;
 		
-insert into tb_reply (rno, resNum, reply, replyer, rating) values (seq_reply.nextval, '10000118adm', '새우가 톡쏘고 살짝 매콤한게 아주 맛있어요', '새우 알레르기', 5);
+insert into tb_reply (rno, resNum, reply, replyer, rating) 
+values (seq_reply.nextval, '10000181adm', '너무 맛있어요', '홍길동', 5);
 update tb_reply set reply = '도미솥밥 맛있어요' where rno = 92;
 update tb_reply set replyer = '문지현' where rno = 92;
 select * from tb_reply;
@@ -412,7 +414,7 @@ END;
 CREATE OR REPLACE TRIGGER guest_update_trigger
 AFTER UPDATE OF A_status ON tb_appointment
 FOR EACH ROW
-WHEN (NEW.A_status IN ('예약 확정', '예약 취소'))
+WHEN (NEW.A_status IN ('예약 확정', '예약 취소', '노쇼'))
 BEGIN
     UPDATE tb_guest_alr
     SET count = count + 1
@@ -431,5 +433,27 @@ drop trigger guest_update_trigger
 
 ALTER TRIGGER HAPPY.GUEST_ALR_TRIGGER COMPILE;
 
+select * from tb_menu;
+
+create table resNum (
+resNum varchar2(100)
+);
+
+ALTER TABLE resNum
+ADD CONSTRAINT pk_resNum PRIMARY KEY (resNum);
 
 
+
+select * from tb_restaurant;
+select * from resNum;
+INSERT INTO resNum (resNum) VALUES ('10000105tes');
+INSERT INTO resNum (resNum) VALUES ('10000109adm');
+INSERT INTO resNum (resNum) VALUES ('10000112hui');
+INSERT INTO resNum (resNum) VALUES ('10000117sus');
+INSERT INTO resNum (resNum) VALUES ('10000118adm');
+INSERT INTO resNum (resNum) VALUES ('10000120rol');
+INSERT INTO resNum (resNum) VALUES ('10000140adm');
+INSERT INTO resNum (resNum) VALUES ('10000141adm');
+INSERT INTO resNum (resNum) VALUES ('10000155asd');
+INSERT INTO resNum (resNum) VALUES ('10000181adm');
+INSERT INTO resNum (resNum) VALUES ('10000121rab');

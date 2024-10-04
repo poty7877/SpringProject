@@ -39,6 +39,7 @@ import com.happytable.domain.SalesVO;
 import com.happytable.service.MenuImageService;
 import com.happytable.service.MenuService;
 import com.happytable.service.OperationsService;
+import com.happytable.service.PortingResnumService;
 import com.happytable.service.RestaurantService;
 import com.happytable.service.SalesService;
 
@@ -61,6 +62,8 @@ public class RestaurantController {
 	private MenuService serviceMenu;
 	@Setter(onMethod_ = @Autowired)
 	private MenuImageService serviceMimg;
+	@Setter(onMethod_ = @Autowired)
+	private PortingResnumService serPorting;
 	// 아이디 중복체크
 	@PostMapping(value = "/idcheck", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> idCheck(@RequestBody RestaurantVO vo) {
@@ -124,14 +127,16 @@ public class RestaurantController {
 
 	}
 
-	// 테이블 등록(건별-수정페이지에서)
-	@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> regOneTable(@RequestBody SalesVO table) {
-		log.info("test 받은 data:" + table);
-		int result = serviceSal.register(table);
-		return result == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
-				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+	// 테이블 등록(건별-수정페이지에서) --**10/01수정
+		@PostMapping(value = "/regonetable", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<SalesVO> regOneTable(@RequestBody SalesVO table) {
+			log.info("test 받은 data:" + table);
+			int result = serviceSal.register(table);
+			//rttr.addFlashAttribute("newTable", table);
+			log.info("-------test 등록한 table:" + table);
+			return result == 1 ? new ResponseEntity<>(table, HttpStatus.OK)
+					: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 
 	// 메뉴리스트 가져오기 -사용안함
@@ -407,6 +412,31 @@ public class RestaurantController {
 			img.setOriginName(originName);
 			img.setSaveName(now + "_" + fname); // yyyyMMdd_fisho.jpg
 			return img;
+		}
+		
+		//--------**10/02추가 : tb_resnum(porting)
+		//포팅 - 서비스 사이트 등록
+		@GetMapping(value = "/porting/{resNum}")  
+		public ResponseEntity<String> porting(@PathVariable("resNum") String resNum){
+			boolean result = serPorting.porting(resNum);
+			return result? new ResponseEntity<>("success", HttpStatus.OK):
+				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		//삭제 - 서비스 사이트에서 내리기
+		@DeleteMapping(value = "/stopservice/{resNum}")
+		public ResponseEntity<String> stopService(@PathVariable("resNum") String resNum){
+			boolean result = serPorting.remove(resNum);
+			return result? new ResponseEntity<>("success", HttpStatus.OK):
+				new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		//서비스사이트 등록조회
+		@GetMapping(value = "/checkservice/{resNum}", produces = MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<Integer> checkService(@PathVariable("resNum") String resNum){
+			int result = serPorting.checkResNum(resNum);
+			log.info("========= resnum 등록 개수 조회결과 : " + result);
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 
 
