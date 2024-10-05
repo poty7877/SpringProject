@@ -31,7 +31,7 @@ $(document).ready(function() {
 		var selNamebox = $("#dayoff").find("input[name=" + selID + "]");
 		selNamebox.attr("value", selval);
 		operView.viewDayoff();
-		//console.log("test selbox:" + selNamebox.attr("name") + selNamebox.val());
+		console.log("test selbox:" + selNamebox.attr("name") + selNamebox.val());
 	});
 
 	radiobox.on("click", function(e) {
@@ -264,16 +264,16 @@ var operView = (function() {
 		}
 		if (dayoffcateVal === "매월") { //매월 선택
 			weekSelBox.prop("disabled", false);
-			$("#dayoff_weekCnt option[value='1']").prop("selected", true);
+			//$("#dayoff_weekCnt option[value='1']").prop("selected", true);
 			daySelBox.prop("disabled", false);
-			$("#dayoff_Day option[value='월']").prop("selected", true);
+			//$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 		if (dayoffcateVal === "매주") { //매주 선택
 			weekSelBox.prop("disabled", true);
 			$("#dayoff_weekCnt option[value='-']").prop("selected", true);
 			$("#dayoff_weekCnt").val("-");
 			daySelBox.prop("disabled", false);
-			$("#dayoff_Day option[value='월']").prop("selected", true);
+			//$("#dayoff_Day option[value='월']").prop("selected", true);
 		}
 	}
 

@@ -4,6 +4,7 @@ package com.happytable.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,8 +66,8 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		return result;
 	}
 
-	@PostMapping("/login") // member 페이지 로그인용
-	public String login(RestaurantVO rest, Model model, RedirectAttributes rttr) { // req : 세션생성용
+	@PostMapping("/login") // member 페이지 로그인용 --**10/02 수정
+	public String login(HttpSession session, RestaurantVO rest, Model model, RedirectAttributes rttr) { // req : 세션생성용
 		String id = rest.getResID();
 		String pw = rest.getResPW();
 		log.info("test : 로그인 계정:" + id + "/" + pw);
@@ -76,9 +77,9 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 			String resNum = serviceRest.login(id, pw);
 			RestaurantVO restVO = serviceRest.get(resNum);
 			// session생성
-			model.addAttribute("loginMember2", restVO.getResName());// 레스토랑 이름
-			model.addAttribute("loginResNum", restVO.getResNum()); // resNum
-			model.addAttribute("loggedIn2", true);
+			session.setAttribute("loginMember2", restVO.getResName());// 레스토랑 이름
+			session.setAttribute("loggedIn2", true);
+			session.setAttribute("loginResNum", restVO.getResNum());// resNum
 
 			return "redirect:/";
 		} else {
@@ -292,6 +293,13 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
 	}
 	
+	
+	// 로그아웃 --**10/02 추가
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 
 
 }
