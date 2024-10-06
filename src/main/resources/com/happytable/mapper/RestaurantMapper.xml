@@ -5,82 +5,85 @@
 
 <mapper namespace="com.happytable.mapper.RestaurantMapper">
 	<!-- //C : 레스토랑 정보등록 -->
-  <insert id="insert">
-  	<selectKey keyProperty="resNum" order="BEFORE" resultType="string">
+	<insert id="insert">
+		<selectKey keyProperty="resNum" order="BEFORE"
+			resultType="string">
   	<![CDATA[
   	select res_seq.nextval || substr(#{resID}, 1, 3) from dual
   	]]>
-  	</selectKey>
+		</selectKey>
   	<![CDATA[
   	insert into tb_restaurant (resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, resPhone) values (#{resID}, #{resPW}, #{resNum}, #{resName}, #{resAddr}, #{co_Num}, #{certify}, #{summary}, #{resPhone})
   	]]>
-  </insert>
-  <!-- R : 레스토랑 정보 확인 read -->
-  <select id="readByResnum" resultType="com.happytable.domain.RestaurantVO">
+	</insert>
+	<!-- R : 레스토랑 정보 확인 read -->
+	<select id="readByResnum"
+		resultType="com.happytable.domain.RestaurantVO">
   	<![CDATA[
   	select * from tb_restaurant where resNum = #{resNum}
   	]]>
-  </select>
-  
-  <!-- U : 레스토랑 정보 변경 update -->
-  <update id="update">
+	</select>
+
+	<!-- U : 레스토랑 정보 변경 update -->
+	<update id="update">
   	<![CDATA[
   	update tb_restaurant set resPW = #{resPW}, resName = #{resName}, resAddr = #{resAddr}, co_Num = #{co_Num}, certify = #{certify}, summary = #{summary}, resPhone = #{resPhone} where resNum = #{resNum}
-  	]]>  
-  </update>
-  <!--D : 레스토랑 탈퇴 delete  -->
-  <delete id="delete">
+  	]]>
+	</update>
+	<!--D : 레스토랑 탈퇴 delete -->
+	<delete id="delete">
   	<![CDATA[
   	delete from tb_restaurant where resNum = #{resNum}
-  	]]>  
-  </delete>
-  
-  <!-- R_all : 모든 레스토랑 리스트  -->
- <select id="resList" resultType="com.happytable.domain.RestaurantVO">
+  	]]>
+	</delete>
+
+	<!-- R_all : 모든 레스토랑 리스트 -->
+	<select id="resList"
+		resultType="com.happytable.domain.RestaurantVO">
   	<![CDATA[
   	select * from tb_restaurant order by resNum desc
   	]]>
-  </select> 
-  
-    <!--아이디 중복확인  -->
- <select id="dupleCheck" resultType="int">
+	</select>
+
+	<!--아이디 중복확인 -->
+	<select id="dupleCheck" resultType="int">
   	<![CDATA[
   	select count(*) from tb_restaurant where resID = #{resID}
   	]]>
-  </select> 
-  
-  <!-- 로그인 : id+pw ->resNum(**09/07 수정)-->
-  <select id="login" resultType="string">
+	</select>
+
+	<!-- 로그인 : id+pw ->resNum(**09/07 수정) -->
+	<select id="login" resultType="string">
   	<![CDATA[
   	select resNum from tb_restaurant where resID = #{resID} and resPW = #{resPW}
   	]]>
-  </select>  
-  
-  <!-- 로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가)-->
-  <select id="loginChech" resultType="int">
+	</select>
+
+	<!-- 로그인(계정확인용) : id+pw ->count(resNum)=> int(**09/07 추가) -->
+	<select id="loginChech" resultType="int">
   	<![CDATA[
   	select count(resNum) from tb_restaurant where resID = #{resID} and resPW = #{resPW}
   	]]>
-  </select> 
- 
- <!-- 등록정보 개수 업데이트 -->
- <update id="updateOperCnt">
+	</select>
+
+	<!-- 등록정보 개수 업데이트 -->
+	<update id="updateOperCnt">
  	<![CDATA[
  	update tb_restaurant set cntOper = #{cntOper} where resNum = #{resNum}
  	]]>
- </update>  
- 
-  <update id="updateTableCnt">
+	</update>
+
+	<update id="updateTableCnt">
  	<![CDATA[
  	update tb_restaurant set cntTable = #{cntTable} where resNum = #{resNum}
  	]]>
- </update>  
- 
-  <update id="updateMenuCnt">
+	</update>
+
+	<update id="updateMenuCnt">
  	<![CDATA[
  	update tb_restaurant set cntMenu = #{cntMenu} where resNum = #{resNum}
  	]]>
- </update>  
+	</update>
 
 	<!-- 2024/09/05 용상엽 추가(페이징) -->
 	<select id="getTotalCount" resultType="int">
@@ -109,49 +112,47 @@
 		</trim>
 	</sql>
 
-	<select id="getListWithPaging" resultType="com.happytable.domain.RestaurantVO">
-  <![CDATA[
-  select 
-    resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate, resPhone
-  from 
-      (
-      select /*+INDEX_DESC(tb_restaurant pk_restaurant) */
-        rownum rn, r.resID, r.resPW, r.resNum, r.resName, r.resAddr, r.co_Num, r.certify, r.summary, r.regDate, r.resPhone
-      from 
-        tb_restaurant r
-      where
-      EXISTS (
-      	SELECT * from tb_resNum rnn where r.resNum = rnn.resNum
-      ) 
-  ]]>
-
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+	<select id="getListWithPaging"
+		resultType="com.happytable.domain.RestaurantVO">
+		SELECT
+		resID, resPW, resNum, resName, resAddr, co_Num, certify, summary, regDate,
+		resPhone
+		FROM
+		(
+		SELECT /*+INDEX_DESC(tb_restaurant pk_restaurant) */
+		rownum rn, r.resID, r.resPW, r.resNum, r.resName, r.resAddr, r.co_Num,
+		r.certify, r.summary, r.regDate, r.resPhone
+		FROM
+		tb_restaurant r
+		WHERE
+		EXISTS (
+		SELECT * FROM tb_resNum rnn WHERE r.resNum = rnn.resNum
+		)
+		<trim prefix="and (" suffix=")" prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
 				<trim prefix="OR">
 					<choose>
 						<when test="type == 'T'.toString()">
-							resName like '%'||#{keyword}||'%'
+							resName LIKE '%' || #{keyword} || '%'
 						</when>
 						<when test="type == 'C'.toString()">
-							resAddr like '%'||#{keyword}||'%'
+							resAddr LIKE '%' || #{keyword} || '%'
 						</when>
 						<when test="type == 'W'.toString()">
-							resPhone like '%'||#{keyword}||'%'
+							resPhone LIKE '%' || #{keyword} || '%'
 						</when>
 					</choose>
 				</trim>
 			</foreach>
 		</trim>
-     
-  <![CDATA[    
-       and rownum <= #{pageNum} * #{amount}
+      <![CDATA[
+      AND rownum <= #{pageNum} * #{amount}
       )
-  where rn > (#{pageNum} -1) * #{amount} 
-  ]]>
-   
-</select>
+      WHERE rn > (#{pageNum} - 1) * #{amount} 
+      ]]>
+	</select>
 
- 
+
 
 
 

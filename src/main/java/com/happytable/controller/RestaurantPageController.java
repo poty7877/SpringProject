@@ -353,6 +353,14 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		model.addAttribute("menu", serviceMenu.get(menuNum));
 		model.addAttribute("menuImg", serviceMimg.getImage(menuNum));
 	}
+	
+
+	// 로그아웃 --**10/02 추가
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

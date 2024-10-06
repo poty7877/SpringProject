@@ -273,7 +273,7 @@ public class A_Controller {
 			}
 		}
 		
-		String rest_day_log = "테스트";
+		String rest_day_log = "연중무휴";
 		if(m_w_day != "") {
 			rest_day_log = "이번달 휴일은 " + m_w_day;
 		} else if (oper.getOper().getDayoff_cate().equals("매주")) {
