@@ -12,14 +12,13 @@
 - [기술 스택](https://github.com//poty7877/SpringProject#-기술-스택)
 - [프로젝트 설계](https://github.com//poty7877/SpringProject#프로젝트-설계)
 - [핵심 기능](https://github.com//poty7877/SpringProject#-핵심-기능)
-- [주요기능 실행화면](https://github.com//poty7877/SpringProject#-주요기능-실행화면)
 - [개선사항](https://github.com//poty7877/SpringProject#-개선사항)
   
 
 
 ## 🚩 개요
 - 프로젝트 목표 : `Spring Legacy` 온라인 예약 프로젝트
-- 개발기간 : 24/09/02 ~ 24/09/26
+- 개발기간 : 24/09/02 ~ 24/10/06
 
 
 
@@ -36,56 +35,67 @@
 <details><summary>프로젝트 설계, 구현, PPT 눌러서 확인</summary>   
 <div align="center">   
 
-
-![image](https://github.com/user-attachments/assets/976aafc8-7d09-428e-b9ce-7614abca6a8e)
-![image](https://github.com/user-attachments/assets/ef4db12d-3342-4d14-beca-c9b8ba5959ba)
-![image](https://github.com/user-attachments/assets/11a64ff0-01e4-4a00-922b-e135462f2f1a)
-![image](https://github.com/user-attachments/assets/3abc9459-9817-401e-85ae-4cba78fa561f)
-![image](https://github.com/user-attachments/assets/37068cc2-eb3e-4312-8cd8-67eab1027e29)
-![image](https://github.com/user-attachments/assets/4a3039c1-5126-4667-bc80-fd6c13cae1ed)
-![image](https://github.com/user-attachments/assets/2d89edab-fa87-48c4-aee8-d68cea2a168e)
-![image](https://github.com/user-attachments/assets/1e9d07fe-2a67-44e5-8042-bf88e17842a7)
-![image](https://github.com/user-attachments/assets/36296ce4-38ca-48fc-be44-50c40beb3e4d)
-![image](https://github.com/user-attachments/assets/7e5c132b-547b-403a-972c-e1a124a060a7)
-![image](https://github.com/user-attachments/assets/f6d6d757-9069-4891-8104-4b73ac37b626)
-![image](https://github.com/user-attachments/assets/2ca08011-fe18-4239-ae01-d754c82acf2b)
-![image](https://github.com/user-attachments/assets/b03acf7a-7906-4da6-9c8b-351d54f769b7)
-![image](https://github.com/user-attachments/assets/c05960fd-1d58-4b9c-9945-8ca80461f720)
-![image](https://github.com/user-attachments/assets/cb96f4df-7620-46e6-9376-10de4d2127e8)
-![image](https://github.com/user-attachments/assets/6d650493-1958-46a7-a585-c1c4d284a669)
-![image](https://github.com/user-attachments/assets/4dabc61c-0548-4201-b347-cb37f61221bc)
-![image](https://github.com/user-attachments/assets/981e8edc-3ef5-4a81-83d2-e41ca92e7a40)
-![image](https://github.com/user-attachments/assets/4bae7c80-bc1a-47a8-894d-f5e5c9391f75)
-![image](https://github.com/user-attachments/assets/80f8a2f9-c678-45f5-adc5-7766d8b06294)
-![image](https://github.com/user-attachments/assets/04f1a5f8-d211-47fd-8a17-1151ae25e9d5)
-![image](https://github.com/user-attachments/assets/2ba746a2-33be-40a8-acec-899c2d82f058)
-![image](https://github.com/user-attachments/assets/fc35b8b2-071f-4934-8441-d7b05cd1b5dc)
-![image](https://github.com/user-attachments/assets/2cd2997e-d094-4726-a767-fa3b32ce198e)
-![image](https://github.com/user-attachments/assets/a84a7348-22d2-4a45-869e-787dec535881)
-![image](https://github.com/user-attachments/assets/c4d7ac5a-34a4-428d-866f-b1b2056e6854)
-![image](https://github.com/user-attachments/assets/1dadb902-3861-4f81-b9f6-293dd4780308)
-![image](https://github.com/user-attachments/assets/c5997d41-4efa-4b24-8944-aaac4263d525)
-![image](https://github.com/user-attachments/assets/7dc7fc9d-2e76-4f7a-9405-8dfda8502c1c)
-![image](https://github.com/user-attachments/assets/537d964c-f85e-4764-bde5-1d8070ba9ea2)
-![image](https://github.com/user-attachments/assets/dd9ea999-bd3e-45c4-a5f6-0bb73dc3b4cd)
-![image](https://github.com/user-attachments/assets/1e9951b7-e171-4081-ae41-b8f2a1c686bd)
-![image](https://github.com/user-attachments/assets/f566c610-789d-46c9-ac48-2e284fa9e87a)
-![image](https://github.com/user-attachments/assets/23c89091-a030-459f-b6b6-6cefe9d8fc66)
-![image](https://github.com/user-attachments/assets/494839c4-f53f-4321-931d-051575802aaa)
-![image](https://github.com/user-attachments/assets/2b83f13a-e877-4db1-8928-0cb6e6768001)
-![image](https://github.com/user-attachments/assets/bc461e48-15b8-40e3-8c40-bda8160f4526)
-![image](https://github.com/user-attachments/assets/6005fe25-14ce-4d4b-a7cb-9c0583d34ce6)
-![image](https://github.com/user-attachments/assets/7f2029cc-d9d0-4dc0-916d-53570c3b426a)
-![image](https://github.com/user-attachments/assets/f41a3812-6001-4ade-9890-1fd59bcccb1d)
-![image](https://github.com/user-attachments/assets/5c51f99d-37e9-4916-b92a-4e1a61519754)
-![image](https://github.com/user-attachments/assets/e5d86f1a-c510-417d-bec7-a76683395e8d)
-![image](https://github.com/user-attachments/assets/ca2b5ccb-e949-4e32-8660-db21f0762859)
-![image](https://github.com/user-attachments/assets/2e152c0a-581f-4fe6-9fcd-fea58b8ebe4e)
-![image](https://github.com/user-attachments/assets/699b29f4-e029-4815-b249-ec15f29e29da)
-![image](https://github.com/user-attachments/assets/171ed81c-5815-4ad2-840b-dcf9f507f04d)
-![image](https://github.com/user-attachments/assets/e655c350-7e71-4e69-a2ca-f63cbb0954c4)
-![image](https://github.com/user-attachments/assets/bc7ccc90-b22f-4749-8a4d-aaa03eda2809)
-![image](https://github.com/user-attachments/assets/354832a2-ce70-4544-af4d-1d1b87275eeb)
+![image](https://github.com/user-attachments/assets/3821b9bd-9252-4ce6-ad7c-f073a8637616)
+![image](https://github.com/user-attachments/assets/4f53919b-6cd8-46e1-9f5b-9f333e19f1f9)
+![image](https://github.com/user-attachments/assets/e0b63d5e-a63c-4009-9e2f-e4a41ad2ef98)
+![image](https://github.com/user-attachments/assets/93a09e03-c36b-41bc-a518-6aca6a13df05)
+![image](https://github.com/user-attachments/assets/040ea2b9-4cbd-45fb-8ed8-b6be6d8c5432)
+![image](https://github.com/user-attachments/assets/576c510a-91ee-4f5f-8f9a-d44f55b633d9)
+![image](https://github.com/user-attachments/assets/01ed3126-e00d-4b86-8d46-86bd3b944cc7)
+![image](https://github.com/user-attachments/assets/ed9f1868-63ec-4ad4-94cb-2fc7fd05d065)
+![image](https://github.com/user-attachments/assets/baf62481-d67d-4783-8bcd-e3f0902a70d8)
+![image](https://github.com/user-attachments/assets/6768aacf-c01e-4e2f-8b4e-068e00171927)
+![image](https://github.com/user-attachments/assets/bb803196-661e-4b4d-b209-b499202f426b)
+![image](https://github.com/user-attachments/assets/1c3ebadd-9e0a-4fcb-85c9-d68497391422)
+![image](https://github.com/user-attachments/assets/94704ba3-c1df-4e3d-bae4-01211278031e)
+![image](https://github.com/user-attachments/assets/9007a73c-b462-4b9a-8153-ea4447bfab4e)
+![image](https://github.com/user-attachments/assets/82bf572c-f59c-4bca-8d51-c9cec24e3a16)
+![image](https://github.com/user-attachments/assets/716e981a-72ba-454e-acc0-3039606a5bd2)
+![image](https://github.com/user-attachments/assets/e3db906b-ed34-4cba-912e-b36370ff19b7)
+![image](https://github.com/user-attachments/assets/cb87840a-3b20-44e8-b354-2cd57238426d)
+![image](https://github.com/user-attachments/assets/fd7e8524-29ec-4b2d-9a28-4a9762a2a3b3)
+![image](https://github.com/user-attachments/assets/a8d07ec3-4ec6-498e-a470-8ce46b2f24c3)
+![image](https://github.com/user-attachments/assets/42ded6a5-8fec-43e4-ac0f-598bd449f732)
+![image](https://github.com/user-attachments/assets/619abc5d-7a87-4a94-934e-75b8e507e5a3)
+![image](https://github.com/user-attachments/assets/4d6953f5-5e15-4cf2-874c-ba3518ee8dfb)
+![image](https://github.com/user-attachments/assets/adfb6f30-dade-4b99-8bbc-08f8d03c9473)
+![image](https://github.com/user-attachments/assets/a67e179b-fb1d-49a0-a83d-0dbfc4941a45)
+![image](https://github.com/user-attachments/assets/5b52ee77-1268-4ee4-aa29-c75bd498fdd4)
+![image](https://github.com/user-attachments/assets/18fdec6c-e297-4f40-9118-823cd4909172)
+![image](https://github.com/user-attachments/assets/796331c9-2c40-44d8-b4cf-593a38486672)
+![image](https://github.com/user-attachments/assets/39839bdc-9123-49c9-83db-18483d71f588)
+![image](https://github.com/user-attachments/assets/23d72afd-0897-402f-a3df-2d15c265edf9)
+![image](https://github.com/user-attachments/assets/1b622689-282c-4ae7-a419-ca8aa7157461)
+![image](https://github.com/user-attachments/assets/e145e503-8251-4cac-9a2f-11190e957398)
+![image](https://github.com/user-attachments/assets/a6827e1a-06b0-4eac-afe2-791e793b0c04)
+![image](https://github.com/user-attachments/assets/4b36ed7f-785c-4f86-b9bc-414e20f15d15)
+![image](https://github.com/user-attachments/assets/d9dbb809-e2d5-4404-9007-776c5af70cf0)
+![image](https://github.com/user-attachments/assets/5d90401e-7eef-451f-ab6e-43176ceaa2a9)
+![image](https://github.com/user-attachments/assets/ec220cbf-ad2c-42c2-b38e-3f950d27e0fb)
+![image](https://github.com/user-attachments/assets/d12f93e9-251c-41be-9256-f0e3207df8f1)
+![image](https://github.com/user-attachments/assets/7304b639-0dd4-446d-8ca3-a5a1d445d357)
+![image](https://github.com/user-attachments/assets/405df785-de35-4193-a9b4-8d6c3dadc6a1)
+![image](https://github.com/user-attachments/assets/178b6427-6700-4fe8-aa0d-27463e6bec04)
+![image](https://github.com/user-attachments/assets/39462a8f-9081-445d-88b0-0f7ff7c5bb88)
+![image](https://github.com/user-attachments/assets/6b382b96-ce1f-4e46-b6bd-2044f8fa3890)
+![image](https://github.com/user-attachments/assets/d3439700-2a73-432e-a3fa-fc149c76db54)
+![image](https://github.com/user-attachments/assets/803596df-6633-4e61-8e1c-b42d6bb0afe7)
+![image](https://github.com/user-attachments/assets/a16048bb-ff01-421c-ac38-a47dd73e1b5c)
+![image](https://github.com/user-attachments/assets/b26daed2-b605-49e3-8800-b9e92e69b60b)
+![image](https://github.com/user-attachments/assets/5ec870cf-4801-4a5f-a4e4-a53c9f2cee63)
+![image](https://github.com/user-attachments/assets/6814db39-6d8b-43b0-ba12-876ce1c2190b)
+![image](https://github.com/user-attachments/assets/84acc850-1313-4c5c-b056-3df474faea50)
+![image](https://github.com/user-attachments/assets/44466b8f-e3c3-4294-83ba-ca0ba93aef26)
+![image](https://github.com/user-attachments/assets/cf9f5d89-6bbe-4fbd-8a7f-9d3baad35054)
+![image](https://github.com/user-attachments/assets/6fd3c470-233f-4f50-969a-c63626a9f55a)
+![image](https://github.com/user-attachments/assets/e6136418-4684-4d6e-9084-6ae62642443f)
+![image](https://github.com/user-attachments/assets/df197b67-8391-496a-8311-d768c73ef47b)
+![image](https://github.com/user-attachments/assets/e0750046-541d-4dac-9d6a-543634642582)
+![image](https://github.com/user-attachments/assets/2c05de15-e315-4de4-9f99-f6c60c965b33)
+![image](https://github.com/user-attachments/assets/4f03a6ea-a472-4eed-a760-959c94b2dbc6)
+![image](https://github.com/user-attachments/assets/70ca6449-1b81-4419-8d28-61fa99e7ae8f)
+![image](https://github.com/user-attachments/assets/fb664f05-b384-4ca1-a892-08209c71d46e)
+![image](https://github.com/user-attachments/assets/d115420d-49b4-4c0d-b66b-5e34e3405762)
 
 
 
@@ -120,24 +130,10 @@
 - 식당 예약 확인
 - 예약 상태 확인(예약중, 예약확인, 예약완료)
 
-<!--## 🎇 주요기능 실행화면
-
-<details>
-<summary> 실행화면 1 눌러서 확인</summary>
-
-
-
-</details>
-
-<details>
-<summary> 실행화면 2 눌러서 확인</summary>-->
-
 
 
 </details>
 
 
 ## 🌄 개선사항
-- 로그인 시 로그인 유지 기능 추가
 - 임시 비밀번호로 로그인한 계정은 홈화면에서 바로 비밀번호 수정으로 이동
-- 식당 메뉴 이미지 파일 등록 구현
