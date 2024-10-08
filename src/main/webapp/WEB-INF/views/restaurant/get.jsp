@@ -71,9 +71,9 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="block">
-						<img class="wow fadeInUp" data-wow-duration="300ms"
+						<!-- <img class="wow fadeInUp" data-wow-duration="300ms"
 							data-wow-delay="400ms" src="/resources/images/cooker-img.png"
-							alt="cooker-img">
+							alt="cooker-img"> -->
 						<h1 class="heading wow fadeInUp" data-wow-duration="400ms"
 							data-wow-delay="500ms">
 							<!-- 컨트롤러에서 가져온 정보 사용  -->

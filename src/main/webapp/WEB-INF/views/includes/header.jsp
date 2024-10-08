@@ -234,35 +234,24 @@ body {
 						if (loggedIn) { // 일반사용자 로그인시
 							// 예약조회 버튼의, href를 아래와 같이 변경
 							function fetchGcount() {
-								$
-										.ajax({
-											url : '/member/getGcount',
-											method : 'GET',
-											success : function(data) {
-												if (data.gcount > 0) {
-													$("#GA")
-															.html(
-																	data.gcount
-																			+ " 개의 예약상태가 변경되었습니다.");
-													$(".note-num").html(
-															data.gcount).show();
-													$("#GA").data("hasData",
-															true)
-												} else {
-													$("#GA").html(
-															"변경된 예약 상태가 없습니다.");
-													$(".note-num").hide();
-													$("#GA").data("hasData",
-															false)
-
-												}
-											}
-										});
+								$.ajax({
+									url : '/member/getGcount',
+									method : 'GET',
+									success : function(data) {
+										if (data.gcount > 0) {
+										$("#GA").html(data.gcount+ " 개의 예약상태가 변경되었습니다.");
+										$(".note-num").html(data.gcount).show();
+										$("#GA").data("hasData",true)
+										} else {
+										$("#GA").html("변경된 예약 상태가 없습니다.");
+										$(".note-num").hide();
+										$("#GA").data("hasData",false)
+										}
+									}
+								});
 							}
-
 							// 초기 호출
 							fetchGcount();
-
 							// 5초마다 호출
 							setInterval(fetchGcount, 5000);
 							$("#reservationCheck")

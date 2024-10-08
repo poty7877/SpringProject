@@ -393,18 +393,20 @@ public class RestaurantPageController { // jsp 페이지를 불러오는 경로�
 		String pw = resVO.getResPW();
 		String num = resVO.getCo_Num();
 
+		
+		// 아이디, 비밀번호, 사업자 번호가 일치하면
 		if (id.equals(resID) && pw.equals(resPW) && num.equals(co_Num)) {
-			;
-			
+			// 모든 정보삭제 (fk로 연결되어있기 때문에 자식 정보를 삭제후)
 			serviceReply.allRemove(resNum);
 			serviceMimg.removeAll(resNum);
 			serviceMenu.removeAll(resNum);
 			serviceOper.remove(resNum);
 			serviceSal.removeAll(resNum);
-
+			
+			// 부모 정보 삭제
 			boolean count = serviceRest.remove(resNum);
 			if (count) {
-				rttr.addFlashAttribute("result7", "회원탈퇴가 완료되었습니다.</br>감사합니다.");
+				rttr.addFlashAttribute("result7", "회원탈퇴가 완료되었습니다. 감사합니다.");
 				session.removeAttribute("loginMember2");
 				session.removeAttribute("loginResNum");
 				session.removeAttribute("loggedIn2");

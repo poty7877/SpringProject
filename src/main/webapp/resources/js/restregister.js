@@ -113,25 +113,25 @@ $(document).ready(function() {
 
 	// 전화번호 합치기 //**10/05추가하여 수정:유효성-자리수체크+다음칸 넘기기 */
 	var phonGroup = $(".phone input");
-	phonGroup.on("propertychange change paste input", function(){
+	phonGroup.on("propertychange change paste input", function() {
 		var frontpN = $("#phone_f").val();
 		var midpN = $("#phone_m").val();
 		var lastpN = $("#phone_l").val();
 		var resPhone = frontpN + "-" + midpN + "-" + lastpN;
 		$("#resPhone").val(resPhone);
-		if (frontpN.length == 3) { $("#phone_m").focus(); }
+		if (frontpN.length == 4) { $("#phone_m").focus(); }
 		if (midpN.length == 4) { $("#phone_l").focus(); }
 		if (lastpN.length == 4) { $("#resAddr").focus(); }
 		console.log("test:" + resPhone);
 	});
-	
-	
+
+
 	var conumGroup = $(".comun input");
-	conumGroup.on("propertychange change paste input", function(){
+	conumGroup.on("propertychange change paste input", function() {
 		var frontcN = $("#conum_f").val();
 		var midcN = $("#conum_m").val();
-		var lastcN = $("#conum_l").val();		
-		var resCoNum = frontcN + "-" + midcN + "-" + lastcN;		
+		var lastcN = $("#conum_l").val();
+		var resCoNum = frontcN + "-" + midcN + "-" + lastcN;
 		$("#co_Num").val(resCoNum);
 		if (frontcN.length == 3) { $("#conum_m").focus(); }
 		//console.log("test:" + frontcN.length);
@@ -156,4 +156,10 @@ $(document).ready(function() {
 
 
 }); //--$(document).ready
+
+$("#regBtn").on("click", function(e) {
+	e.preventDefault();
+	alert("회원가입기능이 차단되어있습니다. 테스트 계정을 이용해주세요");
+
+});
 

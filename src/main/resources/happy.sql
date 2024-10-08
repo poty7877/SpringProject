@@ -383,6 +383,8 @@ END;
 
 drop trigger res_alr_trigger
 
+
+
 CREATE OR REPLACE TRIGGER guest_alr_trigger
 AFTER INSERT ON tb_appointment
 FOR EACH ROW
@@ -441,10 +443,22 @@ resNum varchar2(100)
 
 ALTER TABLE resNum
 ADD CONSTRAINT pk_resNum PRIMARY KEY (resNum);
+SELECT *
+FROM tb_appointment
+WHERE a_note IS NULL;
+
+DELETE FROM tb_appointment
+WHERE a_note IS NULL;
 
 
+select * from tb_res_alr;
 
-select * from tb_restaurant;
+select * from tb_member;
+delete from tb_member where name ='용상엽';
+
+delete from tb_appointment where memuno = '56446272';
+select * from tb_appointment where resNum = '10000106adm';
+select * from tb_restaurant where resId = 'admin1';
 select * from resNum;
 INSERT INTO resNum (resNum) VALUES ('10000105tes');
 INSERT INTO resNum (resNum) VALUES ('10000109adm');

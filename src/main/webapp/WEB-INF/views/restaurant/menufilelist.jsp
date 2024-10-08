@@ -16,7 +16,8 @@
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-info">
 			<div class="panel-heading">My Menu<div class="button-group pull-right">
-			<button id='regMenuBtn' type="button" class="btn btn btn-success btn-xs ">메뉴추가</button>>
+			<button id='regMenuBtn' type="button" class="btn btn btn-success btn-xs ">메뉴추가</button>
+			</div>
 			</div><!-- panel-heading -->
 			<div class="panel-body">
 				<div class="listarea">

@@ -39,7 +39,7 @@
 							data-wow-delay="300ms">
 							<span>회원 가입</span>
 						</h1>
-						<form role="form" action="/member/join" method="post" id="myForm">
+						<form role="form" action="" method="post" id="myForm">
 							<div class="form-group">
 								<div class="input-group mb-3"
 									style="display: flex; justify-content: center; margin: 20px;">

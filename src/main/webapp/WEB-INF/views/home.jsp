@@ -66,18 +66,13 @@
 									<!-- Controller에서 보낸 list를 받아 변수는 restaurant로 설정 -->
 									<tr>
 										<td>${ (pageMaker.cri.pageNum - 1) * pageMaker.cri.amount + status.index + 1 }</td>
-										<!-- varStatus를 설정하고 번호 추가 -->
-										<td>${ restaurant.resName }</td>
-										<!-- 이름 -->
+										<td>${ restaurant.resName }</td><!-- 이름 -->
 										<td><a
 											href="https://www.google.co.kr/maps/search/${restaurant.resAddr }${ restaurant.resName }" target="_blank">${ restaurant.resAddr } </a></td>
-										<!-- 주소 -->
-										<td>${ restaurant.resPhone }</td>
-										<!-- 전화번호 -->
-										<td>${ restaurant.summary }</td>
-										<!-- 소개글,홍보문 -->
-										<td>${ restaurant.ave }/5</td>
-										<!-- 평점 -->
+										<!-- 주소 (클릭시 구글 지도로 이동)-->
+										<td>${ restaurant.resPhone }</td><!-- 전화번호 -->
+										<td>${ restaurant.summary }</td><!-- 소개글,홍보문 -->
+										<td>${ restaurant.ave }/5</td><!-- 평점 -->
 										<td><button id="getBtn" class="btn btn-default"
 												onclick="location.href='/restaurant/get?resNum=${restaurant.resNum}'">
 												<i class="glyphicon glyphicon-home"></i>
@@ -189,7 +184,7 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">로그인 필요</h4>
+						<h4 class="modal-title" id="myModalLabel"></h4>
 					</div>
 					<div class="modal-body">로그인 후에 회원정보를 수정 할 수 있습니다. 홈으로 돌아갑니다.</div>
 					<div class="modal-footer">

@@ -1,14 +1,9 @@
 /**
  * restmanage.js : myrestaurant.jsp
  */
-$(document).ready(function() {
-	$("#delBtn").on("click", function(e) {
-		e.preventDefault();
-		console.log("delBtn 클릭");
-		window.location.href = "/restaurant/delrest";
 
-	});
-});
+
+
 $(document).ready(function() {
 	var result = $("#common_result").val();
 	//console.log("test: modify submit 실행: " + result);

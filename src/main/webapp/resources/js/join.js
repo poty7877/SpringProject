@@ -142,7 +142,7 @@ $(document).ready(function() {
 	})
 	function updateSubmitButtonState() { // 버튼 활성화하는 기능
 	
-		if (emailValid && nickNameValid && pwValid && birthValid) { // 이메일, 닉네임값이 중복체크를 통과하면
+		if (emailValid && nickNameValid && pwValid && birthValid) { // 검증 체크를 통과하면
 			$subBtn.prop("disabled", false); // 버튼 활성화
 		} else {// 아니면
 			$subBtn.prop("disabled", true); // 하나라도 실패하면 버튼 비활성화
@@ -195,4 +195,9 @@ $(document).ready(function() {
 			return;
 		}
 	});
+	
+	$subBtn.on("click",function(e){
+		e.preventDefault();
+		alert("회원가입 기능을 차단해놨습니다. 테스트 계정을 이용해주세요");
+	})
 });

@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 		<form role="form" id="regiForm" method="post"
-			action="/restaurant/register" onsubmit="return valForm(this)">
+			action="" onsubmit="return valForm(this)">
 			<div class="panel panel-info">
 				<div class="panel-heading">기본정보 등록</div>
 				<!-- .panel-heading -->
@@ -54,7 +54,7 @@
 						<div class="form-group">
 							<label>대표 전화번호</label>
 							<div class="phone input-group" >
-								<input type="number" class="form-control" id="phone_f" name="divNum" maxlength="3"/><span class="input-group-addon">-</span> 
+								<input type="number" class="form-control" id="phone_f" name="divNum" maxlength="4"/><span class="input-group-addon">-</span> 
 								<input type="number" class="form-control" id="phone_m" name="divNum" maxlength="4"/><span class="input-group-addon">-</span> 
 								<input type="number" class="form-control" id="phone_l" name="divNum" maxlength="4"/>
 								<input type="hidden" name="resPhone" id="resPhone" />	

@@ -44,4 +44,7 @@ public interface MemberService {
 
 	// 포인트 변경
 	public int point(MemberVO memberVO);
+	
+	// 비밀번호 변경
+	
 }

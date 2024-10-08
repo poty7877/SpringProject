@@ -9,6 +9,11 @@
     ============================= -->
 
 </style>
+<style>
+.custom {
+font-size: 20px;
+}
+</style>
 <section id="footer">
 	<div class="container">
 		<div class="row">
@@ -62,8 +67,8 @@
 									<a>조원</a>
 								</h4>
 								<a href="https://github.com/jsKim-prog"  style="font-size:20px; color:black;">김지선</a>
-								<a href="https://github.com/moonji-hyun"  style="font-size:20px; color:black;">문지현</a>
 								<a href="https://github.com/hopepu"  style="font-size:20px; color:black;">조용재</a>
+								<a href="https://github.com/moonji-hyun"  style="font-size:20px; color:black;">문지현</a>
 							</li>
 						</ul>
 					</div>
@@ -88,6 +93,9 @@
 						Copyright &copy; 2024 - All Rights Reserved.Design and Developed
 						By <a href="http://www.themefisher.com">Themefisher</a>
 					</p>
+					</br>
+					<p class="custom">일반회원 테스트 id : test@test.com / pw : testtest </p>
+					<p class="custom">사업자회원 테스트 id : admin1 / pw: admin1</p>
 				</div>
 			</div>
 		</div>

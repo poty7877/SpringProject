@@ -136,7 +136,6 @@ public class MemberRestController {
 	public Map<String, Integer> getGcount(HttpSession session) {
 		MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
 		Integer gcount = gaservice.get(loginMember.getMemUno());
-
 		Map<String, Integer> response = new HashMap<String, Integer>();
 		response.put("gcount", gcount);
 		return response;

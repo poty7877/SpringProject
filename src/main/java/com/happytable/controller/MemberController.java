@@ -125,7 +125,7 @@ public class MemberController {
 			return "redirect:/member/findPW"; // findPW로 redirect
 		} else { // 정보가 일치해서 객체를 찾았으면,
 			findPw.setPw(randomString); // 찾은 객체의 비밀번호를 랜덤 글자로 변경
-			service.modify(findPw); // 메서드 이용해서 DB의 정보 변경
+			service.changePw(findPw.getMno(), randomString);// 메서드 이용해서 DB의 정보 변경
 			rttr.addFlashAttribute("randomPW", randomString); // 홈으로 redirect할때 변경된 pw 가져감
 			return "redirect:/"; // 홈으로 redirect
 		}

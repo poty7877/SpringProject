@@ -98,7 +98,7 @@
 
 								<tr>
 									<th>마일리지 사용</th>
-									<th><input class="form-control" type="number" name="point"
+									<th><input class="form-control" type="number" name="point" value="0"
 										id="point" style="margin-bottom: 10px; text-align: center;" />
 									</th>
 									<th colspan="2">

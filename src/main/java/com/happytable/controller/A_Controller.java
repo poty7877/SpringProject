@@ -41,72 +41,68 @@ public class A_Controller {
 	private MemberService mem_Service;
 
 	@PostMapping("/insert")
-	public String insert(A_VO appoint,
-			@RequestParam("date") String date,
-			@RequestParam("time") String time,
-			@RequestParam(value="table", required = false) String table,
-			@RequestParam(value="point", required = false) String point,
-			@RequestParam(value="adpay", required = false) String pay,
-			RedirectAttributes rttr, Model model, HttpSession session) {
+	public String insert(A_VO appoint, @RequestParam("date") String date, @RequestParam("time") String time,
+			@RequestParam(value = "table", required = false) String table,
+			@RequestParam(value = "point", required = false) String point,
+			@RequestParam(value = "adpay", required = false) String pay, RedirectAttributes rttr, Model model,
+			HttpSession session) {
 // date, time 값받아서 db에 저장할수있는 Date형식으로 변경
 		String a_Date = date + " " + time;
 		String a_Note = appoint.getA_Note();
-		if(table!=null) {
-			a_Note = a_Note + " / 요청테이블 : " + table ; 
+		if (table != null) {
+			a_Note = a_Note + " / 요청테이블 : " + table;
 		}
-		
+
 		MemberVO member = new MemberVO();
 		log.info(point);
-		if(point!=null & point !="") {
-			a_Note = a_Note +  " / 사용포인트 : " + point ;
-			
-		log.info(pay);
-		if(pay!= null & pay!="") {
-			a_Note = a_Note + " / 예약금 : " + pay ;
-		}
-		
-		//포인트 차감
-		
-		member.setMemUno(appoint.getMemUno());
-		member = mem_Service.getMem(appoint.getMemUno());
-		log.info("포인트 정보 : " + member.toString());
-		log.info("마이너스 포인트 : " + point);
-		Long minusPoint = Long.parseLong(point);
-		Long before = member.getPoint();
-		Long leftPoint = before - minusPoint;
-		if(leftPoint<0) {
-			leftPoint = Long.valueOf(0);
-		}
-		
-		
-		
-		log.info(leftPoint);
-		member.setPoint(leftPoint);
-		log.info("포인트 정보 : " + member.toString());
-		mem_Service.point(member);		
-			
+		if (point != null & point != "") {
+			a_Note = a_Note + " / 사용포인트 : " + point;
+
+			log.info(pay);
+			if (pay != null & pay != "") {
+				a_Note = a_Note + " / 예약금 : " + pay;
+			}
+
+			// 포인트 차감
+
+			member.setMemUno(appoint.getMemUno());
+			member = mem_Service.getMem(appoint.getMemUno());
+			log.info("포인트 정보 : " + member.toString());
+			log.info("마이너스 포인트 : " + point);
+			Long minusPoint = Long.parseLong(point);
+			Long before = member.getPoint();
+			Long leftPoint = before - minusPoint;
+			if (leftPoint < 0) {
+				leftPoint = Long.valueOf(0);
+			}
+
+			log.info(leftPoint);
+			member.setPoint(leftPoint);
+			log.info("포인트 정보 : " + member.toString());
+			mem_Service.point(member);
+
 		}
 		appoint.setA_Date(a_Date); // a_Date값 객체에 추가
-		appoint.setA_Note(a_Note); // a_Note값 객체에 추가		 
+		appoint.setA_Note(a_Note); // a_Note값 객체에 추가
 		// 등록 메서드 실행, 성공시 결과값 1
-		
-		// 예약 인원수가 기준 인원수보다 많을 경우 예약금 삽입		
-		
+
+		// 예약 인원수가 기준 인원수보다 많을 경우 예약금 삽입
+
 		int A_NOP_Base = res_Service.getAllInfo(appoint.getResNum()).getOper().getAdPayCond();
-		int a_NOP_input = appoint.getA_NOP(); 
-		
-		if(a_NOP_input>=A_NOP_Base) {
-		int a_AdPay = Integer.valueOf(pay);
-		appoint.setA_AdPay(a_AdPay);
+		int a_NOP_input = appoint.getA_NOP();
+
+		if (a_NOP_input >= A_NOP_Base) {
+			int a_AdPay = Integer.valueOf(pay);
+			appoint.setA_AdPay(a_AdPay);
 		}
 		int result = a_service.insert(appoint);
 		log.info("insert result : " + result);
-		
+
 		if (result == 1) { // result가 1이면
 			// 홈으로 redirect할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 성공하였습니다.");
 			session.setAttribute("loginMember", member);
-			
+
 		} else { // result가 0이면
 			// 홈으로 redirect시 실패메시지 가져감
 			rttr.addFlashAttribute("a_result", "예약이 실패하였습니다. 가게로 문의하여 주시기 바랍니다.");
@@ -120,8 +116,8 @@ public class A_Controller {
 		MyResturantDTO oper = new MyResturantDTO();
 		// resNum으로 해당되는 모든 정보를 불러와 oper객체에 저장
 		oper = res_Service.getAllInfo(resNum);
-		String openTime = oper.getOper().getOpenTime().substring(0, 2); //openTime의 앞2자리 추출
-		String closeTime = oper.getOper().getEndTime().substring(0, 2); //closeTime의 앞2자리 추출
+		String openTime = oper.getOper().getOpenTime().substring(0, 2); // openTime의 앞2자리 추출
+		String closeTime = oper.getOper().getEndTime().substring(0, 2); // closeTime의 앞2자리 추출
 		int a_AdPay = oper.getOper().getAdPay();
 		int open = Integer.parseInt(openTime); // int로 변환
 		int close = Integer.parseInt(closeTime); // int로 변환
@@ -183,7 +179,7 @@ public class A_Controller {
 			int week = 0;
 			int length = oper.getOper().getDayoff_weekCnt().length();
 			String day = oper.getOper().getDayoff_Day();
-			day = day.replaceAll("[,-]","");
+			day = day.replaceAll("[,-]", "");
 			day = day.replace("일", "0");
 			day = day.replace("월", "1");
 			day = day.replace("화", "2");
@@ -191,32 +187,30 @@ public class A_Controller {
 			day = day.replace("목", "4");
 			day = day.replace("금", "5");
 			day = day.replace("토", "6");
-			
-			
-			for(int i = 0; i<length; i++) {
+
+			for (int i = 0; i < length; i++) {
 				String week_c1 = oper.getOper().getDayoff_weekCnt();
-	            week_c1 = week_c1.replaceAll("[,-]","");
-	            String week_c = week_c1.substring(i, i+1);
-				
-				log.info(week_c+"주");
+				week_c1 = week_c1.replaceAll("[,-]", "");
+				String week_c = week_c1.substring(i, i + 1);
+
+				log.info(week_c + "주");
 				week = Integer.parseInt(week_c);
 				week = week - week_N;
 				log.info("week : " + week);
-				
+
 				int delay = (week * 7) + Integer.parseInt(day);
 				cal.setTime(date);
 				cal.add(Calendar.DATE, delay);
 				String r_Date = formatter.format(cal.getTimeInMillis()); // 첫번째 휴무일 날짜
 				String result = "";
-				 if(i==0) {
-					 result = "'" + r_Date+"'";
-					} else {
-						result = ", '"+r_Date+"'";
-					}
-					m_w_day =	m_w_day + result;	
+				if (i == 0) {
+					result = "'" + r_Date + "'";
+				} else {
+					result = ", '" + r_Date + "'";
+				}
+				m_w_day = m_w_day + result;
 			}
-			
-			
+
 			/*
 			 * String week_C1 = oper.getOper().getDayoff_weekCnt().substring(0, 1); String
 			 * week_C2 = oper.getOper().getDayoff_weekCnt().substring(1, 2);
@@ -262,26 +256,33 @@ public class A_Controller {
 		log.info("휴일 : " + m_w_day);
 		log.info("매주 휴일 : " + everyWeek_day);
 		log.info("레스토랑 정보 : " + oper.toString());
-		
+
 		List<String> table_kind = new ArrayList<String>();
 		table_kind.add(oper.getSalList().get(0).getTableType());
-		for(int i = 1; i<oper.getSalList().size(); i++) {
-			if(oper.getSalList().get(i-1).getTableType().equals(oper.getSalList().get(i).getTableType())) {
-				
+		for (int i = 1; i < oper.getSalList().size(); i++) {
+			if (oper.getSalList().get(i - 1).getTableType().equals(oper.getSalList().get(i).getTableType())) {
+
 			} else {
 				table_kind.add(oper.getSalList().get(i).getTableType());
 			}
 		}
-		
+
+		for (int j = 0; j < table_kind.size(); j++) {
+			if (table_kind.get(j).equals("table")) {
+				table_kind.set(j, "개별석");
+			}
+			if (table_kind.get(j).equals("room")) {
+				table_kind.set(j, "단체석");
+			}
+		}
+
 		String rest_day_log = "연중무휴";
-		if(m_w_day != "") {
+		if (m_w_day != "") {
 			rest_day_log = "이번달 휴일은 " + m_w_day;
 		} else if (oper.getOper().getDayoff_cate().equals("매주")) {
-			rest_day_log = "휴일은 매주 " + oper.getOper().getDayoff_Day() +"요일";
-			
+			rest_day_log = "휴일은 매주 " + oper.getOper().getDayoff_Day() + "요일";
+
 		}
-		
-		
 
 		model.addAttribute("resVO", oper);
 		model.addAttribute("open", open);
@@ -292,24 +293,22 @@ public class A_Controller {
 		model.addAttribute("table_kind", table_kind);
 		model.addAttribute("rest_day_log", rest_day_log);
 		model.addAttribute("a_AdPay", a_AdPay);
-		
 
 	}
-	
+
 	// 예약번호로 정보 읽어오기
-	@GetMapping({ "/read", "/update", "/list", "/readRes", "/listRes" }) 
+	@GetMapping({ "/read", "/update", "/list", "/readRes", "/listRes" })
 	public void get(A_VO appoint, Model model) {
 		// 새로운 배열 생성
 		List<A_VO> result = new ArrayList<A_VO>();
-		// 예약 객체 result에 저장	
+		// 예약 객체 result에 저장
 		log.info("appoint 내용 : " + appoint.toString());
-		if(appoint.getA_Status()!=null) {
+		if (appoint.getA_Status() != null) {
 			result = a_service.readSelect(appoint);
 		} else {
 			result = a_service.read(appoint);
-		}				
-		
-		
+		}
+
 		for (int i = 0; i < result.size(); i++) {
 			String num = result.get(i).getResNum();
 			String name = res_Service.get(num).getResName();
@@ -325,7 +324,7 @@ public class A_Controller {
 			appoint2.setUserName(NickName);
 			result.set(i, appoint2);
 		}
-		
+
 		for (int i = 0; i < result.size(); i++) {
 			A_VO appoint2 = result.get(i);
 			String status = appoint2.getA_Status();
@@ -337,10 +336,10 @@ public class A_Controller {
 			appoint2.setA_Status("예약 취소");
 			double cancel_total = a_service.count_Select(appoint2);
 			log.info("예약 취소 수 : " + cancel_total);
-			
+
 			appoint2.setA_Status(status);
 
-			double Reservation = ((noshow_total) / (reservation_total - cancel_total))*100;
+			double Reservation = ((noshow_total) / (reservation_total - cancel_total)) * 100;
 			String Reservation_Success = Double.toString(Math.round(Reservation));
 			appoint2.setReservation_Success(Reservation_Success);
 			result.set(i, appoint2);
@@ -350,34 +349,34 @@ public class A_Controller {
 		model.addAttribute("appoint", result);
 	}
 
-	@PostMapping({"/update", "/readRes"})
+	@PostMapping({ "/update", "/readRes" })
 	public String update(A_VO appoint, RedirectAttributes rttr) {
 		log.info("update 내용 : " + appoint.toString());
 		// 프론트에서 입력한 내용으로 업데이트 메서드 실행
 		log.info(appoint.getA_Status());
-		if(appoint.getA_Status().equals("예약 확정")) {
+		if (appoint.getA_Status().equals("예약 확정")) {
 			MemberVO member = new MemberVO();
 			member.setMemUno(appoint.getMemUno());
 			member = mem_Service.getMem(appoint.getMemUno());
 			log.info("포인트 정보 : " + member.toString());
-			Long before = member.getPoint()+100;
+			Long before = member.getPoint() + 100;
 			log.info(before);
 			member.setPoint(before);
 			log.info("포인트 정보 : " + member.toString());
 			mem_Service.point(member);
-		} 
-		
-		if(appoint.getA_Status().equals("노쇼")) {
+		}
+
+		if (appoint.getA_Status().equals("노쇼")) {
 			MemberVO member = new MemberVO();
 			member.setMemUno(appoint.getMemUno());
 			member = mem_Service.getMem(appoint.getMemUno());
-			Long before = member.getPoint()-member.getPoint();
+			Long before = member.getPoint() - member.getPoint();
 			log.info(before);
 			member.setPoint(before);
 			log.info("포인트 정보 : " + member.toString());
 			mem_Service.point(member);
-		} 
-		
+		}
+
 		if (a_service.update(appoint)) {
 			// 성공시 홈으로 redirect 할때 성공메시지 가져감
 			rttr.addFlashAttribute("a_result", "변경되었습니다.");
